@@ -701,5 +701,24 @@ footer .disc{font-family:var(--f-mono);font-size:.75rem;max-width:90ch}
   if('IntersectionObserver' in window){var io2=new IntersectionObserver(function(en){if(en[0].isIntersecting){setTimeout(function(){cnt.textContent='1'},500);io2.disconnect();}});io2.observe(cnt);} else cnt.textContent='1';
 })();
 </script>
+
+<!-- Selettore lingua per copertina e animazione testuale -->
+<div id="book-language" style="position:fixed;right:12px;bottom:14px;z-index:9999;background:#0d1030;color:white;padding:8px 10px;border:1px solid #ffd23f;border-radius:10px;font:14px sans-serif"><label for="book-lang">Lingua / Language </label><select id="book-lang" aria-label="Lingua della copertina e animazione"><option value="it">Italiano</option><option value="en">English</option><option value="fr">Français</option><option value="es">Español</option><option value="de">Deutsch</option></select></div>
+<script>
+(function(){
+const texts={
+it:{soon:"PROSSIMAMENTE",title:"Il cervello (ci) mente",subtitle:"Manuale d'uso per smettere di far cazzate",marquee:["Il cervello non ci mostra il mondo. Ce lo racconta.","Rotture previste: una. Avvenute: zero.","Indovina, prevede, riempie i buchi","«Ma perché l'ho fatto?»","Tre parole e un punto esclamativo"]},
+en:{soon:"COMING SOON",title:"The brain (de)ceives us",subtitle:"A user's guide to stop doing stupid things",marquee:["The brain doesn't show us the world. It tells us a story.","Expected breakdowns: one. Actual breakdowns: zero.","It guesses, predicts and fills in the gaps","“But why did I do that?”","Three words and an exclamation mark"]},
+fr:{soon:"BIENTÔT",title:"Le cerveau nous (dé)ment",subtitle:"Mode d'emploi pour arrêter de faire des conneries",marquee:["Le cerveau ne nous montre pas le monde. Il nous le raconte.","Crises prévues : une. Crises réelles : zéro.","Il devine, prévoit et comble les vides","« Mais pourquoi j'ai fait ça ? »","Trois mots et un point d'exclamation"]},
+es:{soon:"PRÓXIMAMENTE",title:"El cerebro nos (en)gaña",subtitle:"Manual de uso para dejar de hacer tonterías",marquee:["El cerebro no nos muestra el mundo. Nos lo cuenta.","Crisis previstas: una. Reales: cero.","Adivina, predice y rellena los huecos","«¿Pero por qué lo hice?»","Tres palabras y un signo de exclamación"]},
+de:{soon:"DEMNÄCHST",title:"Das Gehirn (be)lügt uns",subtitle:"Eine Gebrauchsanweisung, um keinen Mist mehr zu bauen",marquee:["Das Gehirn zeigt uns nicht die Welt. Es erzählt sie uns.","Erwartete Pannen: eine. Tatsächliche: null.","Es rät, sagt voraus und füllt die Lücken","„Warum habe ich das bloß getan?“","Drei Wörter und ein Ausrufezeichen"]}
+};
+const cover=document.querySelector('#libro .cover'),marquee=document.querySelector('.marquee .marquee-track');if(!cover||!marquee)return;
+const title=cover.querySelector('.ct'),subtitle=cover.querySelector('.cs'),soon=cover.querySelector('.soon');const spans=[...marquee.querySelectorAll('span')];
+function apply(lang){const t=texts[lang]||texts.it;soon.textContent=t.soon;title.textContent=t.title;subtitle.textContent=t.subtitle;spans.forEach((el,i)=>el.textContent=t.marquee[i%t.marquee.length]);cover.setAttribute('aria-label',t.title);document.getElementById('book-lang').value=lang;}
+const select=document.getElementById('book-lang');select.addEventListener('change',()=>{localStorage.setItem('icc_book_language',select.value);apply(select.value)});
+const initial=localStorage.getItem('icc_book_language')||((navigator.language||'it').slice(0,2));apply(texts[initial]?initial:'it');
+})();
+</script>
 </body>
 </html>
