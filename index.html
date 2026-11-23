@@ -276,8 +276,30 @@ footer .disc{font-family:var(--f-mono);font-size:.75rem;max-width:90ch}
   .marquee-track{animation:none}
 }
 </style>
+
+<style>
+#cookie-panel{position:fixed;bottom:16px;left:16px;right:16px;max-width:620px;margin:auto;background:#161a45;color:#f6f1e7;border:1px solid #aeb2d6;border-radius:14px;padding:18px;z-index:9999;box-shadow:0 8px 30px #0009;font:15px/1.5 system-ui,sans-serif}
+#cookie-panel[hidden]{display:none}#cookie-panel p{margin:0 0 12px}#cookie-panel .cookie-actions{display:flex;flex-wrap:wrap;gap:10px}#cookie-panel button,#cookie-settings{cursor:pointer;border-radius:8px;padding:9px 14px;border:1px solid #ffd23f;background:#ffd23f;color:#0d1030;font-weight:700}#cookie-panel button.secondary{background:transparent;color:#f6f1e7;border-color:#aeb2d6}#cookie-settings{position:fixed;bottom:12px;left:12px;z-index:100;background:#161a45;color:#fff;border-color:#aeb2d6;font-size:12px}
+</style>
+<script>
+(function(){
+  var key='icc_metricool_consent_v1', trackerLoaded=false;
+  function startMetricool(){if(trackerLoaded)return;trackerLoaded=true;var script=document.createElement('script');script.src='https://tracker.metricool.com/resources/be.js';script.onload=function(){if(window.beTracker&&typeof window.beTracker.t==='function')window.beTracker.t({hash:'a47bb1e1ff65cac7f53021c96b1fd898'});};document.head.appendChild(script);}
+  function readChoice(){try{return localStorage.getItem(key)}catch(e){return null}}
+  function saveChoice(choice){try{localStorage.setItem(key,choice)}catch(e){}document.getElementById('cookie-panel').hidden=true;if(choice==='yes')startMetricool();}
+  document.addEventListener('DOMContentLoaded',function(){
+    var panel=document.getElementById('cookie-panel');var choice=readChoice();if(choice==='yes')startMetricool();else if(choice!=='no')panel.hidden=false;
+    document.getElementById('cookie-accept').addEventListener('click',function(){saveChoice('yes')});
+    document.getElementById('cookie-reject').addEventListener('click',function(){saveChoice('no')});
+    document.getElementById('cookie-settings').addEventListener('click',function(){panel.hidden=false});
+  });
+})();
+</script>
 </head>
 <body>
+<div id="cookie-panel" role="dialog" aria-label="Preferenze statistiche" aria-modal="false" hidden><p><strong>La tua privacy conta.</strong> Con il tuo consenso usiamo Metricool per misurare le visite e migliorare il sito. Puoi rifiutare senza conseguenze e cambiare scelta in qualsiasi momento. <a href="privacy.html">Informativa privacy</a>.</p><div class="cookie-actions"><button id="cookie-accept" type="button">Accetta statistiche</button><button id="cookie-reject" type="button" class="secondary">Rifiuta</button></div></div>
+<button id="cookie-settings" type="button">Preferenze privacy</button>
+
 <div class="glow" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="Menu principale">
