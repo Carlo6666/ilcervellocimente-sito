@@ -98,3 +98,41 @@ Smartphone Android simulato (412×915, Pixel 8) e desktop (1440×900), 5 lingue 
 - Blocco: il download del primo MP4 dal dominio resource2.heygen.ai fallisce per risoluzione DNS nell'ambiente FFmpeg; il tentativo alternativo di apertura/download non restituisce il file. Gli URL originali sono già nel lettore del sito, recuperabili anche tramite i quattro ID HeyGen sopra. Non è stata verificata la riproduzione effettiva.
 - Da completare esclusivamente i punti 2–5 della sezione 5 in un ambiente con accesso ai file binari HeyGen e al repository: download delle sorgenti esistenti, montaggio con le copertine e i cartelli già presenti, esportazione, controllo audio e fotogrammi, caricamento sul solo ramo `sito-v3-1`, quindi attivazione di `LOCAL_DUBS` soltanto per i file effettivamente verificati e aggiornamento delle misure nel registro.
 - Nessuna generazione HeyGen, zero crediti spesi da questa operazione, nessuna pubblicazione. `index.html`, `main` e `gh-pages` non modificati da ChatGPT.
+
+### v3.1-video — completamento — 24/11/2026, dalle 08:58 alle 09:35 circa (Claude)
+
+**Fonte:** messaggio di Carlo del 24/11/2026, ore 08:57 («risolvi il blocco del download HeyGen e completa esclusivamente la sezione 5. Zero crediti, nessuna rigenerazione, nessuna pubblicazione»).
+
+**Come è stato superato il blocco.** Gli ambienti di ChatGPT e di Claude non raggiungono `resource2.heygen.ai`. Il download e il montaggio sono stati eseguiti dai server di GitHub, con un flusso di lavoro nel repository:
+- `.github/workflows/doppiaggi-puntata-0.yml`: parte solo sul ramo `sito-v3-1`, e solo quando cambia il flusso stesso o lo script; non tocca `gh-pages`, quindi non pubblica;
+- `tools/video/monta-doppiaggi.sh`: scarica i 4 doppiaggi **già esistenti** dagli stessi indirizzi usati dal sito (nessuna generazione, zero crediti), monta, esporta e misura;
+- esecuzione: run 45352397313, 24/11/2026 08:00–08:23 UTC, esito «success», commit e4f3f87.
+
+**Montaggio** (come la versione italiana v4): `copertina-animata-<lingua>.mp4` (7,40 s) → dissolvenza 0,3 s → `cartello-puntata-0-<lingua>.mp4` (2 s, muto) → dissolvenza 0,3 s → doppiaggio HeyGen → dissolvenza 0,4 s sul crema → copertina (7,40 s). Volume della copertina portato 1,5 LU sotto la voce di Nora. Esportazione: 720×1280, 25 fps, H.264 High CRF 23, AAC 128 kbit/s 48 kHz, `+faststart` (verificato: indice del filmato all'inizio del file).
+
+| Lingua | Sorgente HeyGen | Durata sorgente | Voce sorgente | Copertina | File sul sito | Durata finale | Dimensione | Volume finale |
+|---|---|---:|---:|---:|---|---:|---:|---:|
+| EN | 1080×1920, 25 fps, HTTP 200 | 83,41 s | −17,8 LUFS, picco −4,5 | −4,4 dB | `assets/video/puntata-0-en.mp4` | 99,22 s | 16,5 MB | −17,0 LUFS, picco −3,5 dBFS |
+| FR | 1080×1920, 25 fps, HTTP 200 | 83,09 s | −18,0 LUFS, picco −4,3 | −4,6 dB | `assets/video/puntata-0-fr.mp4` | 98,90 s | 16,4 MB | −17,2 LUFS, picco −3,2 dBFS |
+| ES | 1080×1920, 25 fps, HTTP 200 | 84,16 s | −18,0 LUFS, picco −4,5 | −4,6 dB | `assets/video/puntata-0-es.mp4` | 99,97 s | 16,5 MB | −17,2 LUFS, picco −3,5 dBFS |
+| DE | 1080×1920, 25 fps, HTTP 200 | 85,80 s | −18,6 LUFS, picco −4,1 | −5,2 dB | `assets/video/puntata-0-de.mp4` | 101,61 s | 16,8 MB | −17,8 LUFS, picco −3,1 dBFS |
+
+Correzione al dato della sezione precedente: la durata reale delle sorgenti doppiate è 83–86 s, non 79,36 s (79,36 s è la durata dell'originale italiano; il doppiaggio allunga leggermente il parlato).
+
+**Verifica dei fotogrammi** (eseguita da Claude sulle tavole in `docs/verifica-video/`, un fotogramma ogni 2 s del filmato finale e della sorgente, più 8 fotogrammi chiave per lingua):
+- copertina iniziale e finale e cartello sono nella lingua del file (EN «The Brain (to us) Lies» / «Episode 0»; FR «Le cerveau (nous) ment» / «Épisode 0»; ES «El cerebro (nos) miente» / «Episodio 0»; DE «Das Gehirn lügt (uns an)» / «Folge 0»);
+- le sorgenti HeyGen non contengono scritte impresse: solo Nora, lo stesso avatar e lo stesso ambiente dell'originale. I sottotitoli HeyGen erano una traccia separata e non sono stati inclusi;
+- nessuna scritta in italiano in nessun fotogramma controllato.
+
+**Audio** (misure, non ascolto: Claude non può ascoltare):
+- in ogni file ci sono solo due silenzi oltre 1,5 s: il cartello (circa 2 s, voluto) e una pausa di circa 1,85 s verso la fine del parlato. La pausa è coerente con la pausa lunga prevista dal copione prima della riga del ragioniere, ma va confermata ascoltando;
+- la voce, le pause e l'interpretazione sono quelle prodotte da HeyGen, non modificate; il confronto a orecchio con l'italiano resta da fare.
+
+**Sito.** In `index.html` (solo ramo `sito-v3-1`): `LOCAL_DUBS=['en','fr','es','de']`. Prova in Chrome (Android simulato): scegliendo EN, FR, ES o DE e premendo play, il filmato parte dal sito (`assets/video/puntata-0-<lingua>.mp4`), 720×1280, durata corretta, nessun errore e nessuna risorsa mancante. L'italiano resta su YouTube. HeyGen resta solo come riserva se il file del sito non si carica.
+
+**Rimane da fare (non incluso nella sezione 5):**
+- ascolto di controllo da parte di Carlo (voce, pause, ritmo) delle quattro versioni;
+- l'informativa privacy dice ancora che le versioni doppiate vengono da HeyGen: ora vengono dal sito (HeyGen solo come riserva). Va aggiornata la frase prima della pubblicazione;
+- nessuna pubblicazione: `gh-pages` e `main` non sono stati toccati.
+
+Zero crediti HeyGen. Nessuna rigenerazione.
