@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://www.ilcervellocimente.com/sitemap.xml

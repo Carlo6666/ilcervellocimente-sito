@@ -1,0 +1,70 @@
+{
+ "it": {
+  "titolo": "IL CERVELLO",
+  "parentesi": "(ci)",
+  "verbo": "MENTE",
+  "manuale": "MANUALE D’USO",
+  "prima": "PER SMETTERE DI FAR",
+  "grande": "CAZZATE",
+  "frase": [
+   "L’unico libro di istruzioni di cui hai",
+   "sempre avuto bisogno"
+  ],
+  "alt": "Copertina del libro di Carlo Riva «Il cervello (ci) mente. Manuale d’uso per smettere di far cazzate»: un cervello nero con la corona, appeso ai fili come una marionetta."
+ },
+ "en": {
+  "titolo": "THE BRAIN",
+  "parentesi": "(to us)",
+  "parentesiDopo": true,
+  "verbo": "LIES",
+  "manuale": "USER’S MANUAL",
+  "prima": "TO STOP",
+  "grande": "SCREWING UP",
+  "frase": [
+   "The only instruction manual",
+   "you’ve always needed"
+  ],
+  "alt": "Cover of Carlo Riva’s book «The Brain (to us) Lies. User’s manual to stop screwing up»: a black brain wearing a crown, hanging from strings like a puppet."
+ },
+ "fr": {
+  "titolo": "LE CERVEAU",
+  "parentesi": "(nous)",
+  "verbo": "MENT",
+  "manuale": "MODE D’EMPLOI",
+  "prima": "POUR ARRÊTER DE FAIRE DES",
+  "grande": "CONNERIES",
+  "frase": [
+   "Le seul mode d’emploi dont tu",
+   "as toujours eu besoin"
+  ],
+  "alt": "Couverture du livre de Carlo Riva « Le cerveau (nous) ment. Mode d’emploi pour arrêter de faire des conneries » : un cerveau noir couronné, suspendu à des fils comme une marionnette."
+ },
+ "es": {
+  "titolo": "EL CEREBRO",
+  "parentesi": "(nos)",
+  "verbo": "MIENTE",
+  "manuale": "MANUAL DE USO",
+  "prima": "PARA DEJAR DE",
+  "grande": "CAGARLA",
+  "frase": [
+   "El único manual de instrucciones",
+   "que siempre has necesitado"
+  ],
+  "alt": "Portada del libro de Carlo Riva «El cerebro (nos) miente. Manual de uso para dejar de cagarla»: un cerebro negro con corona, colgado de hilos como una marioneta."
+ },
+ "de": {
+  "titolo": "DAS GEHIRN",
+  "parentesi": "(uns an)",
+  "parentesiDopo": true,
+  "verbo": "LÜGT",
+  "manuale": "GEBRAUCHSANWEISUNG",
+  "prima": "UM ENDLICH KEINEN",
+  "grande": "MIST ZU BAUEN",
+  "frase": [
+   "Die einzige Gebrauchsanweisung,",
+   "die du schon immer gebraucht hast"
+  ],
+  "alt": "Cover von Carlo Rivas Buch „Das Gehirn lügt (uns an). Gebrauchsanweisung, um endlich keinen Mist zu bauen“: ein schwarzes Gehirn mit Krone, das wie eine Marionette an Fäden hängt.",
+  "grandeRighe": 2
+ }
+}
