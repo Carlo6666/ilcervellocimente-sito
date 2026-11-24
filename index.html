@@ -532,9 +532,8 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       $('#video-modal-title').textContent=t[0];note.textContent=t[1];direct.textContent=t[2];
       const player=document.createElement('video');
       const local='assets/video/nora-presentazione-it.mp4';
-      const temporary="https://files2.heygen.ai/aws_pacific/avatar_tmp/21e45a12a8104b6aa5ca8ee5b168d5cb/bcffdc21b35239be6bc497c5774ea018.mp4?Expires=1796101445&Signature=paPeMZWXdGx7cJJWcYapb0RJlHj1LkCAgc06s1tphW1ee~TLpMUOgdImxHqEjbyyIkFgncNb3AZCNWrvaRMDhpoFACUdCePncStfJarkYUgi7I1lEbIRz49H~51bWPoQQbAZg7G7H7biFjZut76wAbvjhVLoLhXNFiKTMEEWBF8pGEhItqmtaOit-NgYRIH4L7xwp~p4EytKNSJT7~RUdtvqHFLSsh3ifDBEG151kE-ohb4C7HeFfRR6FhoD2qgjJc4sNDZYP0CpbhpYi-w8dWhLkwTmtXxesFxLUWFY4el5EqkPWzhBjX1KE-waQ0V4GM04khVci9KEmsGvsUqvGA__&Key-Pair-Id=K3TSZ3KU01LY58";
-      const sources=[local,temporary];let n=0;
-      player.controls=true;player.autoplay=true;player.playsInline=true;player.preload='metadata';player.setAttribute('aria-label',t[0]);
+      const sources=[local];let n=0;
+      player.controls=true;player.autoplay=true;player.playsInline=true;player.preload='auto';player.setAttribute('aria-label',t[0]);
       function source(){player.src=sources[n];direct.href=sources[n];}
       player.addEventListener('error',()=>{if(!player.isConnected)return;if(++n<sources.length){source();player.load();const p=player.play();if(p&&p.catch)p.catch(()=>{});}else{note.textContent=t[3];direct.href='https://app.heygen.com/videos/bcffdc21b35239be6bc497c5774ea018';}});
       source();embed.replaceChildren(player);const p=player.play();if(p&&p.catch)p.catch(()=>{});
