@@ -32,7 +32,7 @@ Copie di sicurezza (nessun ramo cancellato o riscritto):
 3. **Copertina del libro animata nelle 5 lingue** (`assets/copertina/`):
    - livelli originali da Drive «Copertina — livelli v1.svg» (2160×3840): fondo, riquadro arancione, linee, fili, corona, cervello, raggi **non ridisegnati**;
    - italiano = livelli originali intatti; EN/FR/ES/DE = solo le scritte rifatte negli stessi riquadri, con Anton e Poppins e la stessa ombra (#D9D0C1). Generatore: `tools/copertina/build.cjs` + `tools/copertina/testi.json`;
-   - animazione con i tempi della «Copertina animata con suono — UFFICIALE v1» (7,40 s): parte quando la copertina entra nello schermo; pulsanti «Rivedi» e «Con suono» (suono ufficiale estratto in `copertina-suono.m4a`); marionetta che oscilla; disattivata con «riduci movimento»;
+   - animazione con i tempi della «Copertina animata con suono — UFFICIALE v1» (7,40 s): parte quando la copertina entra nello schermo; pulsanti «Rivedi» e «Con suono» (suono ufficiale estratto in `copertina-suono.mp3`); marionetta che oscilla; disattivata con «riduci movimento»;
    - immagini statiche 1080×1920: `copertina-<lingua>.jpg`;
    - **video per il montaggio** (non usati dal sito): `assets/copertina/video/copertina-animata-<lingua>.mp4` (1080×1920, 25 fps, 7,40 s, suono ufficiale) e `cartello-puntata-0-<lingua>.mp4` (2 s, stesso stile del «Cartello — Puntata 0 v1»).
 4. **Traduzioni mancanti completate:** titolo d'apertura, nastro scorrevole, striscia in alto, «di Carlo Riva», pulsante dei dialoghi, paragrafo su Nora (metà era in italiano), titolo del libro nella scheda, durata, titoli del lettore video, testi alternativi e etichette per l'accessibilità, messaggi d'errore del video (erano in italiano in tutte le lingue).

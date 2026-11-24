@@ -166,7 +166,7 @@
       void host.offsetWidth; // riparte da capo
       host.classList.add('is-playing');
       if (withSound) {
-        if (!audio) { audio = new Audio('assets/copertina/copertina-suono.m4a'); audio.preload = 'auto'; }
+        if (!audio) { audio = new Audio('assets/copertina/copertina-suono.mp3'); audio.preload = 'auto'; }
         try { audio.currentTime = 0; } catch (e) {}
         var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {});
       }
