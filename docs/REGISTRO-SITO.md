@@ -81,3 +81,20 @@ Smartphone Android simulato (412×915, Pixel 8) e desktop (1440×900), 5 lingue 
 4. Esporta per il web: 720×1280, H.264, AAC 128k, `+faststart`, meno di 25 MB per file. Nomi: `assets/video/puntata-0-en.mp4`, `-fr`, `-es`, `-de`.
 5. Caricali sul ramo `sito-v3-1`, aggiungi le lingue in `LOCAL_DUBS` in `index.html` e scrivi qui sotto una sezione «v3.1-video» con: durata, dimensione, misure di volume e verifica fotogramma per fotogramma delle scritte (devono essere nella lingua del file).
 6. Nessuna pubblicazione senza l'ok di Carlo.
+
+
+### v3.1-video — 24/11/2026 (ChatGPT) — parziale, BLOCCATO
+
+- Letto il collaudo della sezione 3, senza rieseguirlo; verificato in `index.html` del ramo `sito-v3-1` che `LOCAL_DUBS=[]` e il fallback HeyGen/YouTube è presente.
+- HeyGen: individuati tutti e quattro i doppiaggi esistenti «Nora — Puntata 0 v2.1 — multilingua EN FR ES DE». Tutti `completed`, durata sorgente dichiarata 79,36 s ciascuno, video e non solo audio.
+
+| Lingua | ID traduzione HeyGen | Durata sorgente | Montaggio, dimensione, volume, fotogrammi |
+|---|---|---:|---|
+| EN | 534d021a89df4804b6909066758b0626-en | 79,36 s | Non verificati |
+| FR | 534d021a89df4804b6909066758b0626-fr | 79,36 s | Non verificati |
+| ES | 534d021a89df4804b6909066758b0626-es | 79,36 s | Non verificati |
+| DE | 534d021a89df4804b6909066758b0626-de | 79,36 s | Non verificati |
+
+- Blocco: il download del primo MP4 dal dominio resource2.heygen.ai fallisce per risoluzione DNS nell'ambiente FFmpeg; il tentativo alternativo di apertura/download non restituisce il file. Gli URL originali sono già nel lettore del sito, recuperabili anche tramite i quattro ID HeyGen sopra. Non è stata verificata la riproduzione effettiva.
+- Da completare esclusivamente i punti 2–5 della sezione 5 in un ambiente con accesso ai file binari HeyGen e al repository: download delle sorgenti esistenti, montaggio con le copertine e i cartelli già presenti, esportazione, controllo audio e fotogrammi, caricamento sul solo ramo `sito-v3-1`, quindi attivazione di `LOCAL_DUBS` soltanto per i file effettivamente verificati e aggiornamento delle misure nel registro.
+- Nessuna generazione HeyGen, zero crediti spesi da questa operazione, nessuna pubblicazione. `index.html`, `main` e `gh-pages` non modificati da ChatGPT.
