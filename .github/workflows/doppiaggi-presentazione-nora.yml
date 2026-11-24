@@ -1,0 +1,57 @@
+name: Acquisizione doppiaggi presentazione Nora
+on:
+  push:
+    branches: [sito-v3-1]
+    paths: ['.github/workflows/doppiaggi-presentazione-nora.yml']
+permissions:
+  contents: write
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sito-v3-1
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Scarica e verifica quattro doppiaggi esistenti
+        env:
+          VIDEO_EN: "https://resource2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-en/original.mp4?response-content-disposition=attachment%3B+filename%2A%3DUTF-8%27%27Nora%2520%25E2%2580%2594%2520Presentazione%2520progetto%2520V3%2520%25E2%2580%2594%2520EN%2520FR%2520ES%2520DE-English.mp4%3B"
+          SRT_EN: "https://files2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-en/caption.srt?Expires=1796132124&Signature=OCpom7Kn-PdYqEOmZL-pmGoazR8HT1rUdrkauw3E8hygogxS7~KdJWeWFs~v6HpXnLfSDLonMPHkngH-JlMSjpOPrKUWOOzNktgCO5Vr3MCSjjq6u-sPj-nxKVTpual~yLj~3Rzbd7z2~~kUXeEVI2oM7bbw5g5aFbS3cRHpVYW1xU~B2a-UcgdvgVwGiD346HojfUH0AF47kDVZzwbfCyctRpcx-XUu7dfCSSUJaK-eyC0X6uGaq9Jy1efnAAzhVBwRRulW6Dg7RkZYwZn3XnF2CBdQAXmXMmWBTB-KUZugoEpeuNp~ivy8KLi7qvf3Xkc7J8kGKiOJlVoVXdDpUg__&Key-Pair-Id=K3TSZ3KU01LY58"
+          VIDEO_FR: "https://resource2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-fr/original.mp4?response-content-disposition=attachment%3B+filename%2A%3DUTF-8%27%27Nora%2520%25E2%2580%2594%2520Presentazione%2520progetto%2520V3%2520%25E2%2580%2594%2520EN%2520FR%2520ES%2520DE-French.mp4%3B"
+          SRT_FR: "https://files2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-fr/caption.srt?Expires=1796132124&Signature=w-irI~-OjfNFi4qQd8ST31fXyPNd23vQVumOUUPqELeJmM3Cdqb1lu36hO34U83kd-byTIl9AZjdFQKPeOMkcNe~WmRr0ctk4dv808FffEKm0J5bzP~mBKNZp4~Q7m~iV-m6jRSew4lrHpdN~9~Pg8ZHJLCRDmnSJb67Ohr4Kdd8C526cVZxTEg6lazjtCIzuUprmJiWSOb16yDjyJLIFZn6KZpbdBNbCY~3qcRPOxDttrYh50VUoHBTxAWfz5Ot7klu7xnlihjL9sctGFgNZjmx-rBqKGvKczjszPICa9bTPoKSukrbjmWCaGiD3NAYEbTLy3fxUMn4p2uRX28Zcw__&Key-Pair-Id=K3TSZ3KU01LY58"
+          VIDEO_ES: "https://resource2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-es/original.mp4?response-content-disposition=attachment%3B+filename%2A%3DUTF-8%27%27Nora%2520%25E2%2580%2594%2520Presentazione%2520progetto%2520V3%2520%25E2%2580%2594%2520EN%2520FR%2520ES%2520DE-Spanish.mp4%3B"
+          SRT_ES: "https://files2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-es/caption.srt?Expires=1796132124&Signature=rslWMcUfrjATMli0ZzFu~iVwmtABnQY~aunBdQQ1U7xUkV8YPLKmfPK5Zs8QnLOaC0QY19mNJ5x0GQvx5wa99TssQMZ~CcG9zZIJ6iT-RFetVtI70Py16VU6csHNVUSq2YnCCFexhTJKu-Ajddv3OofJxqn3YGwXIwq5NJw789-8o8JsQPF6RdK2myoQ8aC8N-m16PWxkHptUUeW1hxNihFzbNqfK5Yb8Xc0q9Y32pxkIf2PpjO1xp3UV98DR6PnDBJrCSaRaZ-MQG-50orfs22lEX-r0rfOPE8RsNudRhH8y76IVd9bHyjTRAG31DQBh7hJHsyXF4~gNWTupDuyaw__&Key-Pair-Id=K3TSZ3KU01LY58"
+          VIDEO_DE: "https://resource2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-de/original.mp4?response-content-disposition=attachment%3B+filename%2A%3DUTF-8%27%27Nora%2520%25E2%2580%2594%2520Presentazione%2520progetto%2520V3%2520%25E2%2580%2594%2520EN%2520FR%2520ES%2520DE-German.mp4%3B"
+          SRT_DE: "https://files2.heygen.ai/video_translate/f5216dbbfaf642d797e81ddab5ef7116-de/caption.srt?Expires=1796132124&Signature=AekAlA9XAsxGPtnaBeq9tT8ztwGmTMj8DhPaQLI6eLMXwnCtJO9UhRJe1f82hX--PD0ubx9fLhGOY2PeIWeXiYv88sYlau64Tm5JtyS2LBC5hjXJmhfXq1yzJmiHQ2ag7cBTfHdENMTm~8KVvLuP~-CA31R92Hf-sWparIXBb93T1~9isc8WzOquomxtC1TyXbjcOiP6U-dNI-RGDxvunLt83hM~~6QTHbggfFVrpmVYxLOKnkNN15W2nyxMVtsU8P5t4x~j4Sw2HHW8Fx9-jIEP2tjvG4iaXWd59Vw2Z24IDrdln5gNj8SZmuUQEXxrIX8uuoAlUaSd0sh27w6c3g__&Key-Pair-Id=K3TSZ3KU01LY58"
+        run: |
+          mkdir -p assets/video docs/verifica-presentazione
+          for lang in en fr es de; do
+            upper=${lang^^}
+            vk=VIDEO_$upper
+            sk=SRT_$upper
+            curl -fLsS --retry 2 "${!vk}" -o "/tmp/nora-$lang.mp4"
+            curl -fLsS --retry 2 "${!sk}" -o "docs/verifica-presentazione/$lang.srt"
+            ffmpeg -v error -y -i "/tmp/nora-$lang.mp4" -vf "scale='min(720,iw)':-2" -c:v libx264 -preset fast -crf 25 -maxrate 1500k -bufsize 3000k -c:a aac -b:a 96k -movflags +faststart "assets/video/nora-presentazione-$lang.mp4"
+            ffmpeg -v error -i "assets/video/nora-presentazione-$lang.mp4" -f null -
+            ffprobe -v error -show_streams -show_format -of json "assets/video/nora-presentazione-$lang.mp4" > "docs/verifica-presentazione/$lang.json"
+          done
+          python3 - <<'PY'
+          import json, pathlib
+          for l in ('en','fr','es','de'):
+              p=pathlib.Path('docs/verifica-presentazione')
+              j=json.loads((p/(l+'.json')).read_text())
+              assert 90 < float(j['format']['duration']) < 96
+              assert {s['codec_type'] for s in j['streams']} >= {'audio','video'}
+              assert int(j['format']['size']) < 25*1024*1024
+              assert '-->' in (p/(l+'.srt')).read_text(encoding='utf-8-sig')
+              print(l,j['format']['duration'],j['format']['size'])
+          PY
+      - name: Salva solo copie verificate e rapporto
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/video/nora-presentazione-{en,fr,es,de}.mp4 docs/verifica-presentazione
+          git commit -m "Acquisisci quattro doppiaggi Nora presentazione (zero nuove generazioni)" || exit 0
+          git pull --rebase origin sito-v3-1
+          git push origin HEAD:sito-v3-1
