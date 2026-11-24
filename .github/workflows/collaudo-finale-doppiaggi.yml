@@ -25,7 +25,9 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
-          python -m pip install --disable-pip-version-check 'faster-whisper==1.1.1'
+          python -m pip install --disable-pip-version-check 'faster-whisper==1.1.1' 'requests>=2.32,<3'
+          python -m pip check
+          python -c 'import requests; import faster_whisper'
       - name: Analizza i quattro MP4 esistenti (nessuna generazione)
         run: |
           mkdir -p docs/verifica-video /tmp/collaudo/tavole
