@@ -345,3 +345,9 @@ Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito
 ### 24/11/2026 — Fluidità riproduzione e copia locale (ChatGPT)
 - Segnalazione di riproduzione a scatti. Verificato che gh-pages non aveva ancora il file della presentazione: il lettore tentava il percorso locale e passava a HeyGen. Questo è un possibile contributo, non prova della causa degli scatti durante il parlato.
 - Run acquisizione 45398367784 success; file nora-presentazione-it.mp4 verificato dal workflow e presente (14.947.823 byte). Pubblicato atomicamente insieme a index.html su gh-pages commit 8a4de67d4233baa4f5b110e9415b913e35c587ea, eliminato il fallback temporaneo HeyGen per la presentazione, preload auto al clic. Ramo di lavoro allineato (787e7f7). Puntata 0 invariata. Deployment 45398889399 in corso all'ultimo controllo; fluidità reale non ancora verificata. Zero crediti HeyGen.
+
+
+### 24/11/2026 — Doppiaggi della presentazione generale di Nora (ChatGPT)
+- Autorizzazione esplicita dell'utente per i soli quattro doppiaggi EN, FR, ES, DE della presentazione generale, con mantenimento voce e sincronismo labiale e conferma dei diritti; costo in crediti non verificato.
+- Fonte HeyGen bcffdc21b35239be6bc497c5774ea018 (93 s). Richiesta accettata, modalità Precision. ID f5216dbbfaf642d797e81ddab5ef7116-en, -fr, -es, -de. Prima verifica collettiva: tutti processing, nessun errore riportato. Nessuna ulteriore generazione autorizzata.
+- In attesa dei file: acquisire copie locali, verificare durata, audio/video, lingue effettive, fluidità e coerenza del parlato, sincronismo e testi grafici; separare le sorgenti della presentazione dalla Puntata 0 e selezionarle per lingua; non usare fallback italiano non segnalato. Collaudare le cinque lingue prima della pubblicazione della correzione, preservando il layout e la Puntata 0, senza ulteriori crediti. In questa fase nessuna modifica ai rami pubblici.
