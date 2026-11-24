@@ -160,3 +160,13 @@ Zero crediti HeyGen. Nessuna rigenerazione.
 - Commit di questa sessione: 5acf2858afd211fbadfadedcffb3b5339a10ab50 (fallback prudenziale); il commit che aggiunge questa sezione è identificabile nella cronologia del registro (non può contenere il proprio hash prima della creazione).
 - Zero generazioni, traduzioni o crediti HeyGen utilizzati da ChatGPT in questa sessione. Nessuna pubblicazione, fusione o modifica di main o gh-pages. Nessuna modifica alle impostazioni GitHub.
 
+
+
+### v3.1-video — attività residue — 24/11/2026 (ChatGPT)
+
+- **Verificato:** informativa privacy aggiornata nelle cinque lingue in `js/sito-v3-1.js`, con descrizione della copia locale quando abilitata e di HeyGen in caso di fallback; commit 1b715dc03f6c8a5c02daa714513f314a9830a059, rilettura del blob confermata. Nessuna valutazione legale definitiva.
+- **Verificato:** creato un flusso distinto, `.github/workflows/collaudo-finale-doppiaggi.yml`, commit d8c679e66bc4c635dc780eb9849be6a712bffa07, limitato a push sul ramo `sito-v3-1` per il solo file del nuovo workflow. Analizza esclusivamente i quattro MP4 già montati; non contatta HeyGen, non rigenera, non modifica i filmati e non abilita automaticamente LOCAL_DUBS.
+- Run [45356997559](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45356997559), avvio 24/11/2026 08:32:22 UTC, job 138317176599: ultima verifica in_progress, preparazione Python riuscita, installazione strumenti in corso. Nessun esito finale ancora verificato.
+- Il nuovo flusso prevede decodifica integrale di audio e video, conteggio fotogrammi, controllo MP4 faststart, codec e dimensione, misure LUFS/picchi anche per le sezioni del filmato, silenzi, rilevamento non forzato della lingua e trascrizione offline con faster-whisper su CPU, e tavole di tutti i frame (artifact privato Actions). Il report JSON distinto sarà salvato dal flusso se giunge al passo di salvataggio; nessun risultato anticipato. La decodifica integrale e la produzione di tavole non equivalgono a revisione semantica di ogni frame; l'ASR non equivale a giudizio umano di voce, ritmo o sincronismo.
+- **Non verificabile al momento:** esito del nuovo collaudo, lingua effettivamente rilevata e qualità all'ascolto; nessuna lingua aggiunta in LOCAL_DUBS. I quattro MP4 restano nel ramo. Nessuna pubblicazione o fusione; main e gh-pages non toccati. Zero crediti HeyGen impiegati in questa sessione. Approvazione di pubblicazione ancora necessaria.
+
