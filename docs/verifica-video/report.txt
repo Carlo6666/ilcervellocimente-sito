@@ -1,0 +1,61 @@
+VERIFICA DOPPIAGGI PUNTATA 0 — 2026-11-24T08:19:17Z (GitHub Actions, run 45352397313)
+Nessuna generazione HeyGen: solo download dei file esistenti.
+
+==================== EN
+download: HTTP 200, 93758102 byte
+sorgente: stream|codec_name=h264|codec_type=video|width=1080|height=1920|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|channels=2|r_frame_rate=0/0 stream|codec_name=mov_text|codec_type=subtitle|width=N/A|height=N/A|r_frame_rate=0/0 
+durata sorgente: 83.413000 s
+voce (sorgente): -17.8 LUFS, picco -4.5 dBFS
+copertina: -14.9 LUFS → guadagno -4.40 dB (obiettivo voce -1,5 LU)
+finale: assets/video/puntata-0-en.mp4, 99.218000 s, 16469586 byte
+finale: stream|codec_name=h264|codec_type=video|width=720|height=1280|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|r_frame_rate=0/0 
+finale: -17.0 LUFS integrati, picco -3.5 dBFS
+silenzio: [silencedetect @ 0x733e300021c0] silence_start: 7.250042
+silenzio: [silencedetect @ 0x733e300021c0] silence_end: 9.208375 | silence_duration: 1.958333
+silenzio: [silencedetect @ 0x733e300021c0] silence_start: 78.173854
+silenzio: [silencedetect @ 0x733e300021c0] silence_end: 80.023604 | silence_duration: 1.84975
+ESITO: montato
+==================== FR
+download: HTTP 200, 93149827 byte
+sorgente: stream|codec_name=h264|codec_type=video|width=1080|height=1920|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|channels=2|r_frame_rate=0/0 stream|codec_name=mov_text|codec_type=subtitle|width=N/A|height=N/A|r_frame_rate=0/0 
+durata sorgente: 83.093000 s
+voce (sorgente): -18.0 LUFS, picco -4.3 dBFS
+copertina: -14.9 LUFS → guadagno -4.60 dB (obiettivo voce -1,5 LU)
+finale: assets/video/puntata-0-fr.mp4, 98.898000 s, 16392978 byte
+finale: stream|codec_name=h264|codec_type=video|width=720|height=1280|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|r_frame_rate=0/0 
+finale: -17.2 LUFS integrati, picco -3.2 dBFS
+silenzio: [silencedetect @ 0x7777340021c0] silence_start: 7.228229
+silenzio: [silencedetect @ 0x7777340021c0] silence_end: 9.288583 | silence_duration: 2.060354
+silenzio: [silencedetect @ 0x7777340021c0] silence_start: 79.018417
+silenzio: [silencedetect @ 0x7777340021c0] silence_end: 80.886562 | silence_duration: 1.868146
+ESITO: montato
+==================== ES
+download: HTTP 200, 94405572 byte
+sorgente: stream|codec_name=h264|codec_type=video|width=1080|height=1920|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|channels=2|r_frame_rate=0/0 stream|codec_name=mov_text|codec_type=subtitle|width=N/A|height=N/A|r_frame_rate=0/0 
+durata sorgente: 84.160000 s
+voce (sorgente): -18.0 LUFS, picco -4.5 dBFS
+copertina: -14.9 LUFS → guadagno -4.60 dB (obiettivo voce -1,5 LU)
+finale: assets/video/puntata-0-es.mp4, 99.965000 s, 16538735 byte
+finale: stream|codec_name=h264|codec_type=video|width=720|height=1280|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|r_frame_rate=0/0 
+finale: -17.2 LUFS integrati, picco -3.5 dBFS
+silenzio: [silencedetect @ 0x7a73d00021c0] silence_start: 7.228229
+silenzio: [silencedetect @ 0x7a73d00021c0] silence_end: 9.260021 | silence_duration: 2.031792
+silenzio: [silencedetect @ 0x7a73d00021c0] silence_start: 79.37575
+silenzio: [silencedetect @ 0x7a73d00021c0] silence_end: 81.285083 | silence_duration: 1.909333
+ESITO: montato
+==================== DE
+download: HTTP 200, 95490703 byte
+sorgente: stream|codec_name=h264|codec_type=video|width=1080|height=1920|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|channels=2|r_frame_rate=0/0 stream|codec_name=mov_text|codec_type=subtitle|width=N/A|height=N/A|r_frame_rate=0/0 
+durata sorgente: 85.802000 s
+voce (sorgente): -18.6 LUFS, picco -4.1 dBFS
+copertina: -14.9 LUFS → guadagno -5.20 dB (obiettivo voce -1,5 LU)
+finale: assets/video/puntata-0-de.mp4, 101.608000 s, 16832756 byte
+finale: stream|codec_name=h264|codec_type=video|width=720|height=1280|r_frame_rate=25/1 stream|codec_name=aac|codec_type=audio|sample_rate=48000|r_frame_rate=0/0 
+finale: -17.8 LUFS integrati, picco -3.1 dBFS
+silenzio: [silencedetect @ 0x736a300021c0] silence_start: 7.22725
+silenzio: [silencedetect @ 0x736a300021c0] silence_end: 9.273708 | silence_duration: 2.046458
+silenzio: [silencedetect @ 0x736a300021c0] silence_start: 80.774042
+silenzio: [silencedetect @ 0x736a300021c0] silence_end: 82.617708 | silence_duration: 1.843667
+ESITO: montato
+
+FINE
