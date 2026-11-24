@@ -78,3 +78,35 @@ html:not([lang="it"]) .hero .hero-ci{letter-spacing:-.03em;white-space:nowrap}
 .book-art .book-stamp{top:-28px}
 @media (max-width:720px){.book-art .book-stamp{top:-44px;right:-2px}}
 .book-section .section-index{color:#c9a98c}
+
+/* 24/11/2026 — correzioni mirate post-collaudo */
+.site-header .menu-toggle{border-color:#f0dbc2;flex-shrink:0;width:44px;height:44px}
+.site-header .menu-toggle span{background:#f0dbc2}
+.story-card-center strong,.story-panel-content h2{overflow-wrap:anywhere;hyphens:auto}
+.story-top,.story-bottom{flex-wrap:wrap;font-size:11px;line-height:1.3}
+.story-bottom span:last-child{font-size:11px}
+@media (max-width:700px){
+  .announcement{height:auto;min-height:32px;padding:5px 12px;font-size:11px;line-height:1.25;flex-wrap:wrap}
+  .hero .eyebrow,.hero-note,.hero-bottom,.section-index,.section-aside,.wordmark-small,.sticker-bottom span,.brain-film-label,.footer-bottom{font-size:11px;line-height:1.35}
+  .section-top,.hero-bottom,.eyebrow{flex-wrap:wrap}
+  .language-select,.cover-controls button,.modal-close,.quiz-reset,.footer-privacy-btn{min-height:44px}
+  .cover-controls{max-width:100%;white-space:normal;justify-content:center}
+  .cover-controls button{line-height:1.2}
+  .book-art{padding-top:88px;padding-bottom:48px}
+  .book-art .book-stamp{top:8px;right:8px;width:70px;height:70px;font-size:12px;box-shadow:0 0 0 4px var(--ink)}
+  .stories-heading .display-lg{max-width:100%;overflow-wrap:anywhere;hyphens:auto}
+  html[lang="de"] .stories-heading .display-lg{font-size:clamp(38px,11vw,68px);line-height:.92}
+  .story-card-center strong{font-size:clamp(23px,5.8vw,29px);line-height:1}
+  .story-panel-content h2{font-size:clamp(36px,12vw,58px)}
+  .story-card{height:auto;min-height:290px}
+  .nav-inner{height:auto;min-height:64px}
+}
+@media (max-width:360px){
+  .shell{padding-left:16px;padding-right:16px}
+  .nav-inner{flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+  .nav-actions{margin-left:auto;gap:5px}
+  .story-grid{grid-template-columns:minmax(0,1fr)}
+  .hero .display-xl,.display-lg,.display-md,.last-cta .display-lg{font-size:clamp(38px,12vw,56px);white-space:normal;overflow-wrap:anywhere}
+  .hero .hero-ci{white-space:normal}
+  .featured-info h3{font-size:clamp(38px,12vw,52px);overflow-wrap:anywhere}
+}
