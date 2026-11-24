@@ -136,3 +136,27 @@ Correzione al dato della sezione precedente: la durata reale delle sorgenti dopp
 - nessuna pubblicazione: `gh-pages` e `main` non sono stati toccati.
 
 Zero crediti HeyGen. Nessuna rigenerazione.
+
+
+### v3.1-video — completamento — 24/11/2026, ore 09:25 (avvio verifica, ora italiana) (ChatGPT)
+
+**Stato: montaggio completato; collaudo finale ancora aperto.** Verifica indipendente del ramo `sito-v3-1`, senza intervenire sul flusso o rigenerare video.
+
+- **Verificato:** GitHub Actions run [45352397313](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45352397313), job 138301826431, stato completed/success; tutti gli step riusciti. Log dal 24/11/2026 08:00:29.854 UTC al 24/11/2026 08:23:19.246 UTC (22 min 49 s; 09:00–09:23 CET). Nessuna riga marcata `##[error]`. Commit di montaggio e4f3f87d2e4e1207aeef7c3fcd9072b45e5bc59b (preesistente, non creato da ChatGPT in questa sessione), confermato tramite GitHub: contiene quattro MP4, dodici tavole JPG e report.txt. Nessuna correzione o riavvio necessario.
+- **Verificato dal report FFmpeg:** HTTP 200 per tutte le sorgenti, file finali sotto 25.000.000 byte, H.264 720×1280 25 fps, AAC 48 kHz. Lo script prescrive AAC 128k e +faststart; non rimisurati indipendentemente sui binari finali. Le misure sottostanti sono lette dal report, non ricalcolate da ChatGPT.
+
+| Lingua | Download HTTP / byte | Durata finale (s) | Dimensione finale (byte) | Voce LUFS / picco dBFS | Copertina LUFS stimati dopo gain | Finale LUFS / picco dBFS | Fotogrammi | Esito finale | Commit montaggio |
+|---|---|---:|---:|---|---:|---|---|---|---|
+| EN | 200 / 93758102 | 99,218 | 16469586 | -17,8 / -4,5 | -19,3 | -17,0 / -3,5 | OK a campione | Audio lingua e verifica integrale non verificabili | e4f3f87 |
+| FR | 200 / 93149827 | 98,898 | 16392978 | -18,0 / -4,3 | -19,5 | -17,2 / -3,2 | OK a campione | Audio lingua e verifica integrale non verificabili | e4f3f87 |
+| ES | 200 / 94405572 | 99,965 | 16538735 | -18,0 / -4,5 | -19,5 | -17,2 / -3,5 | OK a campione | Audio lingua e verifica integrale non verificabili | e4f3f87 |
+| DE | 200 / 95490703 | 101,608 | 16832756 | -18,6 / -4,1 | -20,1 | -17,8 / -3,1 | OK a campione | Audio lingua e verifica integrale non verificabili | e4f3f87 |
+
+- Copertina sorgente -14,9 LUFS, gain EN -4,40 dB, FR/ES -4,60 dB, DE -5,20 dB: obiettivo voce meno 1,5 LU coerente aritmeticamente; livello della copertina nel montaggio finale non misurato separatamente.
+- Silenzi rilevati (secondi, soglia -45 dB per almeno 1,5 s): EN 1,958 e 1,850; FR 2,060 e 1,868; ES 2,032 e 1,909; DE 2,046 e 1,844. Il primo coincide con il cartello; **ipotesi:** il secondo è la pausa prevista dal copione, da confermare con ascolto. Nessuna valutazione soggettiva della voce o del ritmo dichiarata.
+- **Verificato visivamente da ChatGPT:** aperte tutte e dodici le tavole JPG in `docs/verifica-video/` (fotogrammi chiave, finale ogni 2 s e sorgente ogni 2 s per ogni lingua). Copertine iniziali/finali e cartelli nelle lingue attese; nessuna scritta italiana estranea rilevata nelle immagini campionate, nessuna scritta impressa durante il parlato osservata. Dissolvenze visibili nei fotogrammi di transizione. **Non verificabile:** controllo esaustivo di ogni frame a 25 fps e lingua effettivamente parlata, sincronismo audio/video, ascolto delle pause.
+- All'inizio della verifica `index.html` conteneva già `LOCAL_DUBS=['en','fr','es','de']`, attivato prima di questa sessione. In applicazione del vincolo di Carlo (solo lingue integralmente verificate), ripristinato `LOCAL_DUBS=[]` in un nuovo commit separato sul solo ramo di lavoro: 5acf2858afd211fbadfadedcffb3b5339a10ab50. Rilettura del file dopo il commit conferma la lista vuota e il fallback HeyGen presente. Nessun MP4 rimosso, nessuna riscrittura della cronologia.
+- Resta da ascoltare e confermare la lingua effettiva dei quattro doppiaggi e completare il controllo video integrale, quindi attivare solo le lingue approvate. Aggiornare l'informativa privacy secondo la configurazione definitiva prima dell'approvazione di pubblicazione. Nessun nuovo collaudo browser eseguito in questa sessione.
+- Commit di questa sessione: 5acf2858afd211fbadfadedcffb3b5339a10ab50 (fallback prudenziale); il commit che aggiunge questa sezione è identificabile nella cronologia del registro (non può contenere il proprio hash prima della creazione).
+- Zero generazioni, traduzioni o crediti HeyGen utilizzati da ChatGPT in questa sessione. Nessuna pubblicazione, fusione o modifica di main o gh-pages. Nessuna modifica alle impostazioni GitHub.
+
