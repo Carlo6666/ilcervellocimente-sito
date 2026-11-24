@@ -305,3 +305,14 @@ Ramo `sito-v3-1` **pronto per l'approvazione definitiva di Carlo**. Nessuna pubb
 Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito dopo l'approvazione: iPhone con Safari (EN: il video parte al primo tocco?), Android con Chrome o Samsung Internet (DE: menu e Storie), un computer con Firefox (cambio lingua, video).
 
 **Stato:** ramo `sito-v3-1` pronto per l'approvazione definitiva. `main` e `gh-pages` non modificati; nessuna pubblicazione.
+
+
+### 24/11/2026 — Nora nella stanza e riproduzione in linea (ChatGPT)
+
+**Approvazione:** Carlo ha approvato le anteprime grafiche e autorizzato l'implementazione in chat («Ora ci siamo, approvato», «Procedi»). Commit applicativo `303b38d97a9092fb6726cd0a13020ab4a1d006e6`, solo ramo `sito-v3-1`.
+
+- Rimossi arco, cornice, ombra e fondo separato della scena di Nora; scena più ampia su mobile con dissolvenza del video silenzioso verso lo sfondo. Rimossa anche la cornice del ritratto nella sezione Chi è Nora.
+- Eliminato il modale del video: il lettore viene montato nel contenitore della scena o dell'episodio corrispondente, con comando di chiusura, ripristino dell'anteprima, pausa del loop decorativo, supporto a movimento ridotto e una sola riproduzione alla volta. Restano i modali non video (privacy, storie, trascrizione).
+- Sorgenti invariate: italiano YouTube no-cookie, EN/FR/ES/DE file locali; fallback HeyGen e link all'originale invariati. Nessuna rigenerazione e zero crediti HeyGen.
+- Verificato rileggendo il blob `5daea9c3dc9bb009725fccd0aad65703cc8e2801`: assenza del vecchio modale, quattro script inline sintatticamente validi. Test con DOM simulato 5/5 lingue: apertura nella scena, spostamento del lettore nella sezione puntata, arresto e ripristino; fallback HeyGen e link YouTube simulati per i quattro doppiaggi.
+- **Residuo:** collaudo visivo e riproduzione effettiva su browser e smartphone, inclusa corrispondenza della scena ai mockup (riutilizzati i video originali, non ampliato digitalmente l'ambiente). L'italiano può mostrare i controlli e le limitazioni di YouTube. Il nuovo video introduttivo dedicato al progetto non è stato creato in questa modifica. Nessuna pubblicazione, nessuna modifica a main/gh-pages; nuova anteprima e approvazione operativa dopo il collaudo.
