@@ -523,19 +523,20 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     if(isIntro) {
       const labelsIntro={
         it:['Nora — Presentazione del progetto','Presentazione originale in italiano.','Apri la presentazione ↗','Filmato momentaneamente non disponibile.'],
-        en:['Nora — Project introduction','Original introduction in Italian.','Open introduction ↗','Video temporarily unavailable.'],
-        fr:['Nora — Présentation du projet','Présentation originale en italien.','Ouvrir la présentation ↗','Vidéo momentanément indisponible.'],
-        es:['Nora — Presentación del proyecto','Presentación original en italiano.','Abrir la presentación ↗','Vídeo temporalmente no disponible.'],
-        de:['Nora — Projektvorstellung','Originalvorstellung auf Italienisch.','Vorstellung öffnen ↗','Video vorübergehend nicht verfügbar.']
+        en:['Nora — Project introduction','English dubbed introduction.','Open introduction ↗','Video temporarily unavailable.'],
+        fr:['Nora — Présentation du projet','Présentation doublée en français.','Ouvrir la présentation ↗','Vidéo momentanément indisponible.'],
+        es:['Nora — Presentación del proyecto','Presentación doblada al español.','Abrir la presentación ↗','Vídeo temporalmente no disponible.'],
+        de:['Nora — Projektvorstellung','Deutsch synchronisierte Vorstellung.','Vorstellung öffnen ↗','Video vorübergehend nicht verfügbar.']
       };
       const t=labelsIntro[lang]||labelsIntro.it;
       $('#video-modal-title').textContent=t[0];note.textContent=t[1];direct.textContent=t[2];
       const player=document.createElement('video');
-      const local='assets/video/nora-presentazione-it.mp4';
+      const introLang=['it','en','fr','es','de'].includes(lang)?lang:'it';
+      const local='assets/video/nora-presentazione-'+introLang+'.mp4';
       const sources=[local];let n=0;
       player.controls=true;player.autoplay=true;player.playsInline=true;player.preload='auto';player.setAttribute('aria-label',t[0]);
       function source(){player.src=sources[n];direct.href=sources[n];}
-      player.addEventListener('error',()=>{if(!player.isConnected)return;if(++n<sources.length){source();player.load();const p=player.play();if(p&&p.catch)p.catch(()=>{});}else{note.textContent=t[3];direct.href='https://app.heygen.com/videos/bcffdc21b35239be6bc497c5774ea018';}});
+      player.addEventListener('error',()=>{if(!player.isConnected)return;if(++n<sources.length){source();player.load();const p=player.play();if(p&&p.catch)p.catch(()=>{});}else{note.textContent=t[3];direct.href=local;}});
       source();embed.replaceChildren(player);const p=player.play();if(p&&p.catch)p.catch(()=>{});
     } else if(dubbed) {
       const caption=dubbedCaptions[lang];
