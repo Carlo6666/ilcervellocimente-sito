@@ -13,6 +13,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: sito-v3-1
+      - name: Installa FFmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Scarica il filmato esistente e verifica
         env:
           VIDEO_URL: "https://files2.heygen.ai/aws_pacific/avatar_tmp/21e45a12a8104b6aa5ca8ee5b168d5cb/bcffdc21b35239be6bc497c5774ea018.mp4?Expires=1796101445&Signature=paPeMZWXdGx7cJJWcYapb0RJlHj1LkCAgc06s1tphW1ee~TLpMUOgdImxHqEjbyyIkFgncNb3AZCNWrvaRMDhpoFACUdCePncStfJarkYUgi7I1lEbIRz49H~51bWPoQQbAZg7G7H7biFjZut76wAbvjhVLoLhXNFiKTMEEWBF8pGEhItqmtaOit-NgYRIH4L7xwp~p4EytKNSJT7~RUdtvqHFLSsh3ifDBEG151kE-ohb4C7HeFfRR6FhoD2qgjJc4sNDZYP0CpbhpYi-w8dWhLkwTmtXxesFxLUWFY4el5EqkPWzhBjX1KE-waQ0V4GM04khVci9KEmsGvsUqvGA__&Key-Pair-Id=K3TSZ3KU01LY58"
