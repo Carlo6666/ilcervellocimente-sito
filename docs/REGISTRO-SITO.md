@@ -176,3 +176,20 @@ Zero crediti HeyGen. Nessuna rigenerazione.
 - Verificato nei log del run 45356997559 (job 138317176599): `ModuleNotFoundError: No module named 'requests'`, `Process completed with exit code 1.` Il report finale non è stato prodotto. Non è un errore accertato dei filmati.
 - Corretto il workflow installando requests e aggiungendo `pip check` e test esplicito degli import. Commit c4fafd38b01aefedfdfde38d8a399082c1e928ca, solo sito-v3-1. Nuovo run [45357852585](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45357852585), avvio verificato; ultimo stato in_progress. Esito non ancora verificato.
 - Riattivato il monitoraggio orario già autorizzato, indirizzato al run più recente, con completamento delle verifiche e del registro entro i limiti dell'incarico. LOCAL_DUBS resta vuoto fino al superamento dei criteri. Nessuna modifica ai video, nessuna spesa HeyGen, nessuna pubblicazione, nessuna modifica main/gh-pages.
+
+
+### v3.1-video — esito collaudo automatico finale — 24/11/2026 (ChatGPT)
+
+**Verificato:** run [45357852585](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45357852585) completed/success, concluso alle 08:41:06 UTC (09:41 CET). Letto il report JSON `docs/verifica-video/collaudo-finale-45357852585.json`, input commit c4fafd38b01aefedfdfde38d8a399082c1e928ca.
+
+| Lingua | Lingua ASR / probabilità | Frame decodificati / tavole | Voce LUFS | Copertina iniziale/finale LUFS | Finale LUFS / picco | Esito automatico |
+|---|---|---|---:|---:|---|---|
+| EN | en / 99,62% | 2480 / 39 | -16,8 | -18,3 | -17,0 / -3,5 | PASS |
+| FR | fr / 99,64% | 2472 / 39 | -17,0 | -18,5 | -17,2 / -3,2 | PASS |
+| ES | es / 97,58% | 2499 / 40 | -17,0 | -18,5 | -17,2 / -3,5 | PASS |
+| DE | de / 99,53% | 2540 / 40 | -17,6 | -19,1 | -17,8 / -3,1 | PASS |
+
+Tutte le tracce: H.264 720×1280 25 fps, AAC 48 kHz, faststart true, meno di 25 MB, decodifica integrale OK; 9991 frame totali e 158 tavole previste/prodotte. Bitrate audio medio misurato EN 116604, FR 113716, ES 112265, DE 118043 bit/s (encoder impostato a 128k, non CBR). Copertine iniziali e finali a 1,5 LU sotto il parlato misurato. Trascrizioni ASR disponibili nel JSON; probabilità del modello, non garanzia di qualità linguistica. Silenzi già documentati e confermati dal report.
+
+**Non ancora verificato:** revisione semantica di tutte le tavole integrali, ascolto umano di pronuncia/ritmo/sincronismo e controllo browser finale con video locali attivi. LOCAL_DUBS resta [] finché i criteri residui non sono soddisfatti. Richiedere a Claude supporto per le verifiche non eseguibili qui, senza generazioni HeyGen, senza pubblicare, solo sito-v3-1. Nessun intervento su main o gh-pages.
+
