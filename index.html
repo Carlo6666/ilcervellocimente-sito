@@ -484,6 +484,8 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
         direct.textContent=openOriginal[lang]||openOriginal.en;
       });
       embed.replaceChildren(player);
+      // Safari iOS: avvio esplicito dentro lo stesso tocco, così basta un tocco solo (l'attributo autoplay da solo non basta con l'audio).
+      {const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{});}
     } else {
       direct.href='https://www.youtube.com/watch?v='+youtubeId;
       direct.textContent='Apri su YouTube ↗';

@@ -264,3 +264,44 @@ Ramo `sito-v3-1` **pronto per l'approvazione definitiva di Carlo**. Nessuna pubb
 **Fonte:** autorizzazione esplicita di Carlo in chat («Sì, ti autorizzo alle correzioni. E cerchiamo di pubblicarlo anche sto sito»); anomalie 1–5 del rapporto v1 riepilogate nell'annotazione precedente; durate dal registro di montaggio.
 
 **Descrizione:** applicate sul solo ramo `sito-v3-1` le correzioni 1–5: regole CSS mirate al titolo tedesco su schermi stretti, contrasto menu, leggibilità e dimensioni tattili, bollino, titoli delle storie e schermi piccoli (`f266a21`); sincronizzazione della nota e del link diretto con la sorgente del lettore locale/HeyGen/YouTube (`1b24832`); durate per lingua arrotondate al secondo EN/FR 1:39, ES 1:40, DE 1:42, IT 1:38 invariato (`9f1fa7e`). Riletti i tre file via GitHub; sintassi dei quattro script inline JavaScript e dello script esterno verificata; test della logica con DOM simulato per EN/FR/ES/DE: link locale e nota coerenti, fallback HeyGen e successivo link YouTube corretti in 4/4 lingue. Non sono test di riproduzione o di impaginazione in browser. Restano da confermare visivamente l'assenza di overflow e gli altri interventi CSS, da eseguire le prove manuali su Safari iOS, Chrome Android reale, Samsung Internet e Firefox desktop, e da verificare l'ipotesi del doppio tocco su iOS (nessuna modifica preventiva a play()). Nessun nuovo collaudo dei doppiaggi o delle 50 combinazioni già testate, nessuna rigenerazione, zero crediti HeyGen. Main e gh-pages non modificati, nessuna pubblicazione. Approvazione finale della versione candidata dopo i test mirati ancora necessaria.
+
+
+### 24/11/2026 — Verifica delle correzioni di ChatGPT (ae908c3) e anteprima definitiva (Claude)
+
+**Data:** 24/11/2026, dalle 11:17 alle 12:15 circa.
+**Fonte:** ordine di Carlo del 24/11/2026 ore 11:17 («Ultimo collaudo prima della pubblicazione»: solo le nuove correzioni; 320/360/375 px; tedesco; menu mobile; collegamenti video; Safari, Firefox, Android; doppio tocco su Safari). Non ripetuti: collaudo dei doppiaggi e le 535 prove del rapporto v1. Zero crediti HeyGen.
+**Strumenti:** Chrome 153 con emulazione di telefono (tocco, densità 2×, user-agent Android e iPhone); **WebKitGTK 2.52 (MiniBrowser), motore WebKit reale** pilotato con WebDriver, installato per questa verifica. Server con richieste parziali come GitHub Pages. Script e risultati in `docs/verifica-sito-24-11/`.
+
+#### 1. Esito delle correzioni di ChatGPT
+| Anomalia (rapporto v1) | Verifica | Esito |
+|---|---|---|
+| 1. Titolo tedesco delle Storie fuori schermo a 360/375 | Chrome 320/360/375/390/412 × 5 lingue; WebKit 320/360/375 × 5 lingue | **Risolta**: larghezza pagina = larghezza schermo in 50/50 casi, nessun elemento sporgente |
+| 2. Pulsante menu invisibile | Colore misurato: linee e bordo crema `#f0dbc2`, 44×44 px; menu si apre, porta alla sezione e si chiude (Chrome 25/25, WebKit 15/15) | **Risolta** |
+| 3. Nota e link del lettore doppiato | EN/FR/ES/DE: video del sito, link al file del sito, nota «ospitato su questo sito» nella lingua giusta; senza file → HeyGen → avviso e link YouTube (provato bloccando i file) | **Risolta** |
+| 4. Durata per lingua | IT 1:38, EN 1:39, FR 1:39, ES 1:40, DE 1:42 (Chrome e WebKit) | **Risolta** |
+| 5. Pagina larga 341 px a 320 / banner che sborda | Banner a 320 px: 16–304 px in tutte le lingue | **Risolta** |
+| 7. Bersagli tattili piccoli | Selettore lingua, «Rivedi», «Con suono», menu, chiudi ≥ 44 px | **Risolta in parte**: i link in fondo alla pagina (Privacy, social) restano alti 16 px (BASSA, non bloccante) |
+| 8. Bollino sopra il testo (IT 375) | Nessuna sovrapposizione con il testo del libro | **Risolta** |
+| 9. Titolo della storia che tocca il bordo | Nessun titolo oltre la scheda a 320–412 px | **Risolta**; nota estetica: a 320 px in tedesco «ALLES» va a capo come «AL-LES» (sillabazione automatica) |
+
+#### 2. Problemi nuovi trovati e corretti (sul solo ramo `sito-v3-1`)
+- **[ALTA, WebKit] Selettore della lingua illeggibile**: nel motore WebKit il menu a tendina veniva disegnato chiaro con testo crema (quasi invisibile). Causa: mancava `appearance:none`. Correzione in `css/sito-v3-1.css`: stesso colore scuro della grafica, freccia disegnata, opzioni leggibili. Verificato in WebKit (testo crema su fondo `#261912`) e in Chrome; il cambio di lingua dal selettore funziona in WebKit.
+- **[MEDIA, Safari iOS] Doppio tocco sui doppiaggi**: il video partiva solo grazie all'attributo autoplay; Safari iOS non avvia da solo un video con audio. Aggiunta in `index.html` una chiamata `play()` nello stesso tocco del pulsante (se il browser la rifiuta non succede nulla di male: restano i comandi del video). Verificato: un solo clic avvia il video in WebKit e in Chrome con le regole normali di autoplay.
+
+#### 3. Doppio tocco su Safari: analisi
+- **Effetti al passaggio del mouse:** nessuna regola `:hover` cambia visibilità, dimensione o contenuto, e non ci sono ascoltatori `mouseover`/`mouseenter`: Safari iOS non chiederà un secondo tocco per i pulsanti e i link.
+- **Doppiaggi EN/FR/ES/DE:** rischio eliminato con `play()` (sopra). Non provato su un iPhone vero.
+- **Italiano (YouTube):** su iPhone YouTube di solito chiede di premere play dentro il riquadro: è il comportamento di YouTube, non del sito.
+
+#### 4. Prove reali e prove simulate
+| Prova | Tipo |
+|---|---|
+| Motore WebKit (come Safari): pagine, larghezze, menu, video, selettore lingua | **Reale sul motore WebKit (WebKitGTK 2.52 su Linux)**, non Safari: niente regole iOS su autoplay, nessun telefono vero |
+| Chrome a 320/360/375/390/412 px con tocco | **Simulata** (emulazione di telefono nel Chrome per computer) |
+| Firefox | **Non eseguita**: l'installazione di Firefox non è stata consentita in questo ambiente |
+| Samsung Internet, iPhone/iPad veri, Android vero | **Non eseguite** |
+
+#### 5. Problemi bloccanti
+Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito dopo l'approvazione: iPhone con Safari (EN: il video parte al primo tocco?), Android con Chrome o Samsung Internet (DE: menu e Storie), un computer con Firefox (cambio lingua, video).
+
+**Stato:** ramo `sito-v3-1` pronto per l'approvazione definitiva. `main` e `gh-pages` non modificati; nessuna pubblicazione.

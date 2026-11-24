@@ -1,0 +1,1352 @@
+[
+ {
+  "scrollW": 320,
+  "vw": 320,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   304
+  ],
+  "dur": "1 MIN 38 SEC",
+  "h1": "IL CERVELLO (ci) MENTE.",
+  "errs": [],
+  "w": 320,
+  "lang": "it",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 330
+   }
+  }
+ },
+ {
+  "scrollW": 320,
+  "vw": 320,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   304
+  ],
+  "dur": "1 MIN 39 SEC",
+  "h1": "THE BRAIN LIES (to us)",
+  "errs": [],
+  "w": 320,
+  "lang": "en",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 335
+   }
+  }
+ },
+ {
+  "scrollW": 320,
+  "vw": 320,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   304
+  ],
+  "dur": "1 MIN 39 S",
+  "h1": "LE CERVEAU (nous) MENT.",
+  "errs": [],
+  "w": 320,
+  "lang": "fr",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 303
+   }
+  }
+ },
+ {
+  "scrollW": 320,
+  "vw": 320,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   304
+  ],
+  "dur": "1 MIN 40 S",
+  "h1": "EL CEREBRO (nos) MIENTE.",
+  "errs": [],
+  "w": 320,
+  "lang": "es",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 342
+   }
+  }
+ },
+ {
+  "scrollW": 320,
+  "vw": 320,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   304
+  ],
+  "dur": "1 MIN 42 SEK",
+  "h1": "DAS GEHIRN LÜGT (uns an)",
+  "errs": [],
+  "w": 320,
+  "lang": "de",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 331
+   }
+  }
+ },
+ {
+  "scrollW": 360,
+  "vw": 360,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   344
+  ],
+  "dur": "1 MIN 38 SEC",
+  "h1": "IL CERVELLO (ci) MENTE.",
+  "errs": [],
+  "w": 360,
+  "lang": "it",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 282
+   }
+  }
+ },
+ {
+  "scrollW": 360,
+  "vw": 360,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   344
+  ],
+  "dur": "1 MIN 39 SEC",
+  "h1": "THE BRAIN LIES (to us)",
+  "errs": [],
+  "w": 360,
+  "lang": "en",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 244
+   }
+  }
+ },
+ {
+  "scrollW": 360,
+  "vw": 360,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   344
+  ],
+  "dur": "1 MIN 39 S",
+  "h1": "LE CERVEAU (nous) MENT.",
+  "errs": [],
+  "w": 360,
+  "lang": "fr",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 250
+   }
+  }
+ },
+ {
+  "scrollW": 360,
+  "vw": 360,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   344
+  ],
+  "dur": "1 MIN 40 S",
+  "h1": "EL CEREBRO (nos) MIENTE.",
+  "errs": [],
+  "w": 360,
+  "lang": "es",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 277
+   }
+  }
+ },
+ {
+  "scrollW": 360,
+  "vw": 360,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   344
+  ],
+  "dur": "1 MIN 42 SEK",
+  "h1": "DAS GEHIRN LÜGT (uns an)",
+  "errs": [],
+  "w": 360,
+  "lang": "de",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 288
+   }
+  }
+ },
+ {
+  "scrollW": 375,
+  "vw": 375,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   359
+  ],
+  "dur": "1 MIN 38 SEC",
+  "h1": "IL CERVELLO (ci) MENTE.",
+  "errs": [],
+  "w": 375,
+  "lang": "it",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 322
+   }
+  }
+ },
+ {
+  "scrollW": 375,
+  "vw": 375,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   359
+  ],
+  "dur": "1 MIN 39 SEC",
+  "h1": "THE BRAIN LIES (to us)",
+  "errs": [],
+  "w": 375,
+  "lang": "en",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 259
+   }
+  }
+ },
+ {
+  "scrollW": 375,
+  "vw": 375,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   359
+  ],
+  "dur": "1 MIN 39 S",
+  "h1": "LE CERVEAU (nous) MENT.",
+  "errs": [],
+  "w": 375,
+  "lang": "fr",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 295
+   }
+  }
+ },
+ {
+  "scrollW": 375,
+  "vw": 375,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   359
+  ],
+  "dur": "1 MIN 40 S",
+  "h1": "EL CEREBRO (nos) MIENTE.",
+  "errs": [],
+  "w": 375,
+  "lang": "es",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 268
+   }
+  }
+ },
+ {
+  "scrollW": 375,
+  "vw": 375,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   359
+  ],
+  "dur": "1 MIN 42 SEK",
+  "h1": "DAS GEHIRN LÜGT (uns an)",
+  "errs": [],
+  "w": 375,
+  "lang": "de",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 305
+   }
+  }
+ },
+ {
+  "scrollW": 390,
+  "vw": 390,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   374
+  ],
+  "dur": "1 MIN 38 SEC",
+  "h1": "IL CERVELLO (ci) MENTE.",
+  "errs": [],
+  "w": 390,
+  "lang": "it",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 264
+   }
+  }
+ },
+ {
+  "scrollW": 390,
+  "vw": 390,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   374
+  ],
+  "dur": "1 MIN 39 SEC",
+  "h1": "THE BRAIN LIES (to us)",
+  "errs": [],
+  "w": 390,
+  "lang": "en",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 288
+   }
+  }
+ },
+ {
+  "scrollW": 390,
+  "vw": 390,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   374
+  ],
+  "dur": "1 MIN 39 S",
+  "h1": "LE CERVEAU (nous) MENT.",
+  "errs": [],
+  "w": 390,
+  "lang": "fr",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 286
+   }
+  }
+ },
+ {
+  "scrollW": 390,
+  "vw": 390,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   374
+  ],
+  "dur": "1 MIN 40 S",
+  "h1": "EL CEREBRO (nos) MIENTE.",
+  "errs": [],
+  "w": 390,
+  "lang": "es",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 266
+   }
+  }
+ },
+ {
+  "scrollW": 390,
+  "vw": 390,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   374
+  ],
+  "dur": "1 MIN 42 SEK",
+  "h1": "DAS GEHIRN LÜGT (uns an)",
+  "errs": [],
+  "w": 390,
+  "lang": "de",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 310
+   }
+  }
+ },
+ {
+  "scrollW": 412,
+  "vw": 412,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   396
+  ],
+  "dur": "1 MIN 38 SEC",
+  "h1": "IL CERVELLO (ci) MENTE.",
+  "errs": [],
+  "w": 412,
+  "lang": "it",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 286
+   }
+  }
+ },
+ {
+  "scrollW": 412,
+  "vw": 412,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   396
+  ],
+  "dur": "1 MIN 39 SEC",
+  "h1": "THE BRAIN LIES (to us)",
+  "errs": [],
+  "w": 412,
+  "lang": "en",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 292
+   }
+  }
+ },
+ {
+  "scrollW": 412,
+  "vw": 412,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   396
+  ],
+  "dur": "1 MIN 39 S",
+  "h1": "LE CERVEAU (nous) MENT.",
+  "errs": [],
+  "w": 412,
+  "lang": "fr",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 316
+   }
+  }
+ },
+ {
+  "scrollW": 412,
+  "vw": 412,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   396
+  ],
+  "dur": "1 MIN 40 S",
+  "h1": "EL CEREBRO (nos) MIENTE.",
+  "errs": [],
+  "w": 412,
+  "lang": "es",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 288
+   }
+  }
+ },
+ {
+  "scrollW": 412,
+  "vw": 412,
+  "offenders": [],
+  "storyOverflow": [],
+  "menuColor": "rgb(240, 219, 194)",
+  "menuBorder": "rgb(240, 219, 194)",
+  "menuSize": [
+   44,
+   44
+  ],
+  "small": [
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ],
+   [
+    "A",
+    16
+   ]
+  ],
+  "stampOverlap": [],
+  "banner": [
+   16,
+   396
+  ],
+  "dur": "1 MIN 42 SEK",
+  "h1": "DAS GEHIRN LÜGT (uns an)",
+  "errs": [],
+  "w": 412,
+  "lang": "de",
+  "menu": {
+   "visible": true,
+   "links": [
+    "#puntate",
+    "#nora",
+    "#libro",
+    "#stories",
+    "#seguici"
+   ],
+   "after": {
+    "closed": true,
+    "targetTop": 285
+   }
+  }
+ }
+]
