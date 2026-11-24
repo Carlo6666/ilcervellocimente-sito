@@ -324,3 +324,10 @@ Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito
 - HeyGen: reperito il filmato completato «RivaCarlo.it — Nora · Presentazione cinematografica V3 IT», ID `bcffdc21b35239be6bc497c5774ea018`, 93 s, candidato per il riuso; contenuto parlato e corrispondenza con il messaggio originale non verificati integralmente, sottotitoli non accessibili. Non incorporato URL temporaneo né generato nuovo video. Occorre verificare e acquisire copia stabile prima di integrare, con versioni multilingue.
 - Creato workflow `.github/workflows/collaudo-nora-inline.yml`, commit `80f6cea7f48f8464483ce611f8fdb2cffa61e240`, sola lettura, mirato a 15 combinazioni Chrome (360/412/1440 × 5 lingue), controlli di cornice, overflow, lingua, lettore in linea, sorgente e chiusura; screenshot e rapporto come artifact. Run [45396063844](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45396063844) verificato in coda, esito non ancora disponibile. Le richieste esterne sono bloccate nel collaudo: non verifica la riproduzione YouTube o HeyGen reale né l'ascolto. Non ripete il collaudo dei doppiaggi.
 - Nessuna spesa HeyGen, nessuna pubblicazione, nessuna modifica a main o gh-pages. Il nuovo testo non sostituisce la presentazione audiovisiva richiesta; rimane da integrare.
+
+
+### 24/11/2026 — Pubblicazione autorizzata (ChatGPT)
+
+- Autorizzazione esplicita in chat: «Vai e pubblica subito». Collaudo mirato run 45396063844 concluso success. Pubblicazione della versione con introduzione testuale; filmato introduttivo ancora da integrare.
+- Aggiornato gh-pages con commit `3520bba93977be0406f0d988fac000f071ad7327` (precedente `cd83ca52cea91337b452ae7e1185186181c026a4`, recuperabile). Copiati solo file pubblici dal candidato `4b83b890b39ca15ef575f43af21f0912f5f39b0e`; esclusi docs, tools e workflow interni. CNAME invariato. Verificato il nuovo head e l'elenco dei file. Main invariato.
+- Al momento del controllo il nuovo deployment Pages non risultava ancora confermato; accesso pubblico ai due domini non verificabile tramite il browser disponibile. Nessuna spesa HeyGen.
