@@ -1,0 +1,92 @@
+{
+ "en": {
+  "scene_cuts_in_nora": [],
+  "black": [],
+  "freeze_start": [],
+  "freeze_end": [],
+  "ocr_frames": 81,
+  "ocr_words": [
+   [
+    "051.png",
+    [
+     "Atom"
+    ]
+   ],
+   [
+    "078.png",
+    [
+     "fais"
+    ]
+   ]
+  ]
+ },
+ "fr": {
+  "scene_cuts_in_nora": [],
+  "black": [],
+  "freeze_start": [],
+  "freeze_end": [],
+  "ocr_frames": 81,
+  "ocr_words": [
+   [
+    "023.png",
+    [
+     "fers"
+    ]
+   ]
+  ]
+ },
+ "es": {
+  "scene_cuts_in_nora": [],
+  "black": [],
+  "freeze_start": [],
+  "freeze_end": [],
+  "ocr_frames": 82,
+  "ocr_words": [
+   [
+    "006.png",
+    [
+     "romance"
+    ]
+   ],
+   [
+    "026.png",
+    [
+     "tits"
+    ]
+   ],
+   [
+    "076.png",
+    [
+     "Feai"
+    ]
+   ],
+   [
+    "080.png",
+    [
+     "igor"
+    ]
+   ]
+  ]
+ },
+ "de": {
+  "scene_cuts_in_nora": [],
+  "black": [],
+  "freeze_start": [],
+  "freeze_end": [],
+  "ocr_frames": 84,
+  "ocr_words": [
+   [
+    "010.png",
+    [
+     "BRON"
+    ]
+   ],
+   [
+    "054.png",
+    [
+     "WARY"
+    ]
+   ]
+  ]
+ }
+}

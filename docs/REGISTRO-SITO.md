@@ -193,3 +193,58 @@ Tutte le tracce: H.264 720×1280 25 fps, AAC 48 kHz, faststart true, meno di 25 
 
 **Non ancora verificato:** revisione semantica di tutte le tavole integrali, ascolto umano di pronuncia/ritmo/sincronismo e controllo browser finale con video locali attivi. LOCAL_DUBS resta [] finché i criteri residui non sono soddisfatti. Richiedere a Claude supporto per le verifiche non eseguibili qui, senza generazioni HeyGen, senza pubblicare, solo sito-v3-1. Nessun intervento su main o gh-pages.
 
+
+
+### v3.1-video — verifiche qualitative residue e attivazione — 24/11/2026, dalle 09:50 alle 10:30 circa (Claude)
+
+**Fonte:** messaggio di Carlo del 24/11/2026, ore 09:50 («completa le verifiche qualitative audiovisive residue, attiva esclusivamente i doppiaggi che superano tutti i controlli e verifica il funzionamento finale del sito nelle cinque lingue su smartphone e desktop»).
+**Base:** commit a2ba544 (ChatGPT), run 45357852585 (esito tecnico PASS per tutte e quattro le lingue). Strumenti e risultati in `docs/verifica-video/qualita-claude/`.
+
+#### 1. Contenuto parlato (revisione semantica delle trascrizioni del run 45357852585, fatta da Claude)
+Confronto riga per riga con il copione italiano approvato della Puntata 0 v2.1 (aggancio, chi sono, il concetto, che cosa succede qui, onestà, invito, ragioniere).
+
+| Lingua | Tutte le parti del copione presenti, nell'ordine | Senso fedele | Titolo detto | Riga del ragioniere | Esito |
+|---|---|---|---|---|---|
+| EN | sì | sì | «the brain lies to us» | presente, completa | PASS |
+| FR | sì (forma «vous») | sì | «le cerveau nous ment» | presente, completa | PASS |
+| ES | sì | sì | «el cerebro nos miente» | presente, completa | PASS |
+| DE | sì | sì | «Unser Gehirn belügt uns» | presente, completa | PASS |
+
+Note editoriali (non bloccanti, da decidere con Carlo):
+- In tutte e 4 le lingue Nora dice «coming soon / ça arrive bientôt / llega próximamente / es erscheint in Kürze». La nota del 21/11 («Puntata 0 in 4 lingue v1») consigliava di non promettere l'uscita all'estero. È quello che HeyGen ha tradotto dall'italiano approvato: si accetta o si cambia solo con una nuova traduzione (crediti), oggi non necessaria.
+- ES: «papelón» per «figuraccia» è più sudamericano che spagnolo di Spagna; comprensibile ovunque.
+- DE: il titolo detto («Unser Gehirn belügt uns») è leggermente diverso da quello della copertina tedesca proposta («Das Gehirn lügt (uns an)»); il senso è lo stesso.
+
+#### 2. Pausa lunga
+La seconda pausa (circa 1,85 s) cade in ogni lingua subito dopo «tre parole e un punto esclamativo» e prima della riga del ragioniere (EN 78,2–80,0 s; FR 79,0–80,9; ES 79,4–81,3; DE 80,8–82,6): è la pausa lunga del copione (⏸⏸). **Confermata.**
+
+#### 3. Sincronismo voce–labbra (misure, non ascolto)
+- **Allineamento del montaggio:** audio e video della parte di Nora partono entrambi a 8,80 s (dissolvenze video e audio della stessa durata). Il montaggio non introduce ritardi.
+- **Attacco della voce dopo la pausa lunga** (tavola `attacco-voce-dopo-pausa.jpg`, fotogrammi ogni 80 ms): in tutte e 4 le lingue la bocca passa dal sorriso all'articolazione 80–160 ms prima che la voce diventi udibile, come nel parlato naturale; nessun ritardo visibile del labiale rispetto al suono.
+- **Correlazione apertura della bocca / volume** sulla parte di Nora: picco netto a 0 ms per EN, FR, DE; per ES il segnale è debole e i tre metodi provati non concordano (inconcludente, non negativo).
+- **Bocca e voce:** in tutte le lingue la bocca si muove circa il doppio durante il parlato rispetto ai silenzi (EN 5,7 vs 2,9; FR 5,8 vs 2,8; ES 5,8 vs 3,2; DE 5,9 vs 3,2): nessuno sfasamento grossolano.
+- **Limite dichiarato:** la qualità del labiale fine di HeyGen si giudica guardando. Sulle misure disponibili nessuna lingua mostra un difetto.
+
+#### 4. Immagine (tutti i fotogrammi decodificati)
+- Nessun taglio, salto o cambio di scena nella parte di Nora (soglia di cambio scena 0,12), nessun fotogramma nero, nessun fermo immagine oltre 1,5 s, in tutte e 4 le lingue.
+- Riconoscimento del testo (OCR) su un fotogramma al secondo della parte di Nora (81–84 per lingua): nessun testo; le 9 parole rilevate erano false letture su capelli e tessuti, controllate a vista una per una.
+- Avatar, ambiente e inquadratura uguali all'originale italiano.
+
+#### 5. Decisione
+Tutte e quattro le lingue superano i controlli eseguibili → **attivate**: `LOCAL_DUBS=['en','fr','es','de']` in `index.html` (solo ramo `sito-v3-1`). L'informativa privacy aggiornata da ChatGPT (commit 1b715dc) è coerente con questa configurazione; non modificata.
+
+#### 6. Collaudo finale del sito (Chrome; server con richieste parziali come GitHub Pages)
+| Verifica | Android (412×915) | Desktop (1440×900) |
+|---|---|---|
+| 5 lingue: errori JavaScript / risorse mancanti / scorrimento orizzontale | 0 / 0 / no | 0 / 0 / no |
+| Titolo d'apertura e copertina animata nella lingua giusta | 5/5 | 5/5 |
+| Puntata 0: IT → YouTube; EN, FR, ES, DE → file del sito della lingua giusta, parte con il clic | 5/5 | 5/5 |
+| Avanzamento fino alla fine del filmato (evento «fine» ricevuto, durata esatta) | EN, FR, ES, DE ok | — |
+| Banner consenso: «Rifiuta» → Metricool non caricato; «Accetta» → Metricool richiesto; scelta ricordata; stato visibile in «Preferenze privacy» | ok | ok |
+
+Nota tecnica: con il server di prova di Python l'avanzamento nel video non funzionava (non gestisce le richieste parziali); con un server che le gestisce, come GitHub Pages, funziona.
+
+**Non verificato in questa sessione:** link esterni ai social (non ricontrollati, invariati rispetto alla v3 online), telefono Android vero, Metricool nel pannello reale, ascolto della voce da parte di Carlo (pronuncia e naturalezza: giudizio soggettivo, parte dell'approvazione finale).
+
+#### 7. Stato
+Ramo `sito-v3-1` **pronto per l'approvazione definitiva di Carlo**. Nessuna pubblicazione; `main` e `gh-pages` non toccati; zero crediti HeyGen; nessuna rigenerazione.

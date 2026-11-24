@@ -1,0 +1,42 @@
+{
+ "en": {
+  "frames": 2053,
+  "lag_frames": -4,
+  "lag_ms": -160,
+  "corr": 0.179,
+  "corr_lag0": 0.177,
+  "control": -0.028,
+  "mouth_motion_voice": 5.68,
+  "mouth_motion_quiet": 2.87
+ },
+ "fr": {
+  "frames": 2045,
+  "lag_frames": -1,
+  "lag_ms": -40,
+  "corr": 0.199,
+  "corr_lag0": 0.187,
+  "control": 0.008,
+  "mouth_motion_voice": 5.77,
+  "mouth_motion_quiet": 2.79
+ },
+ "es": {
+  "frames": 2072,
+  "lag_frames": -4,
+  "lag_ms": -160,
+  "corr": 0.189,
+  "corr_lag0": 0.175,
+  "control": 0.026,
+  "mouth_motion_voice": 5.82,
+  "mouth_motion_quiet": 3.22
+ },
+ "de": {
+  "frames": 2113,
+  "lag_frames": 1,
+  "lag_ms": 40,
+  "corr": 0.175,
+  "corr_lag0": 0.156,
+  "control": -0.001,
+  "mouth_motion_voice": 5.91,
+  "mouth_motion_quiet": 3.18
+ }
+}
