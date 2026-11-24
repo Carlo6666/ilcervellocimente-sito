@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2160 3840" role="img" aria-label="Copertina del libro di Carlo Riva «Il cervello (ci) mente. Manuale d’uso per smettere di far cazzate»: un cervello nero con la corona, appeso ai fili come una marionetta.">
+<rect class="cv-fondo" width="2160" height="3840" fill="#F4EFE3"/>
+<g class="cv-el cv-autore"><image href="assets/copertina/livelli/02-autore.webp" x="148" y="151" width="1886" height="64" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-titolo"><image href="assets/copertina/livelli/03-titolo-it.webp" x="243" y="288" width="1720" height="418" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-ci"><image href="assets/copertina/livelli/04-ci-it.webp" x="386" y="830" width="355" height="232" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-riquadro"><image href="assets/copertina/livelli/05a-riquadro.webp" x="760" y="694" width="1103" height="507" preserveAspectRatio="none"/><image href="assets/copertina/livelli/05b-mente-it.webp" x="840" y="726" width="905" height="384" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-manuale"><image href="assets/copertina/livelli/06-manuale-it.webp" x="197" y="1228" width="1804" height="328" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-linea"><image href="assets/copertina/livelli/07-linea-titolo.webp" x="652" y="1567" width="878" height="64" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-prima"><image href="assets/copertina/livelli/08-sottotitolo-it.webp" x="149" y="1692" width="1882" height="73" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-grande"><image href="assets/copertina/livelli/09-cazzate-it.webp" x="111" y="1819" width="1979" height="639" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-marionetta"><g class="cv-marionetta-oscilla"><image href="assets/copertina/livelli/10-fili.webp" x="548" y="2017" width="1081" height="881" preserveAspectRatio="none"/><image href="assets/copertina/livelli/12-cervello.webp" x="526" y="2599" width="1066" height="859" preserveAspectRatio="none"/><image href="assets/copertina/livelli/11-corona.webp" x="851" y="2445" width="504" height="203" preserveAspectRatio="none"/></g></g>
+<g class="cv-el cv-raggi"><image href="assets/copertina/livelli/13-raggi.webp" x="393" y="2582" width="1335" height="271" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-frase"><image href="assets/copertina/livelli/14-frase-it.webp" x="302" y="3496" width="1675" height="233" preserveAspectRatio="none"/></g>
+<g class="cv-el cv-fondo-linea"><image href="assets/copertina/livelli/15-linea-fondo.webp" x="741" y="3779" width="690" height="24" preserveAspectRatio="none"/></g>
+</svg>
