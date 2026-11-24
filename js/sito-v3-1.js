@@ -43,7 +43,7 @@
       es: { 'STORIE CHE SEMBRANO VERE. CERVELLI CHE CI CASCANO.': 'HISTORIAS QUE PARECEN REALES. CEREBROS QUE CAEN EN ELLAS.', 'UN PROGETTO DI CARLO RIVA': 'UN PROYECTO DE CARLO RIVA', 'DI CARLO RIVA': 'DE CARLO RIVA', 'NORA · PUNTATA 0': 'NORA · EPISODIO 0', 'PRIVACY ↗': 'PRIVACIDAD ↗' },
       de: { 'STORIE CHE SEMBRANO VERE. CERVELLI CHE CI CASCANO.': 'GESCHICHTEN, DIE WAHR WIRKEN. GEHIRNE, DIE DARAUF REINFALLEN.', 'UN PROGETTO DI CARLO RIVA': 'EIN PROJEKT VON CARLO RIVA', 'DI CARLO RIVA': 'VON CARLO RIVA', 'NORA · PUNTATA 0': 'NORA · FOLGE 0', 'PRIVACY ↗': 'DATENSCHUTZ ↗' }
     },
-    duration: { de: '1 MIN 38 SEK', fr: '1 MIN 38 S', es: '1 MIN 38 S' },
+    duration: { it: '1 MIN 38 SEC', en: '1 MIN 39 SEC', fr: '1 MIN 39 S', es: '1 MIN 40 S', de: '1 MIN 42 SEK' },
     noraAi: {
       en: 'She isn’t a real person or a healthcare professional: she is <strong>an AI-generated avatar</strong>. Her stories are fictional; the science is explained for a general audience.',
       fr: 'Ce n’est ni une personne réelle ni une professionnelle de santé : c’est <strong>un avatar créé par intelligence artificielle</strong>. Ses histoires sont fictives ; les notions scientifiques sont vulgarisées.',
@@ -122,14 +122,13 @@
   };
 
   function translatePage() {
+    var duration = $('#episode-zero-duration');
+    if (duration) duration.textContent = TX.duration[lang] || TX.duration.it;
     if (lang === 'it') return;
     var h1 = $('#hero-title'); if (h1 && TX.hero[lang]) h1.innerHTML = TX.hero[lang];
     var tk = $('.ticker-track span');
     if (tk && TX.ticker[lang]) { var t = TX.ticker[lang] + '    '; tk.textContent = t + t; }
     var tb = $('#transcript-button'); if (tb) tb.textContent = TX.transcript[lang];
-    $$('.featured-info .eyebrow').forEach(function (e) {
-      e.childNodes.forEach(function (n) { if (n.nodeType === 3 && /1 MIN 38 SEC/.test(n.nodeValue) && TX.duration[lang]) n.nodeValue = n.nodeValue.replace('1 MIN 38 SEC', TX.duration[lang]); });
-    });
     var np = $$('.nora-content p').filter(function (p) { return p.querySelector('strong'); })[0];
     if (np) np.innerHTML = TX.noraAi[lang];
     var bs = $$('.book-copy p strong')[0]; if (bs) bs.textContent = TX.bookTitle[lang];
