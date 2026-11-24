@@ -458,7 +458,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       const player=document.createElement('video');
       // v3.1: prima la copia ospitata sul sito (assets/video/puntata-0-<lingua>.mp4), poi HeyGen, poi YouTube.
       // Lingue con il file già caricato nel repository: aggiungerle qui (es. ['en','fr']) quando i video sono in assets/video/.
-      const LOCAL_DUBS=['en','fr','es','de'];
+      const LOCAL_DUBS=[];
       const sources=(LOCAL_DUBS.includes(lang)?['assets/video/puntata-0-'+lang+'.mp4']:[]).concat([dubbed]);
       const unavailable={en:'The dubbed video is temporarily unavailable. You can watch the original Italian version on YouTube.',fr:'La vidéo doublée est momentanément indisponible. Tu peux regarder la version originale italienne sur YouTube.',es:'El vídeo doblado no está disponible en este momento. Puedes ver la versión original en italiano en YouTube.',de:'Die synchronisierte Fassung ist gerade nicht verfügbar. Du kannst die italienische Originalfassung auf YouTube ansehen.'};
       const openOriginal={en:'Open the original on YouTube ↗',fr:'Ouvrir l’original sur YouTube ↗',es:'Abrir el original en YouTube ↗',de:'Original auf YouTube öffnen ↗'};
