@@ -331,3 +331,10 @@ Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito
 - Autorizzazione esplicita in chat: «Vai e pubblica subito». Collaudo mirato run 45396063844 concluso success. Pubblicazione della versione con introduzione testuale; filmato introduttivo ancora da integrare.
 - Aggiornato gh-pages con commit `3520bba93977be0406f0d988fac000f071ad7327` (precedente `cd83ca52cea91337b452ae7e1185186181c026a4`, recuperabile). Copiati solo file pubblici dal candidato `4b83b890b39ca15ef575f43af21f0912f5f39b0e`; esclusi docs, tools e workflow interni. CNAME invariato. Verificato il nuovo head e l'elenco dei file. Main invariato.
 - Al momento del controllo il nuovo deployment Pages non risultava ancora confermato; accesso pubblico ai due domini non verificabile tramite il browser disponibile. Nessuna spesa HeyGen.
+
+
+### 24/11/2026 — Correzione associazione filmati (ChatGPT)
+
+- Segnalazione di Carlo: i due filmati erano identici. Confermato nel codice: entrambi richiamavano la Puntata 0. Corretto su sito-v3-1 (cd6b6028) e gh-pages (c318560d): primo pulsante e play di Nora → presentazione cinematografica V3 IT (HeyGen bcffdc21b35239be6bc497c5774ea018, 93 s); secondo → Puntata 0 originale o doppiaggi già approvati. Entrambi nella pagina, nessun popup. Nessuna nuova generazione.
+- La presentazione è disponibile in italiano; le quattro traduzioni non sono state generate. È stata avviata l'acquisizione della copia locale stabile (run 45398252331); in attesa, il lettore usa il link temporaneo HeyGen come fallback. La copia locale dovrà essere distribuita su gh-pages e il fallback temporaneo eliminato. Aggiornato anche il test browser per verificare che le due sorgenti siano diverse.
+- Deploy correzione 45398274718 avviato; esito ancora da verificare.
