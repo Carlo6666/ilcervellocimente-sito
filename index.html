@@ -281,7 +281,7 @@ body{background:#120e0c;color:var(--cream)}
         <div class="title-row reveal"><h2 id="episodes-title" class="display-lg">PENSAVO<br><em>FOSSE COSÌ.</em></h2><p class="section-intro">Spoiler: non sempre.<br>Storie brevi, personaggi riconoscibili e quel cervello che riempie i vuoti prima ancora di chiedere permesso.</p></div>
         <div id="puntata-zero" class="featured-episode reveal">
           <div class="featured-media"><img src="assets/nora-episodio.jpg" width="540" height="960" alt="Nora in una scena della Puntata 0" loading="lazy"><div class="featured-number" aria-hidden="true">00</div><button type="button" class="big-play" data-video="JBoI3e8VW2g" data-title="Puntata 0 — Benvenuti nella mente" aria-label="Riproduci la Puntata 0"><span>▶</span></button></div>
-          <div class="featured-info"><div class="eyebrow eyebrow-light"><span class="live-dot"></span> DISPONIBILE ORA <span class="light-dot">●</span> 1 MIN 38 SEC</div><h3>ECCO PERCHÉ<br>SIAMO QUI.</h3><p>Prima di entrare nella testa degli altri, conosciamo la voce che ci accompagnerà. Nora presenta il mondo de «Il cervello (ci) mente».</p><button type="button" id="transcript-button" class="transcript-button">▤ LEGGI I DIALOGHI DI NORA · IT / EN / FR / ES / DE</button><div class="featured-bottom"><button type="button" class="text-link light-link" data-video="JBoI3e8VW2g" data-title="Puntata 0 — Benvenuti nella mente">GUARDA LA PUNTATA 0 <span aria-hidden="true">↗</span></button><span>EPISODIO 00</span></div></div>
+          <div class="featured-info"><div class="eyebrow eyebrow-light"><span class="live-dot"></span> DISPONIBILE ORA <span class="light-dot">●</span> <span id="episode-zero-duration">1 MIN 38 SEC</span></div><h3>ECCO PERCHÉ<br>SIAMO QUI.</h3><p>Prima di entrare nella testa degli altri, conosciamo la voce che ci accompagnerà. Nora presenta il mondo de «Il cervello (ci) mente».</p><button type="button" id="transcript-button" class="transcript-button">▤ LEGGI I DIALOGHI DI NORA · IT / EN / FR / ES / DE</button><div class="featured-bottom"><button type="button" class="text-link light-link" data-video="JBoI3e8VW2g" data-title="Puntata 0 — Benvenuti nella mente">GUARDA LA PUNTATA 0 <span aria-hidden="true">↗</span></button><span>EPISODIO 00</span></div></div>
         </div>
         <div class="episodes-subtitle reveal"><h3>IL PROSSIMO COLPO DI SCENA</h3><span>IL CERVELLO NON HA FINITO.</span></div>
         <div id="episode-list" class="episode-grid" aria-live="polite"></div>
@@ -452,9 +452,6 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     const dubbed=(youtubeId==='JBoI3e8VW2g') ? episodeZeroDubs[lang] : null;
     if(dubbed) {
       const caption=dubbedCaptions[lang];
-      direct.href=dubbed;
-      direct.textContent=caption.direct;
-      note.textContent=caption.note;
       const player=document.createElement('video');
       // v3.1: prima la copia ospitata sul sito (assets/video/puntata-0-<lingua>.mp4), poi HeyGen, poi YouTube.
       // Lingue con il file già caricato nel repository: aggiungerle qui (es. ['en','fr']) quando i video sono in assets/video/.
@@ -462,8 +459,16 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       const sources=(LOCAL_DUBS.includes(lang)?['assets/video/puntata-0-'+lang+'.mp4']:[]).concat([dubbed]);
       const unavailable={en:'The dubbed video is temporarily unavailable. You can watch the original Italian version on YouTube.',fr:'La vidéo doublée est momentanément indisponible. Tu peux regarder la version originale italienne sur YouTube.',es:'El vídeo doblado no está disponible en este momento. Puedes ver la versión original en italiano en YouTube.',de:'Die synchronisierte Fassung ist gerade nicht verfügbar. Du kannst die italienische Originalfassung auf YouTube ansehen.'};
       const openOriginal={en:'Open the original on YouTube ↗',fr:'Ouvrir l’original sur YouTube ↗',es:'Abrir el original en YouTube ↗',de:'Original auf YouTube öffnen ↗'};
+      const localNotes={en:'English dubbed video hosted on this website. It loads only after your click.',fr:'Vidéo doublée en français, hébergée sur ce site. Elle se charge après votre clic.',es:'Vídeo doblado al español, alojado en este sitio. Se carga tras hacer clic.',de:'Deutsche Synchronfassung auf dieser Website. Das Video lädt erst nach dem Klick.'};
       let si=0;
-      player.src=sources[si];
+      function selectSource(){
+        const src=sources[si];
+        direct.href=src;
+        direct.textContent=caption.direct;
+        note.textContent=src===dubbed?caption.note:localNotes[lang];
+        player.src=src;
+      }
+      selectSource();
       player.poster='assets/nora-episodio.jpg';
       player.controls=true;
       player.autoplay=true;
@@ -471,8 +476,9 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       player.preload='metadata';
       player.setAttribute('aria-label',title + ' — '+lang.toUpperCase());
       player.addEventListener('error',()=>{
+        if(!player.isConnected || si>=sources.length) return;
         si++;
-        if(si<sources.length){player.src=sources[si];player.load();const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{});return;}
+        if(si<sources.length){selectSource();player.load();const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{});return;}
         note.textContent=unavailable[lang]||unavailable.en;
         direct.href='https://www.youtube.com/watch?v='+youtubeId;
         direct.textContent=openOriginal[lang]||openOriginal.en;
