@@ -248,3 +248,11 @@ Nota tecnica: con il server di prova di Python l'avanzamento nel video non funzi
 
 #### 7. Stato
 Ramo `sito-v3-1` **pronto per l'approvazione definitiva di Carlo**. Nessuna pubblicazione; `main` e `gh-pages` non toccati; zero crediti HeyGen; nessuna rigenerazione.
+
+### 24/11/2026 — Coordinamento post-collaudo (ChatGPT)
+
+**Data:** 24/11/2026.
+
+**Fonte:** messaggio di Carlo del 24/11/2026, ore 11:05 circa, che riporta «Sito — Collaudo finale v3.1, rapporto v1 (24-11-2026)», base eb7ed1e; registro GitHub letto sul ramo sito-v3-1 e al commit eb7ed1e. Il documento integrale del rapporto non è stato reperito nelle fonti accessibili.
+
+**Descrizione:** secondo il resoconto trasmesso, collaudo dei doppiaggi e collaudo Chrome (50 combinazioni dispositivo/lingua, 535 prove interattive) già eseguiti: non ripetere. Aperte le anomalie 1) overflow DE a 360–375 px, 2) contrasto icona menu mobile, 3) nota/link del lettore ancora riferiti a HeyGen con file locale attivo, 4) durata video non specifica per lingua, 5) criticità minori a 320 px, leggibilità, bersagli tattili, bollino e titolo storia, 6) ipotesi di secondo tocco iOS da verificare. Predisporre prove manuali mirate su iPhone/Safari, Android/Chrome, Samsung Internet e Firefox desktop usando un'anteprima privata della versione corretta da identificare; registrare dispositivo, versione browser, lingua, esito ed evidenze. Proposta: correggere 1–5 dopo approvazione esplicita; 6 solo dopo conferma del difetto. Nessuna prova manuale dichiarata eseguita. Attesa delle decisioni di Carlo; nessuna modifica funzionale, nessuna pubblicazione, nessun intervento su main o gh-pages e zero crediti HeyGen. Unico aggiornamento: questa annotazione documentale.
