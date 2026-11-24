@@ -46,11 +46,14 @@ jobs:
                 assert.equal(await inline.isVisible(),true);
                 assert.equal(await page.locator('body').evaluate(e=>e.classList.contains('modal-open')),false);
                 const src=await inline.locator('video,iframe').getAttribute('src');
-                assert.ok(lang==='it'?src.includes('youtube-nocookie.com'):src.includes('puntata-0-'+lang+'.mp4'));
+                assert.ok(src.includes('nora-presentazione-it.mp4') || src.includes('bcffdc21b35239be6bc497c5774ea018.mp4'));
                 await inline.locator('#inline-stop').evaluate(e=>e.click());
                 assert.equal(await inline.isVisible(),false);
                 await page.locator('.featured-media .big-play').evaluate(e=>e.click());
                 assert.equal(await page.locator('.featured-media > #video-inline').isVisible(),true);
+                const episodeSrc=await page.locator('.featured-media > #video-inline').locator('video,iframe').getAttribute('src');
+                assert.ok(lang==='it'?episodeSrc.includes('youtube-nocookie.com'):episodeSrc.includes('puntata-0-'+lang+'.mp4'));
+                assert.notEqual(src,episodeSrc);
                 await page.locator('#inline-stop').evaluate(e=>e.click());
                 assert.deepEqual(errors,[]);
                 await page.locator('.hero-visual').screenshot({path:'nora-collaudo/'+width+'-'+lang+'.png'});
