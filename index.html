@@ -208,7 +208,44 @@ body{background:#120e0c;color:var(--cream)}
 .hero-brain-art{-webkit-mask-image:radial-gradient(ellipse at 50% 49%,#000 8%,#000 33%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 49%,#000 8%,#000 33%,transparent 75%)}
 @media(max-width:700px){.hero-brain-art{-webkit-mask-image:radial-gradient(ellipse at 50% 48%,#000 16%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 48%,#000 16%,transparent 75%)}}
 </style>
-<link rel="stylesheet" href="css/sito-v3-1.css"></head>
+<link rel="stylesheet" href="css/sito-v3-1.css"><style>
+/* Nora senza cornici; lettore integrato nello stesso spazio. */
+.hero-visual{width:100%;max-width:480px;min-height:0;margin:0;align-self:center;justify-self:center;display:block;isolation:isolate}
+.hero-visual::before,.hero-visual::after{display:none}
+.hero-image-frame{width:100%;max-height:none;aspect-ratio:9/16;border:0;border-radius:0;box-shadow:none;transform:none;background:transparent;overflow:visible}
+.hero-video-wrap{overflow:hidden;background:transparent}
+.hero-video-wrap::after{height:22%;background:linear-gradient(transparent,rgba(17,10,7,.75))}
+.hero-video-wrap .nora-loop{object-fit:cover;object-position:center;mask-image:linear-gradient(to bottom,transparent 0%,#000 9%,#000 87%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 9%,#000 87%,transparent 100%)}
+.hero-visual .sticker-top{right:3%;top:7%;pointer-events:none}
+.hero-visual .sticker-bottom{left:4%;bottom:7%;pointer-events:none}
+.hero-visual .vertical-label{display:none}
+.hero-video-play{bottom:19%;right:12%;width:56px;height:56px}
+.hero-visual.is-playing .hero-sticker,.hero-visual.is-playing .vertical-label{visibility:hidden}
+.hero-video-wrap.is-playing>.nora-loop,.hero-video-wrap.is-playing>.hero-video-play,.featured-media.is-playing>img,.featured-media.is-playing>.featured-number,.featured-media.is-playing>.big-play,.episode-thumb.is-playing>img,.episode-thumb.is-playing>.episode-badge,.episode-thumb.is-playing>.episode-giant{visibility:hidden}
+.hero-video-wrap.is-playing::after{display:none}
+.featured-media,.episode-thumb{position:relative}
+.featured-episode{border:0;border-radius:0;background:transparent}
+.nora-photo::before,.nora-photo-outline{display:none}
+.nora-photo>img{border:0;border-radius:0;box-shadow:none}
+.inline-player[hidden]{display:none!important}
+.inline-player{position:absolute;inset:0;z-index:8;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#15100e;color:#f5e4d1;overflow:hidden}
+.inline-player .inline-player-top{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:4px 8px;font:700 12px/1.3 var(--mono)}
+.inline-player .inline-stop{flex:0 0 auto;min-height:44px;min-width:44px;background:transparent;border:1px solid #a77b58;color:#f5e4d1;font-size:22px;line-height:1}
+.inline-player .video-embed{width:100%;height:100%;max-width:none;min-height:0;aspect-ratio:auto;margin:0;background:#100b08}
+.inline-player .video-embed video{object-fit:contain}
+.inline-player .inline-source{margin:0;padding:6px 9px;font:11px/1.35 var(--body);color:#e8c7ae;overflow-wrap:anywhere}
+.inline-player .inline-source a{color:#ffbe87;text-decoration:underline}
+@media(max-width:700px){
+ .hero-visual{width:calc(100% + 44px);max-width:none;min-height:0;margin:8px -22px 0;align-self:center}
+ .hero-image-frame{width:100%;max-height:none;aspect-ratio:9/14}
+ .hero-visual .sticker-top{right:10%;top:8%;width:76px;height:76px}
+ .hero-visual .sticker-bottom{left:8%;bottom:9%}
+ .hero-video-play{right:14%;bottom:18%}
+ .featured-media{min-height:0;aspect-ratio:9/14}
+}
+@media(max-width:360px){.hero-visual{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px}}
+@media(prefers-reduced-motion:no-preference){.inline-player:not([hidden]){animation:inline-appear .22s ease-out}@keyframes inline-appear{from{opacity:.75}to{opacity:1}}}
+</style></head>
 <body>
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
   <div class="announcement" aria-label="Un progetto editoriale di Carlo Riva">
@@ -315,7 +352,7 @@ body{background:#120e0c;color:var(--cream)}
   </main>
   <footer class="footer"><div class="shell footer-top"><div><div class="footer-logo">IL CERVELLO<br><em>(ci)</em> MENTE.</div><p>Un progetto originale di Carlo Riva.<br>Nora è un avatar IA. Le storie sono di fantasia.</p></div><div class="footer-right"><a href="mailto:ilcervellocimente@gmail.com">CONTATTI ↗</a><a href="https://www.youtube.com/@ilcervellocimente" target="_blank" rel="noopener noreferrer">YOUTUBE ↗</a><a href="https://www.instagram.com/ilcervellocimente/" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a><a href="#privacy" id="privacy-link">PRIVACY ↗</a></div></div><div class="shell footer-bottom"><span>© <span id="year">2026</span> IL CERVELLO (CI) MENTE · CARLO RIVA</span><span>FATTO CON CURIOSITÀ. E QUALCHE DUBBIO.</span><a href="#inizio">TORNA SU ↑</a></div></footer>
 
-  <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Player video" hidden><div class="modal-shade" data-close="video"></div><div class="modal-panel video-panel"><div class="modal-top"><span id="video-modal-title">PUNTATA 0</span><button type="button" class="modal-close" data-close="video" aria-label="Chiudi video">×</button></div><div class="video-embed" id="video-embed"></div><p><span id="video-source-note">Il video viene caricato da YouTube soltanto dopo il tuo clic.</span> <a id="video-direct" href="https://youtube.com/shorts/JBoI3e8VW2g" target="_blank" rel="noopener noreferrer">Apri su YouTube ↗</a></p></div></div>
+  <div class="inline-player" id="video-inline" role="region" aria-label="Player video" hidden><div class="inline-player-top"><span id="video-modal-title">PUNTATA 0</span><button type="button" class="inline-stop" id="inline-stop" aria-label="Chiudi video">×</button></div><div class="video-embed" id="video-embed"></div><p class="inline-source"><span id="video-source-note">Il video viene caricato da YouTube soltanto dopo il tuo clic.</span> <a id="video-direct" href="https://youtube.com/shorts/JBoI3e8VW2g" target="_blank" rel="noopener noreferrer">Apri su YouTube ↗</a></p></div>
   <div class="modal" id="story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title" hidden><div class="modal-shade" data-close="story"></div><article class="modal-panel story-panel"><div class="modal-top"><span>UNA STORIA DI NORA</span><button type="button" class="modal-close" data-close="story" aria-label="Chiudi storia">×</button></div><div class="story-panel-content"><span id="story-modal-kicker" class="section-index"></span><h2 id="story-modal-title"></h2><div id="story-modal-body"></div><button id="story-next" class="btn btn-orange" type="button">LEGGI LA PROSSIMA STORIA ↗</button></div></article></div>
   <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title" hidden><div class="modal-shade" data-close="privacy"></div><div class="modal-panel privacy-panel"><div class="modal-top"><span>INFORMAZIONI</span><button type="button" class="modal-close" data-close="privacy" aria-label="Chiudi privacy">×</button></div><h2 id="privacy-title">Privacy del sito</h2><p>Questa versione del sito non registra account, non raccoglie dati tramite form e non installa strumenti di analisi propri. I video YouTube vengono incorporati soltanto dopo un clic. Aprendo link a piattaforme esterne si applicano le loro condizioni e informative.</p><p>Per ulteriori informazioni sul trattamento dei dati e per richieste relative alla privacy, contatta il responsabile del progetto. Il sito è pubblicato con GitHub Pages; il servizio di hosting può conservare log tecnici secondo le proprie condizioni. Questa informativa dovrà essere verificata e completata prima del lancio definitivo.</p><a href="mailto:ilcervellocimente@gmail.com">CONTATTA IL PROGETTO ↗</a></div></div>
 <div class="modal" id="transcript-modal" role="dialog" aria-modal="true" aria-labelledby="transcript-title" hidden><div class="modal-shade" data-close="transcript"></div><article class="modal-panel story-panel transcript-panel"><div class="modal-top"><span id="transcript-kicker">NORA · PUNTATA 0</span><button class="modal-close" type="button" data-close="transcript" aria-label="Chiudi">×</button></div><div class="story-panel-content"><h2 id="transcript-title">I dialoghi di Nora</h2><div id="transcript-body"></div><p id="voice-language-note">Il filmato ufficiale contiene l'audio originale italiano. Questo è il testo nella lingua selezionata: il doppiaggio non è ancora disponibile.</p></div></article></div>
@@ -418,6 +455,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
   function openModal(modal) {
     if (!modal) return;
     lastFocus = document.activeElement;
+    stopInline();
     modal.hidden = false;
     activeModal = modal;
     document.body.classList.add('modal-open');
@@ -425,7 +463,6 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
   }
   function closeModal() {
     if (!activeModal) return;
-    if (activeModal.id === 'video-modal') $('#video-embed').replaceChildren();
     activeModal.hidden = true;
     activeModal = null;
     document.body.classList.remove('modal-open');
@@ -444,8 +481,33 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     es: {note:'Doblaje español de HeyGen. El vídeo se carga tras hacer clic.',direct:'Abrir el vídeo doblado ↗'},
     de: {note:'Deutsche Synchronfassung von HeyGen. Das Video lädt erst nach dem Klick.',direct:'Synchronisiertes Video öffnen ↗'}
   });
-  function videoDialog(youtubeId, title) {
+  let inlineHost=null, inlineTrigger=null;
+  const inlineRoot=$('#video-inline'), inlineLoop=$('#nora-loop');
+  function stopInline(restoreFocus=false) {
+    if(!inlineHost) return;
+    $('#video-embed').replaceChildren();
+    inlineRoot.hidden=true;
+    inlineHost.classList.remove('is-playing');
+    inlineHost.closest('.hero-visual')?.classList.remove('is-playing');
+    if(inlineHost.classList.contains('hero-video-wrap') && inlineLoop && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const p=inlineLoop.play(); if(p&&p.catch)p.catch(()=>{});
+    }
+    if(restoreFocus && inlineTrigger && document.contains(inlineTrigger)) inlineTrigger.focus();
+    inlineHost=null; inlineTrigger=null;
+  }
+  $('#inline-stop').addEventListener('click',()=>stopInline(true));
+  function videoDialog(youtubeId, title, trigger) {
     if (!/^[A-Za-z0-9_-]{11}$/.test(youtubeId)) return;
+    const host=trigger.closest('.hero') ? $('.hero-video-wrap') : trigger.closest('.featured-episode') ? $('.featured-media',trigger.closest('.featured-episode')) : trigger.closest('.episode-card') ? $('.episode-thumb',trigger.closest('.episode-card')) : $('.featured-media');
+    if(!host) return;
+    if(inlineHost===host && !inlineRoot.hidden) {inlineRoot.scrollIntoView({block:'nearest'});return;}
+    stopInline();
+    inlineHost=host;inlineTrigger=trigger;
+    host.appendChild(inlineRoot);host.classList.add('is-playing');
+    host.closest('.hero-visual')?.classList.add('is-playing');
+    if(host.classList.contains('hero-video-wrap')) inlineLoop?.pause();
+    inlineRoot.hidden=false;
+    if(!trigger.closest('.hero-video-wrap,.featured-media,.episode-thumb')) host.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});
     $('#video-modal-title').textContent = title;
     const direct = $('#video-direct'), note=$('#video-source-note'), embed=$('#video-embed');
     const lang=window.NORA_LANG||'it';
@@ -498,7 +560,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       iframe.allowFullscreen=true;
       embed.replaceChildren(iframe);
     }
-    openModal($('#video-modal'));
+    $('#inline-stop').focus({preventScroll:true});
   }
   function storyDialog(index) {
     if (!Number.isInteger(index) || index < 0 || index >= content.stories.length) return;
@@ -512,7 +574,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
   }
   document.addEventListener('click', (event) => {
     const video = event.target.closest('[data-video]');
-    if (video) { event.preventDefault(); videoDialog(video.dataset.video,video.dataset.title || 'Il cervello (ci) mente'); return; }
+    if (video) { event.preventDefault(); videoDialog(video.dataset.video,video.dataset.title || 'Il cervello (ci) mente',video); return; }
     const story = event.target.closest('[data-story]');
     if (story) { storyDialog(Number(story.dataset.story)); return; }
     const close = event.target.closest('[data-close]');
@@ -524,7 +586,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
   });
   $('#privacy-link')?.addEventListener('click', (e) => { e.preventDefault(); openModal($('#privacy-modal')); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeModal(); return; }
+    if (e.key === 'Escape') { if(activeModal) closeModal(); else stopInline(true); return; }
     if (e.key !== 'Tab' || !activeModal) return;
     const focusables = $$('button:not([disabled]), a[href], iframe', activeModal).filter(el => el.offsetParent !== null || el.tagName === 'IFRAME');
     if (!focusables.length) return;
