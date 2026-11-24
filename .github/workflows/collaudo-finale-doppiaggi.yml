@@ -1,0 +1,143 @@
+name: Collaudo finale doppiaggi (sola analisi)
+on:
+  push:
+    branches: [sito-v3-1]
+    paths:
+      - .github/workflows/collaudo-finale-doppiaggi.yml
+permissions:
+  contents: write
+concurrency:
+  group: collaudo-finale-doppiaggi
+  cancel-in-progress: false
+jobs:
+  verifica:
+    if: github.ref == 'refs/heads/sito-v3-1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sito-v3-1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Installa strumenti di analisi CPU
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install --disable-pip-version-check 'faster-whisper==1.1.1'
+      - name: Analizza i quattro MP4 esistenti (nessuna generazione)
+        run: |
+          mkdir -p docs/verifica-video /tmp/collaudo/tavole
+          python - <<'PY'
+          import os, json, pathlib, subprocess, re, struct, hashlib
+          from datetime import datetime, timezone
+          from faster_whisper import WhisperModel
+
+          def run(args):
+              p = subprocess.run(args, capture_output=True, text=True)
+              if p.returncode:
+                  raise RuntimeError(str(args[:6]) + ': ' + p.stderr[-3000:])
+              return p.stdout, p.stderr
+
+          def ff(*args):
+              return run(['ffmpeg','-nostdin','-hide_banner',*args])
+
+          def measure(p, start=None, length=None):
+              args = []
+              if start is not None: args += ['-ss',str(start)]
+              args += ['-i',str(p)]
+              if length is not None: args += ['-t',str(length)]
+              _, err = ff(*args,'-vn','-af','ebur128=peak=true','-f','null','-')
+              summary = err.rsplit('Summary:',1)[-1]
+              i = re.search(r'I:\s*(-?[\d.]+)\s*LUFS',summary)
+              peak = re.search(r'Peak:\s*(-?[\d.]+)\s*dBFS',summary)
+              return {'lufs':float(i[1]) if i else None,'peak_dbfs':float(peak[1]) if peak else None}
+
+          def atoms(p):
+              out=[]
+              size=p.stat().st_size
+              with p.open('rb') as f:
+                  while f.tell()+8 <= size:
+                      off=f.tell()
+                      n,typ=struct.unpack('>I4s',f.read(8))
+                      header=8
+                      if n==1:
+                          n=struct.unpack('>Q',f.read(8))[0]; header=16
+                      elif n==0: n=size-off
+                      if n<header or off+n>size: raise ValueError('MP4 atom size invalid')
+                      out.append(typ.decode('ascii',errors='replace'))
+                      f.seek(off+n)
+              return out
+
+          report={'run':os.environ['GITHUB_RUN_ID'],'utc':datetime.now(timezone.utc).isoformat(),
+                  'input_commit':os.environ.get('GITHUB_SHA'),'method':'Local CPU ASR, full decode and frame sheets; not human listening or semantic review of every frame.',
+                  'languages':{}}
+          dest=pathlib.Path('docs/verifica-video')/('collaudo-finale-'+report['run']+'.json')
+          def save(): dest.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          save()
+          try:
+              model=WhisperModel('small',device='cpu',compute_type='int8',cpu_threads=4)
+          except Exception as e:
+              model=None; report['asr_error']=str(e); save()
+          durations={'en':83.413,'fr':83.093,'es':84.160,'de':85.802}
+          for lang,source_duration in durations.items():
+              p=pathlib.Path('assets/video')/f'puntata-0-{lang}.mp4'
+              r=report['languages'][lang]={'expected_language':lang,'status':'pending'}
+              try:
+                  r['bytes']=p.stat().st_size
+                  r['sha256']=hashlib.sha256(p.read_bytes()).hexdigest()
+                  meta=json.loads(run(['ffprobe','-v','error','-count_frames','-show_streams','-show_format','-of','json',str(p)])[0])
+                  v=next(x for x in meta['streams'] if x['codec_type']=='video')
+                  a=next(x for x in meta['streams'] if x['codec_type']=='audio')
+                  r['duration']=float(meta['format']['duration'])
+                  r['video']={k:v.get(k) for k in ('codec_name','width','height','avg_frame_rate','nb_read_frames','duration')}
+                  r['audio']={k:a.get(k) for k in ('codec_name','sample_rate','bit_rate','duration')}
+                  boxes=atoms(p); r['faststart']='moov' in boxes and 'mdat' in boxes and boxes.index('moov')<boxes.index('mdat')
+                  ff('-v','error','-xerror','-i',str(p),'-map','0:v:0','-map','0:a:0','-f','null','-')
+                  r['decode_all_frames_and_audio']='OK'
+                  r['final_volume']=measure(p)
+                  r['cover_open_volume']=measure(p,0,7.1)
+                  r['voice_volume']=measure(p,9.0,source_duration-0.8)
+                  r['cover_close_volume']=measure(p,9.0+source_duration,r['duration']-(9.0+source_duration))
+                  _,log=ff('-i',str(p),'-vn','-af','silencedetect=n=-45dB:d=1.5','-f','null','-')
+                  r['silences']=[line.split('] ',1)[-1] for line in log.splitlines() if 'silence_start:' in line or 'silence_end:' in line]
+                  outdir=pathlib.Path('/tmp/collaudo/tavole')/lang
+                  outdir.mkdir(parents=True,exist_ok=True)
+                  ff('-v','error','-xerror','-i',str(p),'-an','-vf','scale=240:-2,tile=8x8:padding=2:color=white','-fps_mode','vfr','-q:v','3',str(outdir/'tavola-%04d.jpg'))
+                  r['frame_sheets']=len(list(outdir.glob('*.jpg')))
+                  r['expected_frame_sheets']=(int(v['nb_read_frames'])+63)//64
+                  r['all_frame_sheets_complete']=r['frame_sheets']==r['expected_frame_sheets']
+                  if model is not None:
+                      wav=pathlib.Path('/tmp/collaudo')/f'{lang}.wav'
+                      ff('-v','error','-y','-ss','8.8','-i',str(p),'-t',str(source_duration-0.4),'-vn','-ac','1','-ar','16000',str(wav))
+                      segments,info=model.transcribe(str(wav),language=None,task='transcribe',beam_size=3,vad_filter=True)
+                      r['asr_language']=info.language
+                      r['asr_probability']=info.language_probability
+                      r['asr_segments']=[{'start':round(s.start+8.8,2),'end':round(s.end+8.8,2),'text':s.text.strip()} for s in segments]
+                      r['asr_language_match']=info.language==lang and info.language_probability>=0.90 and bool(r['asr_segments'])
+                  else: r['asr_language_match']=None
+                  r['technical_pass']=r['bytes']<25000000 and v['codec_name']=='h264' and (v['width'],v['height'])==(720,1280) and v['avg_frame_rate']=='25/1' and a['codec_name']=='aac' and a['sample_rate']=='48000' and r['faststart'] and r['all_frame_sheets_complete']
+                  r['status']='analysis_complete_not_human_approved'
+              except Exception as e:
+                  r['status']='error'; r['error']=str(e)
+              save()
+              print(lang, r['status'], 'ASR:',r.get('asr_language'),r.get('asr_probability'), 'frames:',r.get('video',{}).get('nb_read_frames'),flush=True)
+          PY
+      - name: Salva report distinto sul ramo di lavoro
+        run: |
+          test "$(git branch --show-current)" = sito-v3-1
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "docs/verifica-video/collaudo-finale-$GITHUB_RUN_ID.json"
+          git commit -m "Report collaudo finale doppiaggi run $GITHUB_RUN_ID (solo analisi)"
+          git pull --rebase origin sito-v3-1
+          git push origin HEAD:sito-v3-1
+      - name: Tavole di tutti i fotogrammi per verifica visiva
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tavole-collaudo-integrale
+          path: /tmp/collaudo/tavole/
+          retention-days: 7
+          if-no-files-found: warn
