@@ -170,3 +170,9 @@ Zero crediti HeyGen. Nessuna rigenerazione.
 - Il nuovo flusso prevede decodifica integrale di audio e video, conteggio fotogrammi, controllo MP4 faststart, codec e dimensione, misure LUFS/picchi anche per le sezioni del filmato, silenzi, rilevamento non forzato della lingua e trascrizione offline con faster-whisper su CPU, e tavole di tutti i frame (artifact privato Actions). Il report JSON distinto sarà salvato dal flusso se giunge al passo di salvataggio; nessun risultato anticipato. La decodifica integrale e la produzione di tavole non equivalgono a revisione semantica di ogni frame; l'ASR non equivale a giudizio umano di voce, ritmo o sincronismo.
 - **Non verificabile al momento:** esito del nuovo collaudo, lingua effettivamente rilevata e qualità all'ascolto; nessuna lingua aggiunta in LOCAL_DUBS. I quattro MP4 restano nel ramo. Nessuna pubblicazione o fusione; main e gh-pages non toccati. Zero crediti HeyGen impiegati in questa sessione. Approvazione di pubblicazione ancora necessaria.
 
+
+### v3.1-video — correzione collaudo — 24/11/2026 (ChatGPT)
+
+- Verificato nei log del run 45356997559 (job 138317176599): `ModuleNotFoundError: No module named 'requests'`, `Process completed with exit code 1.` Il report finale non è stato prodotto. Non è un errore accertato dei filmati.
+- Corretto il workflow installando requests e aggiungendo `pip check` e test esplicito degli import. Commit c4fafd38b01aefedfdfde38d8a399082c1e928ca, solo sito-v3-1. Nuovo run [45357852585](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45357852585), avvio verificato; ultimo stato in_progress. Esito non ancora verificato.
+- Riattivato il monitoraggio orario già autorizzato, indirizzato al run più recente, con completamento delle verifiche e del registro entro i limiti dell'incarico. LOCAL_DUBS resta vuoto fino al superamento dei criteri. Nessuna modifica ai video, nessuna spesa HeyGen, nessuna pubblicazione, nessuna modifica main/gh-pages.
