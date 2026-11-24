@@ -340,3 +340,8 @@ Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito
 - Deploy correzione 45398274718 avviato; esito ancora da verificare.
 
 - Aggiornamento: deploy correzione 45398274718 success; collaudo aggiornato 45398283052 success. Primo tentativo acquisizione 45398252331 fallito per ffprobe assente, non per download; installazione FFmpeg aggiunta, nuovo run 45398367784 in corso. Il dominio non è stato verificabile con il browser disponibile.
+
+
+### 24/11/2026 — Fluidità riproduzione e copia locale (ChatGPT)
+- Segnalazione di riproduzione a scatti. Verificato che gh-pages non aveva ancora il file della presentazione: il lettore tentava il percorso locale e passava a HeyGen. Questo è un possibile contributo, non prova della causa degli scatti durante il parlato.
+- Run acquisizione 45398367784 success; file nora-presentazione-it.mp4 verificato dal workflow e presente (14.947.823 byte). Pubblicato atomicamente insieme a index.html su gh-pages commit 8a4de67d4233baa4f5b110e9415b913e35c587ea, eliminato il fallback temporaneo HeyGen per la presentazione, preload auto al clic. Ramo di lavoro allineato (787e7f7). Puntata 0 invariata. Deployment 45398889399 in corso all'ultimo controllo; fluidità reale non ancora verificata. Zero crediti HeyGen.
