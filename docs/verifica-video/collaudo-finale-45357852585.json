@@ -1,0 +1,639 @@
+{
+  "run": "45357852585",
+  "utc": "2026-11-24T08:38:45.830211+00:00",
+  "input_commit": "c4fafd38b01aefedfdfde38d8a399082c1e928ca",
+  "method": "Local CPU ASR, full decode and frame sheets; not human listening or semantic review of every frame.",
+  "languages": {
+    "en": {
+      "expected_language": "en",
+      "status": "analysis_complete_not_human_approved",
+      "bytes": 16469586,
+      "sha256": "ac6fc289a76dfbb5b82746758553aa614f7ebc247addbc3f5581f828d8272655",
+      "duration": 99.218,
+      "video": {
+        "codec_name": "h264",
+        "width": 720,
+        "height": 1280,
+        "avg_frame_rate": "25/1",
+        "nb_read_frames": "2480",
+        "duration": "99.200000"
+      },
+      "audio": {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "bit_rate": "116604",
+        "duration": "99.218000"
+      },
+      "faststart": true,
+      "decode_all_frames_and_audio": "OK",
+      "final_volume": {
+        "lufs": -17.0,
+        "peak_dbfs": -3.5
+      },
+      "cover_open_volume": {
+        "lufs": -18.3,
+        "peak_dbfs": -4.4
+      },
+      "voice_volume": {
+        "lufs": -16.8,
+        "peak_dbfs": -3.5
+      },
+      "cover_close_volume": {
+        "lufs": -18.3,
+        "peak_dbfs": -4.3
+      },
+      "silences": [
+        "silence_start: 7.250042",
+        "silence_end: 9.208375 | silence_duration: 1.958333",
+        "silence_start: 78.173854",
+        "silence_end: 80.023604 | silence_duration: 1.84975"
+      ],
+      "frame_sheets": 39,
+      "expected_frame_sheets": 39,
+      "all_frame_sheets_complete": true,
+      "asr_language": "en",
+      "asr_probability": 0.9962418079376221,
+      "asr_segments": [
+        {
+          "start": 8.82,
+          "end": 13.2,
+          "text": "You know when you do something and a second later you ask yourself, why did I do that?"
+        },
+        {
+          "start": 14.66,
+          "end": 16.58,
+          "text": "Welcome one and all"
+        },
+        {
+          "start": 16.58,
+          "end": 18.7,
+          "text": "You're in the right place. I'm Nora"
+        },
+        {
+          "start": 18.7,
+          "end": 24.18,
+          "text": "I have a very normal life an office a partner a colleague who's always chewing on fennel and"
+        },
+        {
+          "start": 24.74,
+          "end": 26.74,
+          "text": "A brain that works for me"
+        },
+        {
+          "start": 27.14,
+          "end": 30.94,
+          "text": "In its own way because the brain doesn't show us the world as it is"
+        },
+        {
+          "start": 31.66,
+          "end": 37.26,
+          "text": "It tells us about it guesses predicts fills in the gaps with what it's already experienced"
+        },
+        {
+          "start": 38.18,
+          "end": 40.18,
+          "text": "Almost always it does an extraordinary job"
+        },
+        {
+          "start": 41.54,
+          "end": 44.66,
+          "text": "Sometimes it makes me buy a coat at 1146 at night"
+        },
+        {
+          "start": 45.22,
+          "end": 51.54,
+          "text": "Here in episodes. I'll tell you about my life an embarrassment a panic a fight over the meeting room"
+        },
+        {
+          "start": 52.34,
+          "end": 57.2,
+          "text": "Then we'll ask those who actually study the brain why we think choose and react this way and"
+        },
+        {
+          "start": 57.86,
+          "end": 62.54,
+          "text": "At the end three simple moves to fall for it a little less my stories are made up"
+        },
+        {
+          "start": 63.22,
+          "end": 69.5,
+          "text": "The explanations aren't I'll always tell you where they come from it all starts with a book the brain lies to us"
+        },
+        {
+          "start": 70.58,
+          "end": 72.58,
+          "text": "Coming soon follow me"
+        },
+        {
+          "start": 73.06,
+          "end": 75.06,
+          "text": "The first episode begins with a message"
+        },
+        {
+          "start": 75.94,
+          "end": 78.3,
+          "text": "three words and an exclamation point and"
+        },
+        {
+          "start": 79.78,
+          "end": 84.66,
+          "text": "The voice in the back of my head that keeps track my internal accountant closes the ledger"
+        },
+        {
+          "start": 85.66,
+          "end": 87.66,
+          "text": "episodes planned more than 100"
+        },
+        {
+          "start": 88.78,
+          "end": 90.86,
+          "text": "Embarrassments already on the balance sheet"
+        }
+      ],
+      "asr_language_match": true,
+      "technical_pass": true
+    },
+    "fr": {
+      "expected_language": "fr",
+      "status": "analysis_complete_not_human_approved",
+      "bytes": 16392978,
+      "sha256": "f8890433dcdedeafcf52f67ed4a4da21994c199210de55f7b61cfa84e23fa680",
+      "duration": 98.898,
+      "video": {
+        "codec_name": "h264",
+        "width": 720,
+        "height": 1280,
+        "avg_frame_rate": "25/1",
+        "nb_read_frames": "2472",
+        "duration": "98.880000"
+      },
+      "audio": {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "bit_rate": "113716",
+        "duration": "98.898000"
+      },
+      "faststart": true,
+      "decode_all_frames_and_audio": "OK",
+      "final_volume": {
+        "lufs": -17.2,
+        "peak_dbfs": -3.2
+      },
+      "cover_open_volume": {
+        "lufs": -18.5,
+        "peak_dbfs": -4.5
+      },
+      "voice_volume": {
+        "lufs": -17.0,
+        "peak_dbfs": -3.2
+      },
+      "cover_close_volume": {
+        "lufs": -18.5,
+        "peak_dbfs": -4.4
+      },
+      "silences": [
+        "silence_start: 7.228229",
+        "silence_end: 9.288583 | silence_duration: 2.060354",
+        "silence_start: 79.018417",
+        "silence_end: 80.886562 | silence_duration: 1.868146"
+      ],
+      "frame_sheets": 39,
+      "expected_frame_sheets": 39,
+      "all_frame_sheets_complete": true,
+      "asr_language": "fr",
+      "asr_probability": 0.9963755011558533,
+      "asr_segments": [
+        {
+          "start": 8.88,
+          "end": 13.44,
+          "text": "Vous savez qu'en vous faites un truc et qu'une seconde après vous vous dites mais pourquoi j'ai fait ça ?"
+        },
+        {
+          "start": 14.48,
+          "end": 16.48,
+          "text": "Bienvenue à toutes et à tous."
+        },
+        {
+          "start": 16.92,
+          "end": 24.56,
+          "text": "Vous êtes au bon endroit. Moi c'est Nora. J'ai une vie tout à fait normale. Un bureau, un conjoint, une collègue qui mâche toujours du fenouil."
+        },
+        {
+          "start": 25.36,
+          "end": 27.36,
+          "text": "Et un cerveau qui travaille pour moi."
+        },
+        {
+          "start": 28.08,
+          "end": 31.56,
+          "text": "À sa façon car le cerveau ne nous montre pas le monde tel qu'il est."
+        },
+        {
+          "start": 32.2,
+          "end": 37.16,
+          "text": "Il nous le raconte, devine, prévoit, comble les vides avec ce qu'il a déjà vécu."
+        },
+        {
+          "start": 37.88,
+          "end": 40.72,
+          "text": "Presque toujours, il fait un travail extraordinaire."
+        },
+        {
+          "start": 41.96,
+          "end": 44.92,
+          "text": "Parfois il me fait acheter un manteau à 23h46."
+        },
+        {
+          "start": 45.48,
+          "end": 51.68,
+          "text": "Ici par épisode je vous raconte ma vie, une gaffe, un coup de panique, une dispute pour la salle de réunion."
+        },
+        {
+          "start": 52.36,
+          "end": 58.04,
+          "text": "Puis on demande à ceux qui étudient vraiment le cerveau pourquoi on pense, choisis et réagis ainsi."
+        },
+        {
+          "start": 58.64,
+          "end": 63.8,
+          "text": "Et à la fin, trois astuces simples pour se faire moins avoir. Mes histoires sont inventées."
+        },
+        {
+          "start": 64.8,
+          "end": 67.52,
+          "text": "Les explications non, je vous dis toujours d'où elle vienne."
+        },
+        {
+          "start": 68.12,
+          "end": 70.32,
+          "text": "Tout part d'un livre, le cerveau nous ment."
+        },
+        {
+          "start": 71.28,
+          "end": 73.28,
+          "text": "Ça arrive bientôt. Suivez-moi."
+        },
+        {
+          "start": 74.16,
+          "end": 76.16,
+          "text": "Le premier épisode commence par un message."
+        },
+        {
+          "start": 77.08,
+          "end": 79.08,
+          "text": "Trois mots et un point d'exclamation."
+        },
+        {
+          "start": 80.76,
+          "end": 84.24,
+          "text": "Et la voix au fond de ma tête qui tient les comptes, mon comptable interne."
+        },
+        {
+          "start": 84.24,
+          "end": 85.44,
+          "text": "Ferme le registre."
+        },
+        {
+          "start": 86.44,
+          "end": 88.44,
+          "text": "Episodes au programme, plus de 100."
+        },
+        {
+          "start": 89.32,
+          "end": 90.68,
+          "text": "Gaffe, déjà au bilan."
+        }
+      ],
+      "asr_language_match": true,
+      "technical_pass": true
+    },
+    "es": {
+      "expected_language": "es",
+      "status": "analysis_complete_not_human_approved",
+      "bytes": 16538735,
+      "sha256": "4d97d1d8e14d395853d0c6335eb0c554915b8b999e7b61f8be000292479cf494",
+      "duration": 99.965,
+      "video": {
+        "codec_name": "h264",
+        "width": 720,
+        "height": 1280,
+        "avg_frame_rate": "25/1",
+        "nb_read_frames": "2499",
+        "duration": "99.960000"
+      },
+      "audio": {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "bit_rate": "112265",
+        "duration": "99.965000"
+      },
+      "faststart": true,
+      "decode_all_frames_and_audio": "OK",
+      "final_volume": {
+        "lufs": -17.2,
+        "peak_dbfs": -3.5
+      },
+      "cover_open_volume": {
+        "lufs": -18.5,
+        "peak_dbfs": -4.5
+      },
+      "voice_volume": {
+        "lufs": -17.0,
+        "peak_dbfs": -3.5
+      },
+      "cover_close_volume": {
+        "lufs": -18.5,
+        "peak_dbfs": -4.5
+      },
+      "silences": [
+        "silence_start: 7.228229",
+        "silence_end: 9.260021 | silence_duration: 2.031792",
+        "silence_start: 79.37575",
+        "silence_end: 81.285083 | silence_duration: 1.909333"
+      ],
+      "frame_sheets": 40,
+      "expected_frame_sheets": 40,
+      "all_frame_sheets_complete": true,
+      "asr_language": "es",
+      "asr_probability": 0.9757509231567383,
+      "asr_segments": [
+        {
+          "start": 8.91,
+          "end": 13.11,
+          "text": "¿Sabes cuándo haces algo y un segundo después te preguntas? ¿Pero por qué lo hice?"
+        },
+        {
+          "start": 14.23,
+          "end": 16.23,
+          "text": "Bienvenida, bienvenido."
+        },
+        {
+          "start": 16.67,
+          "end": 24.87,
+          "text": "Estás en el lugar correcto, yo soy Nora. Tengo una vida muy normal, una oficina, una pareja, una colega que siempre mastica y nojo"
+        },
+        {
+          "start": 25.43,
+          "end": 27.43,
+          "text": "y un cerebro que trabaja para mí."
+        },
+        {
+          "start": 28.11,
+          "end": 31.75,
+          "text": "A su manera, porque el cerebro no nos muestra el mundo tal como es."
+        },
+        {
+          "start": 32.43,
+          "end": 36.91,
+          "text": "Nos lo cuenta, adivina, predice, llena los huecos con lo que ya ha vivido."
+        },
+        {
+          "start": 37.59,
+          "end": 40.11,
+          "text": "Casi siempre hace un trabajo extraordinario."
+        },
+        {
+          "start": 41.11,
+          "end": 44.55,
+          "text": "A veces me hace comprar un abrigo a las 11 y 46 de la noche."
+        },
+        {
+          "start": 45.15,
+          "end": 51.03,
+          "text": "Aquí, por episodios, te cuento mi vida. Un papelón, un pánico, una pelea por la sala de juntas."
+        },
+        {
+          "start": 51.95,
+          "end": 57.67,
+          "text": "Luego preguntamos a quién estudia el cerebro de verdad, por qué pensamos, elegimos y reaccionamos así."
+        },
+        {
+          "start": 58.23,
+          "end": 63.71,
+          "text": "Y al final, tres pasos sencillos para caer un poco menos. Mis historias son inventadas."
+        },
+        {
+          "start": 64.27,
+          "end": 70.51,
+          "text": "Las explicaciones no, siempre te digo de dónde vienen. Todo nace de un libro, el cerebro nos miente."
+        },
+        {
+          "start": 71.39,
+          "end": 73.39,
+          "text": "Llega próximamente, sígueme."
+        },
+        {
+          "start": 73.91,
+          "end": 75.91,
+          "text": "El primer episodio comienza con un mensaje."
+        },
+        {
+          "start": 77.03,
+          "end": 79.23,
+          "text": "Tres palabras y un signo de exclamación."
+        },
+        {
+          "start": 80.79,
+          "end": 85.91,
+          "text": "Y la voz al fondo de mi cabeza que lleva las cuentas, mi contable interno, cierra el registro."
+        },
+        {
+          "start": 86.91,
+          "end": 88.91,
+          "text": "Episodios programados, más de 100."
+        },
+        {
+          "start": 89.99,
+          "end": 91.99,
+          "text": "Papelones, ya en el balance."
+        }
+      ],
+      "asr_language_match": true,
+      "technical_pass": true
+    },
+    "de": {
+      "expected_language": "de",
+      "status": "analysis_complete_not_human_approved",
+      "bytes": 16832756,
+      "sha256": "ef41ed04c8245d7a46a34d3f8f5cf3b026fb93c86c73000931237c3b114916d1",
+      "duration": 101.608,
+      "video": {
+        "codec_name": "h264",
+        "width": 720,
+        "height": 1280,
+        "avg_frame_rate": "25/1",
+        "nb_read_frames": "2540",
+        "duration": "101.600000"
+      },
+      "audio": {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "bit_rate": "118043",
+        "duration": "101.608000"
+      },
+      "faststart": true,
+      "decode_all_frames_and_audio": "OK",
+      "final_volume": {
+        "lufs": -17.8,
+        "peak_dbfs": -3.1
+      },
+      "cover_open_volume": {
+        "lufs": -19.1,
+        "peak_dbfs": -5.1
+      },
+      "voice_volume": {
+        "lufs": -17.6,
+        "peak_dbfs": -3.1
+      },
+      "cover_close_volume": {
+        "lufs": -19.1,
+        "peak_dbfs": -5.1
+      },
+      "silences": [
+        "silence_start: 7.22725",
+        "silence_end: 9.273708 | silence_duration: 2.046458",
+        "silence_start: 80.774042",
+        "silence_end: 82.617708 | silence_duration: 1.843667"
+      ],
+      "frame_sheets": 40,
+      "expected_frame_sheets": 40,
+      "all_frame_sheets_complete": true,
+      "asr_language": "de",
+      "asr_probability": 0.9953439831733704,
+      "asr_segments": [
+        {
+          "start": 8.88,
+          "end": 13.76,
+          "text": "Kennst du das, wenn du etwas tust und dich kurz darauf fragst, warum habe ich das getan?"
+        },
+        {
+          "start": 13.76,
+          "end": 16.0,
+          "text": "Herzlich Willkommen."
+        },
+        {
+          "start": 16.0,
+          "end": 18.48,
+          "text": "Du bist hier genau richtig."
+        },
+        {
+          "start": 18.48,
+          "end": 19.48,
+          "text": "Ich bin Nora."
+        },
+        {
+          "start": 19.48,
+          "end": 24.28,
+          "text": "Ich habe ein ganz normales Leben, ein Büro, einen Partner, eine Kollegin, die ständig"
+        },
+        {
+          "start": 24.28,
+          "end": 28.04,
+          "text": "Fenchel kaut und ein Gehirn, das für mich arbeitet."
+        },
+        {
+          "start": 28.04,
+          "end": 33.84,
+          "text": "Auf seine Weise, denn das Gehirn zeigt uns die Welt nicht so, wie sie ist."
+        },
+        {
+          "start": 33.84,
+          "end": 38.64,
+          "text": "Es erzählt sie uns, rät, sagt voraus, füllt Lücken mit dem, was es schon erlebt"
+        },
+        {
+          "start": 38.64,
+          "end": 39.96,
+          "text": "hat."
+        },
+        {
+          "start": 39.96,
+          "end": 42.52,
+          "text": "Fast immer leistet es dabei hervorragende Arbeit."
+        },
+        {
+          "start": 42.52,
+          "end": 47.72,
+          "text": "Manchmal lässt es mich um 11 Uhr 46 abends einen Mantel kaufen."
+        },
+        {
+          "start": 47.72,
+          "end": 50.16,
+          "text": "Hier erzähle ich dir in Episoden aus meinem Leben."
+        },
+        {
+          "start": 50.16,
+          "end": 53.32,
+          "text": "Peinlichkeiten, Panik, Streit um den Konferenzraum."
+        },
+        {
+          "start": 53.32,
+          "end": 59.16,
+          "text": "Dann fragen wir Experten, die das Gehirn erforschen, warum wir so denken, wählen und reagieren."
+        },
+        {
+          "start": 59.16,
+          "end": 64.0,
+          "text": "Und am Ende gibt es drei einfache Schritte, um seltener darauf reinzufallen."
+        },
+        {
+          "start": 64.0,
+          "end": 65.48,
+          "text": "Meine Geschichten sind erfunden."
+        },
+        {
+          "start": 66.12,
+          "end": 69.36,
+          "text": "Die Erklärungen nicht, ich nenne dir immer die Quellen."
+        },
+        {
+          "start": 69.36,
+          "end": 71.04,
+          "text": "Alles basiert auf einem Buch."
+        },
+        {
+          "start": 71.04,
+          "end": 73.24,
+          "text": "Unser Gehirn belügt uns."
+        },
+        {
+          "start": 73.24,
+          "end": 75.88,
+          "text": "Es erscheint in Kürze, folge mir."
+        },
+        {
+          "start": 75.88,
+          "end": 78.88,
+          "text": "Die erste Folge beginnt mit einer Nachricht."
+        },
+        {
+          "start": 78.88,
+          "end": 82.52,
+          "text": "Drei Worte und ein Ausrufezeichen."
+        },
+        {
+          "start": 82.52,
+          "end": 86.68,
+          "text": "Und die Stimme tief in meinem Kopf, die Buch führt, mein innerer Buchhalter schließt"
+        },
+        {
+          "start": 86.68,
+          "end": 88.36,
+          "text": "das Register."
+        },
+        {
+          "start": 88.36,
+          "end": 91.56,
+          "text": "Geplante Folgen, mehr als 100."
+        },
+        {
+          "start": 91.56,
+          "end": 93.44,
+          "text": "Peinlichkeiten, bereits in der Bilanz."
+        }
+      ],
+      "asr_language_match": true,
+      "technical_pass": true
+    }
+  }
+}
