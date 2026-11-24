@@ -329,7 +329,7 @@ body{background:#120e0c;color:var(--cream)}
   const browser=(navigator.language||'it').slice(0,2).toLowerCase();
   const lang=supported.includes(q)?q:supported.includes(stored)?stored:supported.includes(browser)?browser:'it';
   window.NORA_LANG=lang;document.documentElement.lang=lang;
-  let select=document.getElementById('language-select');if(select){select.value=lang;select.addEventListener('change',()=>{try{localStorage.setItem('nora-language',select.value)}catch(e){};let u=new URL(location.href);u.searchParams.set('lang',select.value);location.href=u.toString()})}
+  let select=document.getElementById('language-select');if(select){select.value=lang;select.addEventListener('change',()=>{try{localStorage.setItem('nora-language',select.value)}catch(e){};try{let u=new URL(location.href);u.searchParams.set('lang',select.value);history.replaceState(null,'',u.toString())}catch(e){};location.reload()})}
   const map=window.NORA_UI[lang]||{};
   // Text nodes only, preserving buttons, video handlers and styles.
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
