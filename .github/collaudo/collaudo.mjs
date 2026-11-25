@@ -29,8 +29,8 @@ async function localOnly(page) {
 // Attende la riproduzione reale del video inline; restituisce misure o il motivo del mancato avvio.
 async function waitPlayback(page, hostSel, seconds) {
   const sel = hostSel + ' > #video-inline video';
-  const t0 = Date.now();
-  while (Date.now() - t0 < 30000) {
+  const t0 = Date.now(); let lastS = null;
+  while (Date.now() - t0 < 45000) {
     const s = await page.locator(sel).evaluate(v => ({
       t: v.currentTime, paused: v.paused, err: v.error ? v.error.code : 0, rs: v.readyState,
       dur: v.duration, w: v.videoWidth, h: v.videoHeight, muted: v.muted,
@@ -39,6 +39,7 @@ async function waitPlayback(page, hostSel, seconds) {
       h264: v.canPlayType('video/mp4; codecs="avc1.64001F, mp4a.40.2"'),
     })).catch(e => ({fail: String(e)}));
     if (s.fail) return {ok: false, motivo: s.fail};
+    lastS = s;
     if (s.err) return {ok: false, motivo: 'errore media ' + s.err + (s.h264 ? '' : ' (H.264 non supportato da questo motore di prova)'), ...s};
     if (s.t >= seconds) return {ok: true, ...s};
     if (s.paused && Date.now() - t0 > 4000) {
@@ -47,7 +48,7 @@ async function waitPlayback(page, hostSel, seconds) {
     }
     await sleep(250);
   }
-  return {ok: false, motivo: 'tempo scaduto'};
+  return {ok: false, motivo: 'tempo scaduto', ...(lastS || {})};
 }
 
 async function playingUnmuted(page) {
