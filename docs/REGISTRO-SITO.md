@@ -402,3 +402,27 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 - Telefoni veri (iPhone con Safari, Android), Samsung Internet; YouTube reale per la Puntata 0 italiana.
 
 **Commit di questa sessione (ramo `sito-v3-1`):** `2ca4602`, `01d5ea7`, `4bd939c` (acquisizione, autore github-actions), `106da40`, `24640b1`, `5c28c78`, `242cba2` e questa annotazione. **gh-pages:** `bd2b095`. `main` non toccato.
+
+
+### 25/11/2026 — Video a scatti: diagnosi e correzione pubblicata (Claude)
+
+**Data:** 25/11/2026, dalle 09:28 alle 10:45 circa. **Fonte:** segnalazione di Carlo delle 09:28 («il video va a scatti, tende a bloccarsi»), nell'ambito dell'autorizzazione a correggere e pubblicare dello stesso giorno. Zero crediti HeyGen.
+
+**Diagnosi**
+- File: tempi perfettamente regolari (25 fps), indice all'inizio, nessun fermo immagine: i file non sono difettosi. Nei doppiaggi HeyGen ci sono micro-pause di 2–4 fotogrammi (0,08–0,16 s) nel contenuto, poche anche nell'originale italiano: non correggibili senza rigenerare.
+- Bitrate della presentazione a tratti 1,7–1,9 Mbit/s. Misura con telefono simulato (Pixel 7, processore rallentato 4×) sul sito pubblicato (run 45588788255): nessun blocco con rete ≥ 1,6 Mbit/s; con rete scarsa (1 Mbit/s) **5 blocchi e 7,3 s di fermo in 40 s (IT), 3 blocchi e 2,5 s (EN)**: compatibile con la segnalazione.
+- Pagina: sopra il video di Nora c'era il cervello decorativo animato, con fusione «screen», filtro e maschera, ricalcolato a ogni fotogramma.
+
+**Correzioni (ramo `sito-v3-1`)**
+- `index.html`: durante la riproduzione il lettore sta sopra il cervello decorativo; le animazioni decorative (cervello, nastro, marionetta della copertina) e la sfocatura dell'intestazione si fermano finché il video suona (classe `video-attivo`).
+- Presentazione **v3**: nuovi file `assets/video/nora-presentazione-<lingua>-v3.mp4`, ricodificati da quelli del 25/11 (H.264 preset fast, CRF 27, massimo 900 kbit/s, audio originale copiato). Circa 9,2–10,2 MB (−27–32%); somiglianza visiva SSIM 0,983–0,985; confronto a vista fatto da Claude, indistinguibili. I file precedenti restano nel repository e online.
+- Scartata la **v2** (chiave ogni 2 s, preset slow, audio ricodificato): isolata partiva sempre (prova 45584488417), ma nella pagina su WebKit a volte restava ferma a 0 s (4 casi su 20 in due collaudi). La v3 non ha mai mostrato il problema.
+
+**Prove**
+- Rete scarsa 1 Mbit/s, telefono simulato, run 45588788255: **v3 0 blocchi e 0 pause visibili** (IT ed EN); a 1,6 Mbit/s 0 pause contro 1 del pubblicato.
+- Collaudo completo ripetuto 2 volte (45588788299, 45588870132): riproduzione reale 25/25 in entrambi; regressioni grafiche 10/10 senza differenze; restano solo i 2 avvisi noti del banner cookie su iPhone FR/DE.
+- Prova d'avvio ripetuta (45584488417): 15/15 avvii per variante su iPhone/WebKit, WebKit desktop, Chrome Android.
+
+**Pubblicazione:** gh-pages `89e5f93` (precedente `bd2b095`, recuperabile); deploy 45590780991 riuscito. Verifica pubblica 45591101551: index online = gh-pages; i 5 file v3 e le 4 Puntate 0 online identici (SHA-256) con richieste parziali; riproduzione reale sul sito pubblico 10/10 (Chrome Android, iPhone/WebKit).
+
+**Non fatto / da verificare:** prova sul telefono vero di Carlo e sulla sua rete. La **Puntata 0 doppiata** (circa 1,3 Mbit/s) non è stata toccata perché approvata: con rete molto scarsa potrebbe fermarsi anch'essa; ricodificarla allo stesso modo richiede l'approvazione di Carlo.
