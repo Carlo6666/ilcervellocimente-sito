@@ -29,8 +29,9 @@ jobs:
       - run: npm install --no-save playwright@1 http-server@14 && npx playwright install --with-deps chromium
       - name: Misure
         env:
-          SITI: '{"A pubblicato":"https://www.ilcervellocimente.com/","B pagina corretta":"http://127.0.0.1:8771/","C pagina corretta + video leggeri":"http://127.0.0.1:8772/"}'
+          SITI: '{"A pubblicato":"https://www.ilcervellocimente.com/","B candidato v2":"http://127.0.0.1:8771/"}'
           SECONDI: '40'
+          SOLO_RETI: '4G debole|rete scarsa'
         run: |
           npx http-server B -p 8771 -a 127.0.0.1 -s -c-1 &
           npx http-server C -p 8772 -a 127.0.0.1 -s -c-1 &

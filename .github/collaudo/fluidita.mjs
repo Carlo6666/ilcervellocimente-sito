@@ -3,11 +3,13 @@
 // mostrati (requestVideoFrameCallback, intervallo > 120 ms) e fotogrammi persi.
 import {chromium, devices} from 'playwright';
 const SITES = JSON.parse(process.env.SITI);
-const NETS = {
+const ALL_NETS0 = {
   'senza limiti': null,
   '4G medio (4 Mbit/s, 70 ms)': {latency: 70, downloadThroughput: 4e6 / 8, uploadThroughput: 1e6 / 8},
   '4G debole (1,6 Mbit/s, 150 ms)': {latency: 150, downloadThroughput: 1.6e6 / 8, uploadThroughput: 0.75e6 / 8},
+  'rete scarsa (1 Mbit/s, 200 ms)': {latency: 200, downloadThroughput: 1e6 / 8, uploadThroughput: 0.5e6 / 8},
 };
+const NETS = process.env.SOLO_RETI ? Object.fromEntries(Object.entries(ALL_NETS0).filter(([k]) => process.env.SOLO_RETI.split('|').some(x => k.startsWith(x)))) : ALL_NETS0;
 const VIDEOS = [['presentazione IT', '.hero-video-wrap > .big-play', '.hero-video-wrap', 'it'], ['presentazione EN', '.hero-video-wrap > .big-play', '.hero-video-wrap', 'en']];
 const SECONDS = +process.env.SECONDI || 40;
 const br = await chromium.launch({headless: true, channel: 'chrome'});

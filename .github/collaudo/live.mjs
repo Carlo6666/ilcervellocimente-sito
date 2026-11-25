@@ -16,7 +16,7 @@ for (const [name, eng, opt, dev] of [['chrome-android', chromium, {channel: 'chr
     await play('.featured-media > .big-play');
     const b = await p.locator('.featured-media > #video-inline video, .featured-media > #video-inline iframe').first().getAttribute('src');
     const tb = lang === 'it' ? null : await wait('.featured-media', 3);
-    const ok = a === 'assets/video/nora-presentazione-' + lang + '.mp4' && ta >= 4 && (lang === 'it' ? b.includes('youtube-nocookie.com/embed/JBoI3e8VW2g') : b === 'assets/video/puntata-0-' + lang + '.mp4' && tb >= 3);
+    const ok = a === 'assets/video/nora-presentazione-' + lang + '-v2.mp4' && ta >= 4 && (lang === 'it' ? b.includes('youtube-nocookie.com/embed/JBoI3e8VW2g') : b === 'assets/video/puntata-0-' + lang + '.mp4' && tb >= 3);
     if (!ok) bad++;
     console.log(name, lang, ok ? 'SUPERATO' : 'NON SUPERATO', JSON.stringify({presentazione: a, secondi: ta, puntata0: b, secondi_p0: tb}));
     await ctx.close();

@@ -29,7 +29,7 @@ jobs:
           cmp /tmp/index.html pubblicato/index.html && echo "index.html online = gh-pages"
           grep -c 'class="big-play hero-big-play"' /tmp/index.html
           for l in it en fr es de; do
-            for f in nora-presentazione-$l.mp4 $( [ $l != it ] && echo puntata-0-$l.mp4 ); do
+            for f in nora-presentazione-$l-v2.mp4 $( [ $l != it ] && echo puntata-0-$l.mp4 ); do
               curl -sS "$B/assets/video/$f" -o /tmp/$f
               a=$(sha256sum /tmp/$f | cut -c1-16); b=$(sha256sum pubblicato/assets/video/$f | cut -c1-16)
               r=$(curl -sS -o /dev/null -w "%{http_code}" -H "Range: bytes=0-99" "$B/assets/video/$f")

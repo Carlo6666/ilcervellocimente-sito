@@ -46,7 +46,7 @@ jobs:
                 assert.equal(await inline.isVisible(),true);
                 assert.equal(await page.locator('body').evaluate(e=>e.classList.contains('modal-open')),false);
                 const src=await inline.locator('video,iframe').getAttribute('src');
-                assert.ok(src.endsWith('nora-presentazione-'+lang+'.mp4'));
+                assert.ok(src.endsWith('nora-presentazione-'+lang+'-v2.mp4'));
                 await inline.locator('#inline-stop').evaluate(e=>e.click());
                 assert.equal(await inline.isVisible(),false);
                 await page.locator('.featured-media .big-play').evaluate(e=>e.click());
