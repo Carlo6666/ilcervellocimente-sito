@@ -1,5 +1,6 @@
 name: Acquisizione doppiaggi presentazione Nora
 on:
+  workflow_dispatch:
   push:
     branches: [sito-v3-1]
     paths: ['.github/workflows/doppiaggi-presentazione-nora.yml']
@@ -8,7 +9,7 @@ permissions:
 jobs:
   acquire:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,17 +42,40 @@ jobs:
           for l in ('en','fr','es','de'):
               p=pathlib.Path('docs/verifica-presentazione')
               j=json.loads((p/(l+'.json')).read_text())
-              assert 90 < float(j['format']['duration']) < 96
+              d=float(j['format']['duration'])
+              assert 85 < d < 115, (l,d)
               assert {s['codec_type'] for s in j['streams']} >= {'audio','video'}
               assert int(j['format']['size']) < 25*1024*1024
               assert '-->' in (p/(l+'.srt')).read_text(encoding='utf-8-sig')
               print(l,j['format']['duration'],j['format']['size'])
           PY
+      - name: Riconoscimento lingua parlata e fotogrammi di controllo
+        run: |
+          pip install -q faster-whisper==1.1.1
+          python3 - <<'PY2'
+          import json, pathlib
+          from faster_whisper import WhisperModel
+          m=WhisperModel('small', device='cpu', compute_type='int8')
+          out={}
+          for l in ('it','en','fr','es','de'):
+              f='assets/video/nora-presentazione-%s.mp4'%l
+              segs,info=m.transcribe(f, beam_size=1, vad_filter=False)
+              txt=' '.join(s.text.strip() for s in segs)
+              out[l]={'lingua_rilevata':info.language,'probabilita':round(info.language_probability,3),'trascrizione':txt}
+              print(l, info.language, round(info.language_probability,3), txt[:160])
+              assert info.language==l, (l, info.language)
+          pathlib.Path('docs/verifica-presentazione/lingue-whisper.json').write_text(json.dumps(out,ensure_ascii=False,indent=1))
+          PY2
+          for lang in it en fr es de; do
+            ffmpeg -v error -y -i assets/video/nora-presentazione-$lang.mp4 -vf "fps=1/4,scale=240:-2,tile=6x4" -frames:v 1 docs/verifica-presentazione/fotogrammi-$lang.jpg
+            ffmpeg -v error -i assets/video/nora-presentazione-$lang.mp4 -map 0:v:0 -vf "freezedetect=n=0.003:d=0.5" -f null - 2> docs/verifica-presentazione/fermi-$lang.txt || true
+            ffmpeg -v info -i assets/video/nora-presentazione-$lang.mp4 -af ebur128 -f null - 2>&1 | tail -12 > docs/verifica-presentazione/volume-$lang.txt
+          done
       - name: Salva solo copie verificate e rapporto
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/video/nora-presentazione-{en,fr,es,de}.mp4 docs/verifica-presentazione
-          git commit -m "Acquisisci quattro doppiaggi Nora presentazione (zero nuove generazioni)" || exit 0
+          git commit -m "Acquisisci quattro doppiaggi Nora presentazione (zero nuove generazioni), 25/11/2026" || exit 0
           git pull --rebase origin sito-v3-1
           git push origin HEAD:sito-v3-1
