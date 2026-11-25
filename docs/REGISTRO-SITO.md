@@ -357,3 +357,48 @@ Nessuno tra quelli verificabili qui. Da fare con dispositivi veri prima o subito
 - Verifica collettiva: tutti e quattro gli ID f5216dbbfaf642d797e81ddab5ef7116-en/fr/es/de risultano completed senza errori, durata dichiarata 93 s, video e sottotitoli disponibili. Nessuna ulteriore richiesta di generazione. Costo effettivo non verificato.
 - Acquisizione copie H.264/AAC e controllo FFmpeg/FFprobe con sottotitoli di verifica avviati (run 45405050890, commit 86fe5c96). Codice selezione locale per lingua aggiornato sul ramo di lavoro (acd6664f); confronto con gh-pages conferma che è cambiato solo il blocco relativo alla presentazione. CNAME pubblico www.ilcervellocimente.com invariato. Test browser aggiornato (515e9798, run 45405090451); deve controllare due sorgenti diverse in tutte le cinque lingue. Nessun cambio al secondo filmato.
 - Non pubblicare prima della presenza di tutti i quattro file, dei controlli tecnici positivi e del collaudo. Verificare inoltre testo dei sottotitoli, lingua, eventuale grafica non tradotta e qualità audiovisiva. Non dichiarare una verifica percettiva se è disponibile solo quella tecnica.
+
+
+### 25/11/2026 — Presentazione di Nora in cinque lingue, Play identico, pubblicazione (Claude)
+
+**Data:** 25/11/2026, dalle 08:29 alle 09:25 circa (ora italiana).
+**Fonte:** ordine di Carlo del 25/11/2026 ore 08:29 («Pubblicazione definitiva del sito multilingue»), con autorizzazione esplicita a integrare, correggere e pubblicare dopo i controlli. Stato HeyGen riferito da Carlo: ChatGPT ha verificato la mattina del 25/11 che le quattro traduzioni risultano completate. Zero crediti HeyGen spesi, nessuna rigenerazione.
+
+#### 1. Recupero dei video (file locali, nessun link temporaneo nel sito)
+- Titolo HeyGen: «Nora — Presentazione progetto V3 — EN FR ES DE». ID: `f5216dbbfaf642d797e81ddab5ef7116-en`, `-fr`, `-es`, `-de` (fonte italiana `bcffdc21b35239be6bc497c5774ea018`).
+- Causa del fallimento di ieri (run 45405050890): i download erano riusciti, ma il controllo pretendeva una durata tra 90 e 96 s e lo spagnolo dura 98,2 s. Soglia portata a 85–115 s (`2ca4602`); decodifica audio per il riconoscimento lingua via FFmpeg (`01d5ea7`).
+- Acquisizione riuscita: run [45569141465](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45569141465), commit `4bd939c`. Ricodifica H.264 High 720×1280, 25 fps, AAC 48 kHz stereo, avvio rapido (faststart).
+
+| Lingua | File | Durata | Dimensione | Lingua parlata (Whisper small) | Volume integrato |
+|---|---|---|---|---|---|
+| IT (esistente) | nora-presentazione-it.mp4 | 93,0 s | 14,9 MB | it 0,992 | −16,1 LUFS |
+| EN | nora-presentazione-en.mp4 | 94,3 s | 12,8 MB | en 0,989 | −17,3 LUFS |
+| FR | nora-presentazione-fr.mp4 | 93,1 s | 12,7 MB | fr 0,993 | −16,7 LUFS |
+| ES | nora-presentazione-es.mp4 | 98,2 s | 13,2 MB | es 0,986 | −17,8 LUFS |
+| DE | nora-presentazione-de.mp4 | 93,3 s | 12,7 MB | de 0,992 | −17,8 LUFS |
+
+Prove in `docs/verifica-presentazione/`: sottotitoli HeyGen (.srt), ffprobe (.json), trascrizioni (`lingue-whisper.json`), fotogrammi ogni 4 s, fermi d'immagine (nessuno in 5/5), volume. Fotogrammi IT ed EN guardati da Claude: nessun testo a schermo da tradurre, inquadratura coerente con l'italiano.
+
+#### 2. Pulsante Play della presentazione
+- `index.html` (`01d5ea7`): il pulsante sul video di Nora usa la stessa classe `big-play` della Puntata 0 (arancione, 106 px, alone, ingrandimento al passaggio), al centro del video; nascosto durante la riproduzione come quello della Puntata 0. Riproduzione sempre nella pagina, senza riquadri o finestre.
+- Cambio lingua: il selettore ricarica la pagina nella nuova lingua (comportamento già esistente, invariato): la riproduzione in corso si ferma e i due video, al clic successivo, partono nella nuova lingua.
+
+#### 3. Collaudo (run [45572820296](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45572820296), script `.github/collaudo/collaudo.mjs`)
+Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); WebKit con emulazione iPhone 14; WebKit desktop; Firefox desktop. 5 lingue per ciascuno = 25 combinazioni, server con richieste parziali.
+- Pulsanti identici (dimensioni, colore, forma, ombra) e Play centrato (scarto ≤ 2 px): 25/25.
+- Presentazione nel file della lingua giusta e riproduzione reale ≥ 5 s: 25/25; fotogrammi persi 0 (Chrome, WebKit), al massimo 1 su 130 (Firefox).
+- Puntata 0 distinta dalla presentazione, nella lingua giusta (IT → YouTube, solo sorgente verificata perché le richieste esterne erano bloccate; EN/FR/ES/DE → file del sito, riproduzione reale ≥ 3 s): 25/25. Avviando la Puntata 0 la presentazione si chiude: un solo video con audio alla volta, 25/25.
+- Cambio lingua durante la riproduzione: pagina nella nuova lingua, nessun audio residuo; dopo il cambio entrambi i video nella nuova lingua: 25/25. Nessun errore JavaScript.
+- Regressioni grafiche rispetto alla versione pubblicata (1440 e 412 px × 5 lingue, animazioni ferme): 10/10, tutte le differenze sono dentro il riquadro del video di Nora (il pulsante spostato), 0 pixel diversi altrove.
+- Avviso non bloccante: su iPhone (390 px) in FR e DE, con il banner dei cookie ancora aperto e il video al centro dello schermo, il banner copre il pulsante; chiuso il banner, o scorrendo, è cliccabile. Era così anche prima (il banner copre quella fascia).
+
+#### 4. Pubblicazione
+- gh-pages `bd2b095` (precedente `8a4de67`, recuperabile): copiati solo `index.html` e i quattro MP4 nuovi; CNAME, Puntata 0, copertine e animazioni invariate. Deploy Pages run 45574716138 riuscito.
+- Verifica del sito pubblico (run [45574917653](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45574917653), `.github/workflows/verifica-sito-pubblico.yml`): www.ilcervellocimente.com risponde 200; `index.html` online identico a gh-pages; 9 video online identici byte per byte (SHA-256) e con richieste parziali (206); riproduzione reale sul sito pubblico in 5 lingue con Chrome Android e WebKit iPhone: 10/10.
+
+#### 5. Cosa NON è stato verificato
+- Sincronismo labiale: solo indizi tecnici (audio e video iniziano allo stesso istante, nessun fermo immagine, doppiaggio HeyGen in modalità Precision). Una misura automatica bocca/voce è risultata inconcludente anche sull'originale italiano e non è stata usata. Giudizio a occhio e orecchio: da fare con l'ascolto di Carlo.
+- Qualità e naturalezza della voce, pronuncia di «Carlo» in inglese (la trascrizione automatica scrive «Carlos'»): ascolto umano.
+- Telefoni veri (iPhone con Safari, Android), Samsung Internet; YouTube reale per la Puntata 0 italiana.
+
+**Commit di questa sessione (ramo `sito-v3-1`):** `2ca4602`, `01d5ea7`, `4bd939c` (acquisizione, autore github-actions), `106da40`, `24640b1`, `5c28c78`, `242cba2` e questa annotazione. **gh-pages:** `bd2b095`. `main` non toccato.
