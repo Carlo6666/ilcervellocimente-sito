@@ -40,7 +40,7 @@ jobs:
                 assert.equal(await frame.evaluate(e=>getComputedStyle(e).borderTopWidth),'0px');
                 assert.equal(await frame.evaluate(e=>getComputedStyle(e).borderTopLeftRadius),'0px');
                 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
-                await page.locator('.hero-video-play').evaluate(e=>e.click());
+                await page.locator('.hero-video-wrap > .big-play').evaluate(e=>e.click());
                 const inline=page.locator('.hero-video-wrap > #video-inline');
                 assert.equal(await inline.count(),1);
                 assert.equal(await inline.isVisible(),true);

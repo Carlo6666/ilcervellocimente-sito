@@ -1,0 +1,40 @@
+name: Collaudo pubblicazione multilingue (25/11/2026)
+# Collaudo di sola lettura: due video distinti, pulsanti Play, cinque lingue,
+# riproduzione reale, cambio lingua durante e dopo la riproduzione, regressioni grafiche
+# rispetto alla versione pubblicata (gh-pages). Nessun credito HeyGen, nessuna richiesta esterna.
+on:
+  workflow_dispatch:
+  push:
+    branches: [sito-v3-1]
+    paths: ['.github/workflows/collaudo-pubblicazione-multilingue.yml', 'index.html', 'css/sito-v3-1.css', 'js/sito-v3-1.js', 'assets/video/**']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nuovo
+          lfs: false
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pubblicato
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1 http-server@14 pngjs@7 pixelmatch@5
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - name: Collaudo
+        run: |
+          npx http-server nuovo -p 8765 -a 127.0.0.1 -s -c-1 &
+          npx http-server pubblicato -p 8766 -a 127.0.0.1 -s -c-1 &
+          sleep 3
+          node nuovo/.github/collaudo/collaudo.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: collaudo-pubblicazione-multilingue
+          path: collaudo/
