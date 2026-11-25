@@ -1,0 +1,39 @@
+name: Prova codifiche presentazione (sola lettura)
+on:
+  workflow_dispatch:
+  push:
+    branches: [sito-v3-1]
+    paths: ['.github/workflows/prova-codifiche.yml', '.github/collaudo/avvio-webkit.mjs']
+permissions:
+  contents: read
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Varianti
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          mkdir -p prova/v1 prova/v2 prova/v3a prova/v3b
+          for l in it en fr es de; do
+            cp assets/video/nora-presentazione-$l.mp4 prova/v1/
+            cp assets/video/nora-presentazione-$l-v2.mp4 prova/v2/nora-presentazione-$l.mp4
+            ffmpeg -v error -y -i assets/video/nora-presentazione-$l.mp4 -map 0 -c:v libx264 -preset fast -crf 27 -maxrate 900k -bufsize 1800k -pix_fmt yuv420p -c:a copy -movflags +faststart prova/v3a/nora-presentazione-$l.mp4
+            ffmpeg -v error -y -i assets/video/nora-presentazione-$l.mp4 -map 0 -c:v libx264 -preset fast -crf 27 -maxrate 900k -bufsize 1800k -g 50 -keyint_min 25 -pix_fmt yuv420p -c:a copy -movflags +faststart prova/v3b/nora-presentazione-$l.mp4
+            for v in v1 v2 v3a v3b; do echo "FILE $v $l $(stat -c%s prova/$v/nora-presentazione-$l.mp4)"; done
+            echo "SSIM v3a $l $(ffmpeg -i prova/v3a/nora-presentazione-$l.mp4 -i prova/v1/nora-presentazione-$l.mp4 -lavfi ssim -f null - 2>&1 | grep -o 'All:[0-9.]*')"
+            echo "SSIM v3b $l $(ffmpeg -i prova/v3b/nora-presentazione-$l.mp4 -i prova/v1/nora-presentazione-$l.mp4 -lavfi ssim -f null - 2>&1 | grep -o 'All:[0-9.]*')"
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1 http-server@14 && npx playwright install --with-deps webkit chromium
+      - name: Avvio ripetuto
+        env:
+          VARIANTI: v1,v2,v3a,v3b
+          RIPETIZIONI: '3'
+        run: |
+          npx http-server prova -p 8780 -a 127.0.0.1 -s -c-1 &
+          sleep 3
+          node .github/collaudo/avvio-webkit.mjs
