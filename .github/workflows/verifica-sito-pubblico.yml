@@ -1,6 +1,9 @@
 name: Verifica sito pubblico (sola lettura)
 on:
   workflow_dispatch:
+  push:
+    branches: [sito-v3-1]
+    paths: ['.github/workflows/verifica-sito-pubblico.yml', '.github/collaudo/live.mjs']
 permissions:
   contents: read
 jobs:
