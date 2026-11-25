@@ -222,6 +222,10 @@ body{background:#120e0c;color:var(--cream)}
 .hero-video-play{bottom:19%;right:12%;width:56px;height:56px}
 /* 25/11/2026: pulsante Play della presentazione identico a quello della Puntata 0 (.big-play), al centro del video. */
 .hero-video-wrap>.hero-big-play{z-index:3}
+/* 25/11/2026 fluidità: mentre un video suona, niente livelli animati o fusi sopra il lettore. */
+.hero-visual.is-playing{position:relative;z-index:5}
+html.video-attivo .hero-brain-art,html.video-attivo .ticker-track,html.video-attivo .cv-marionetta-oscilla{animation-play-state:paused}
+html.video-attivo .site-header{-webkit-backdrop-filter:none;backdrop-filter:none}
 .hero-visual.is-playing .hero-sticker,.hero-visual.is-playing .vertical-label{visibility:hidden}
 .hero-video-wrap.is-playing>.nora-loop,.hero-video-wrap.is-playing>.hero-video-play,.hero-video-wrap.is-playing>.big-play,.featured-media.is-playing>img,.featured-media.is-playing>.featured-number,.featured-media.is-playing>.big-play,.episode-thumb.is-playing>img,.episode-thumb.is-playing>.episode-badge,.episode-thumb.is-playing>.episode-giant{visibility:hidden}
 .hero-video-wrap.is-playing::after{display:none}
@@ -503,6 +507,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     }
     if(restoreFocus && inlineTrigger && document.contains(inlineTrigger)) inlineTrigger.focus();
     inlineHost=null; inlineTrigger=null;
+    document.documentElement.classList.remove('video-attivo');
   }
   $('#inline-stop').addEventListener('click',()=>stopInline(true));
   function videoDialog(youtubeId, title, trigger) {
@@ -513,7 +518,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     if(inlineHost===host && !inlineRoot.hidden) {inlineRoot.scrollIntoView({block:'nearest'});return;}
     stopInline();
     inlineHost=host;inlineTrigger=trigger;
-    host.appendChild(inlineRoot);host.classList.add('is-playing');
+    host.appendChild(inlineRoot);host.classList.add('is-playing');document.documentElement.classList.add('video-attivo');
     host.closest('.hero-visual')?.classList.add('is-playing');
     if(host.classList.contains('hero-video-wrap')) inlineLoop?.pause();
     inlineRoot.hidden=false;

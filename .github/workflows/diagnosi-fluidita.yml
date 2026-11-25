@@ -1,0 +1,38 @@
+name: Diagnosi fluidità video (sola lettura)
+on:
+  workflow_dispatch:
+  push:
+    branches: [sito-v3-1]
+    paths: ['.github/workflows/diagnosi-fluidita.yml', '.github/collaudo/fluidita.mjs']
+permissions:
+  contents: read
+jobs:
+  misura:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: B
+      - name: Variante C = B + presentazione ricodificata più leggera (stesso contenuto)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          cp -r B C
+          for l in it en fr es de; do
+            ffmpeg -v error -y -i B/assets/video/nora-presentazione-$l.mp4 -c:v libx264 -preset slow -profile:v high -crf 27 -maxrate 900k -bufsize 1800k -g 50 -keyint_min 25 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart C/assets/video/nora-presentazione-$l.mp4
+            s=$(ffmpeg -i C/assets/video/nora-presentazione-$l.mp4 -i B/assets/video/nora-presentazione-$l.mp4 -lavfi ssim -f null - 2>&1 | grep -o 'All:[0-9.]*')
+            echo "LEGGERA $l $(stat -c%s B/assets/video/nora-presentazione-$l.mp4) -> $(stat -c%s C/assets/video/nora-presentazione-$l.mp4) byte, SSIM $s"
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1 http-server@14 && npx playwright install --with-deps chromium
+      - name: Misure
+        env:
+          SITI: '{"A pubblicato":"https://www.ilcervellocimente.com/","B pagina corretta":"http://127.0.0.1:8771/","C pagina corretta + video leggeri":"http://127.0.0.1:8772/"}'
+          SECONDI: '40'
+        run: |
+          npx http-server B -p 8771 -a 127.0.0.1 -s -c-1 &
+          npx http-server C -p 8772 -a 127.0.0.1 -s -c-1 &
+          sleep 3
+          node B/.github/collaudo/fluidita.mjs
