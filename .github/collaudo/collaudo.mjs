@@ -56,7 +56,7 @@ async function playingUnmuted(page) {
 
 async function clickPlay(page, sel) {
   const b = page.locator(sel);
-  await b.evaluate(e => e.scrollIntoView({block: 'center'}));
+  await b.evaluate(e => e.scrollIntoView({block: 'center', behavior: 'instant'}));
   await sleep(300);
   await b.click();
 }
@@ -86,7 +86,9 @@ for (const cfg of configs) {
       const centre = await page.locator('.hero-video-wrap').evaluate(w => { const a = w.getBoundingClientRect(); const b = w.querySelector('.big-play').getBoundingClientRect();
         return {dx: Math.round((b.left + b.width / 2) - (a.left + a.width / 2)), dy: Math.round((b.top + b.height / 2) - (a.top + a.height / 2))}; });
       check('play presentazione al centro del video', Math.abs(centre.dx) <= 2 && Math.abs(centre.dy) <= 2, centre);
-      const onTop = await page.locator('.hero-video-wrap > .big-play').evaluate(b => { b.scrollIntoView({block: 'center'}); const r = b.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return {ok: !!e && (e === b || b.contains(e)), sopra: e ? (e.id || e.className || e.tagName) : null}; });
+      await page.locator('.hero-video-wrap > .big-play').evaluate(b => b.scrollIntoView({block: 'center', behavior: 'instant'}));
+      await sleep(600);
+      const onTop = await page.locator('.hero-video-wrap > .big-play').evaluate(b => { const r = b.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return {ok: !!e && (e === b || b.contains(e)), sopra: e ? (e.id || e.className || e.tagName) : null}; });
       check('play presentazione cliccabile (non coperto)', onTop.ok, onTop);
       await page.locator('.hero-visual').screenshot({path: `${OUT}/schermate/${cfg.name}-${lang}-presentazione.png`});
 
@@ -139,6 +141,8 @@ for (const cfg of configs) {
     r.non_superati = fails;
     results.push(r);
     console.log(cfg.name, lang, r.esito, fails.join(' | '), r.errore || '');
+    for (const k of fails) console.log('   dettaglio', k, JSON.stringify(r.controlli[k].info ?? null).slice(0, 300));
+    for (const k of ['presentazione: riproduzione reale ≥5 s', 'Puntata 0: riproduzione reale ≥3 s']) if (r.controlli[k]) { const v = r.controlli[k].info || {}; console.log('   misura', k, JSON.stringify({t: v.t, dur: v.dur, w: v.w, h: v.h, q: v.q, audio: v.audio, h264: v.h264})); }
     await ctx.close();
   }
   await browser.close();
