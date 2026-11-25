@@ -96,7 +96,7 @@ for (const cfg of configs) {
       // 2. Presentazione: sorgente nella lingua giusta, riproduzione nella pagina
       await clickPlay(page, '.hero-video-wrap > .big-play');
       const introSrc = await page.locator('.hero-video-wrap > #video-inline video').getAttribute('src');
-      check('presentazione: file della lingua', introSrc === 'assets/video/nora-presentazione-' + lang + '-v2.mp4', introSrc);
+      check('presentazione: file della lingua', introSrc === 'assets/video/nora-presentazione-' + lang + '-v3.mp4', introSrc);
       check('nessun popup/modale', !(await page.locator('body').evaluate(b => b.classList.contains('modal-open'))) && await page.locator('#video-modal').count() === 0);
       const p1 = await waitPlayback(page, '.hero-video-wrap', 5);
       check('presentazione: riproduzione reale ≥5 s', p1.ok, p1);
@@ -131,7 +131,7 @@ for (const cfg of configs) {
       // 5. DOPO il cambio: entrambi i video nella nuova lingua
       await clickPlay(page, '.hero-video-wrap > .big-play');
       const s3 = await page.locator('.hero-video-wrap > #video-inline video').getAttribute('src');
-      check('dopo il cambio: presentazione nella nuova lingua', s3 === 'assets/video/nora-presentazione-' + other + '-v2.mp4', s3);
+      check('dopo il cambio: presentazione nella nuova lingua', s3 === 'assets/video/nora-presentazione-' + other + '-v3.mp4', s3);
       await clickPlay(page, '.featured-media > .big-play');
       const s4 = await page.locator(epSel + ' video, ' + epSel + ' iframe').first().getAttribute('src');
       check('dopo il cambio: Puntata 0 nella nuova lingua', other === 'it' ? s4.includes('youtube-nocookie.com') : s4 === 'assets/video/puntata-0-' + other + '.mp4', s4);

@@ -539,7 +539,7 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
       $('#video-modal-title').textContent=t[0];note.textContent=t[1];direct.textContent=t[2];
       const player=document.createElement('video');
       const introLang=['it','en','fr','es','de'].includes(lang)?lang:'it';
-      const local='assets/video/nora-presentazione-'+introLang+'-v2.mp4'; // v2 25/11/2026: ricodifica più leggera, fotogramma chiave ogni 2 s
+      const local='assets/video/nora-presentazione-'+introLang+'-v3.mp4'; // v3 25/11/2026: ricodifica più leggera (max 900 kbit/s), audio originale
       const sources=[local];let n=0;
       player.controls=true;player.autoplay=true;player.playsInline=true;player.preload='auto';player.setAttribute('aria-label',t[0]);
       function source(){player.src=sources[n];direct.href=sources[n];}
