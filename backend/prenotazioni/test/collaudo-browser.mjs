@@ -124,7 +124,7 @@ for (const [nomeDisp, opts] of dispositivi) {
       assert.deepEqual([riga[4], riga[5], riga[6], riga[7], riga[9], riga[10]], ['CH', lang, 'ebook', 'sì', lang, 'attiva']);
       assert.equal(reg.righe.filter((r) => r[3] === email).length, 1, 'nessun doppione');
       const mail = reg.email.find((m) => m.to === email);
-      assert.ok(mail && mail.htmlBody.includes(numeroTesto.replace('N. ', '')), 'e-mail con il numero');
+      assert.ok(mail && mail.htmlBody.includes(numeroTesto), 'e-mail con il numero');
 
       assert.deepEqual(errori, []);
       voce.esito = 'ok'; voce.numero = numero;

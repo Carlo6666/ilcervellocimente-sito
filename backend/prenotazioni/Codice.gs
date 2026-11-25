@@ -195,6 +195,7 @@ function rinviaSePossibile_(sh, riga) {
 /* ------------------------------------------------------------------ */
 var TESTI_EMAIL = {
   it: {
+    abbrev: 'N.',
     oggetto: 'Prenotazione n. {n} — Il cervello (ci) mente',
     titolo: 'Prenota oggi. Leggi domani.',
     ciao: 'Ciao {nome},',
@@ -208,6 +209,7 @@ var TESTI_EMAIL = {
     firma: 'Carlo Riva e Nora'
   },
   en: {
+    abbrev: 'No.',
     oggetto: 'Pre-order no. {n} — Il cervello (ci) mente',
     titolo: 'Pre-order today. Read tomorrow.',
     ciao: 'Hi {nome},',
@@ -221,6 +223,7 @@ var TESTI_EMAIL = {
     firma: 'Carlo Riva and Nora'
   },
   fr: {
+    abbrev: 'N°',
     oggetto: 'Précommande n° {n} — Il cervello (ci) mente',
     titolo: 'Réservez aujourd’hui. Lisez demain.',
     ciao: 'Bonjour {nome},',
@@ -234,6 +237,7 @@ var TESTI_EMAIL = {
     firma: 'Carlo Riva et Nora'
   },
   es: {
+    abbrev: 'N.º',
     oggetto: 'Reserva n.º {n} — Il cervello (ci) mente',
     titolo: 'Resérvalo hoy. Léelo mañana.',
     ciao: 'Hola, {nome}:',
@@ -247,6 +251,7 @@ var TESTI_EMAIL = {
     firma: 'Carlo Riva y Nora'
   },
   de: {
+    abbrev: 'Nr.',
     oggetto: 'Vorbestellung Nr. {n} — Il cervello (ci) mente',
     titolo: 'Heute vorbestellen. Morgen lesen.',
     ciao: 'Hallo {nome},',
@@ -300,7 +305,7 @@ function componiEmail_(p) {
     '<p style="margin:0 0 20px;font-size:15px;line-height:1.6">' + esc_(t.grazie) + '</p>' +
     '<div style="background:#ed5819;color:#fff;border-radius:10px;padding:16px 18px;margin:0 0 10px">' +
     '<div style="font:700 11px/1.3 Courier New,monospace;letter-spacing:.1em;text-transform:uppercase">' + esc_(t.numero) + '</div>' +
-    '<div style="font:800 40px/1.1 Arial Narrow,Arial,sans-serif;letter-spacing:.02em">N. ' + esc_(n) + '</div></div>' +
+    '<div style="font:800 40px/1.1 Arial Narrow,Arial,sans-serif;letter-spacing:.02em">' + esc_(t.abbrev + ' ' + n) + '</div></div>' +
     '<p style="margin:0 0 22px;font-size:13px;line-height:1.55;color:#e2bea3">' + esc_(t.spiega) + '</p>' +
     '<p style="margin:0 0 6px;font:700 12px/1.3 Courier New,monospace;letter-spacing:.08em;color:#f5aa70;text-transform:uppercase">' + esc_(t.riepilogo) + '</p>' +
     '<table role="presentation" style="border-collapse:collapse;width:100%;font-size:14px;margin:0 0 20px">' +
@@ -404,7 +409,7 @@ function datiAdmin() {
     colonne: COLONNE,
     righe: righe.map(function (r) {
       return r.map(function (v, i) {
-        if (v instanceof Date) return Utilities.formatDate(v, 'Europe/Rome', 'yyyy-MM-dd HH:mm:ss');
+        if (Object.prototype.toString.call(v) === '[object Date]') return Utilities.formatDate(v, 'Europe/Rome', 'yyyy-MM-dd HH:mm:ss');
         return i === C['Numero'] - 1 ? Number(v) : senzaApice_(v);
       });
     })

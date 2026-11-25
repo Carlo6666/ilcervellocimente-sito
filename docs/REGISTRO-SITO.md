@@ -447,6 +447,10 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 
 **Collaudo**
 - Logica del servizio (`test/collaudo-backend.mjs`, Codice.gs vero in ambiente Apps Script simulato): 16/16 prove (50.001-50.002-50.003, 500 prenotazioni senza doppioni, doppioni per e-mail, antispam, quota esaurita, area riservata negata ad anonimi e ad altri account).
-- Browser: vedi l'annotazione dei risultati qui sotto.
+- Browser (`test/collaudo-browser.mjs`, sito servito in locale con Codice.gs vero dietro un servizio simulato; banner cookie chiuso con «Rifiuta» come un visitatore):
+  - Chromium, 25/11 sera: smartphone Android (Pixel 7), tablet 820 px, desktop 1440 px, smartphone stretto 320 px × 5 lingue = **20/20**: blocco ultimo prima del piè di pagina, testi e link nella lingua giusta, nessuno scorrimento orizzontale, errori del modulo visibili, prenotazione con numero > 50.000 e separatore della lingua, doppione respinto senza nuovo numero, riga salvata con i dati giusti, e-mail con il numero, 0 errori JavaScript.
+  - Regressioni home (Chromium, 4 dispositivi × IT/EN): posizione e altezza di tutte le sezioni esistenti identiche alla versione `sito-v3-1` (**8/8**); cambia solo il piè di pagina, spostato dell'altezza del nuovo blocco.
+  - WebKit (iPhone 14, iPad, Safari desktop) e Firefox: workflow `collaudo-prenotazione.yml` su GitHub Actions; esito riportato nella PR.
+- Area riservata vista con 240 prenotazioni di esempio (desktop 1280 px e smartphone 390 px): nessun errore, nessuno scorrimento orizzontale della pagina; CSV mailing list scaricato e corretto (separatore «;», UTF-8 con BOM per Excel).
 
 **Da fare per pubblicare (serve Carlo):** attivare Apps Script con l'account del progetto (guida `backend/prenotazioni/README-ATTIVAZIONE.md`), mandare l'URL `/exec`, approvare l'anteprima. **Da decidere:** l'informativa generale del sito dice ancora «Non ci sono account, moduli o newsletter»; con la prenotazione online non è più vero. Proposta: aggiornare quella frase nelle 5 lingue (unica modifica a un testo esistente), solo con l'ok di Carlo.

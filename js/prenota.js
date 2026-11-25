@@ -300,7 +300,7 @@
       done.querySelector('.pr-done-note').hidden = true;
       $('#pr-done-mail').innerHTML = esc(t.dupText).replace('{email}', '<strong>' + esc(d.email) + '</strong>');
     } else {
-      $('#pr-done-number').textContent = 'N. ' + formattaNumero(r.numero);
+      $('#pr-done-number').textContent = ({ it: 'N. ', en: 'No. ', fr: 'N° ', es: 'N.º ', de: 'Nr. ' })[lang] + formattaNumero(r.numero);
       $('#pr-done-mail').innerHTML = esc(r.email === 'inviata' ? t.mailSent : t.mailLater).replace('{email}', '<strong>' + esc(d.email) + '</strong>');
     }
     form.hidden = true;

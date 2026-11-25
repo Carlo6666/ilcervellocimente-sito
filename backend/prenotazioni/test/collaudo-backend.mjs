@@ -35,6 +35,7 @@ prova('e-mail di conferma con numero nella lingua giusta', () => {
   assert.match(amb.inviate[0].htmlBody, /N\. 50\.001/);
   assert.match(amb.inviate[0].body, /parte da 50\.001/);
   assert.match(amb.inviate[1].subject, /Pre-order no\. 50,002/);
+  assert.match(amb.inviate[1].htmlBody, /No\. 50,002/);
   assert.match(amb.inviate[2].subject, /n° 50 003/);
   assert.equal(amb.inviate[2].to, 'luc@example.fr');
   assert.equal(amb.inviate[0].replyTo, 'ilcervellocimente@gmail.com');
