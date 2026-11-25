@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="it">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--bg:#120e0c;--panel:#1c130f;--line:#4c3125;--cream:#f4e4cf;--mute:#c9a98c;--orange:#ed5819;--soft:#f5aa70;--ok:#7fc79a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:14px/1.5 'DM Sans',Arial,Helvetica,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font:800 clamp(26px,4vw,38px)/1.05 'Arial Narrow',Arial,sans-serif;margin:4px 0 4px}
+h2{font:800 20px/1.2 'Arial Narrow',Arial,sans-serif;margin:0 0 12px;letter-spacing:.01em}
+.kicker{font:700 11px/1.4 'Courier New',monospace;letter-spacing:.14em;color:var(--soft);margin:0}
+.meta{color:var(--mute);font-size:12px;margin:0 0 18px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi b{display:block;font:800 34px/1.1 'Arial Narrow',Arial,sans-serif;color:#fff}
+.kpi span{font:700 11px/1.3 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.kpi small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
+.kpi.main{background:var(--orange);border-color:var(--orange)}.kpi.main span,.kpi.main small{color:#fff}
+.note{border-left:4px solid var(--orange);padding:10px 14px;background:#24180f;border-radius:6px;color:#e2bea3;margin:0 0 18px}
+.two{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:12px}
+.bar{display:grid;grid-template-columns:minmax(90px,38%) 1fr 64px;gap:8px;align-items:center;margin:5px 0;font-size:13px}
+.bar i{display:block;height:10px;background:var(--orange);border-radius:5px;min-width:2px}
+.bar em{font-style:normal;text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
+.bar span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+svg text{fill:var(--mute);font:10px Arial,sans-serif}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+button,.btn{font:700 12px/1 'Courier New',monospace;letter-spacing:.05em;padding:10px 12px;border-radius:8px;border:1px solid #a77b58;background:transparent;color:var(--cream);cursor:pointer;min-height:40px}
+button.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+button:hover{border-color:var(--soft)}
+input[type=search]{flex:1 1 220px;min-height:40px;padding:8px 10px;border-radius:8px;border:1px solid #7d4325;background:#261912;color:var(--cream);font:inherit}
+.table{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:860px}
+th,td{padding:8px 10px;border-bottom:1px solid #3a261c;text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:#24180f;font:700 11px/1.3 'Courier New',monospace;letter-spacing:.05em;color:var(--soft);text-transform:uppercase}
+tr.annullata td{opacity:.5;text-decoration:line-through}
+tr.annullata td:last-child{text-decoration:none;opacity:1}
+td button{min-height:32px;padding:6px 8px;font-size:11px}
+.empty{color:var(--mute);padding:14px}
+.err{background:#5a1d12;border:1px solid #c0472a;padding:12px;border-radius:8px}
+.tabs{display:flex;gap:8px;margin:20px 0 10px;flex-wrap:wrap}
+.tabs button[aria-selected=true]{background:var(--cream);color:#1a100d;border-color:var(--cream)}
+@media(max-width:600px){.kpi b{font-size:28px}.bar{grid-template-columns:minmax(80px,40%) 1fr 54px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">IL CERVELLO (CI) MENTE · AREA RISERVATA</p>
+  <h1>Prenotazioni del libro</h1>
+  <p class="meta" id="meta">Caricamento…</p>
+  <div id="app"></div>
+</div>
+<script>
+(function(){
+  var NOMI_LINGUE={it:'Italiano',en:'English',fr:'Français',es:'Español',de:'Deutsch'};
+  var paesi; try{paesi=new Intl.DisplayNames(['it'],{type:'region'});}catch(e){paesi=null;}
+  function nomePaese(c){try{return paesi?paesi.of(c):c;}catch(e){return c;}}
+  function fmt(n){return Number(n).toLocaleString('it-IT');}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var D=null, filtro='', vista='richieste';
+  var app=document.getElementById('app');
+
+  function carica(){
+    google.script.run.withSuccessHandler(function(d){D=d;disegna();}).withFailureHandler(function(e){
+      app.innerHTML='<p class="err">Errore nel caricamento: '+esc(e&&e.message||e)+'</p>';
+    }).datiAdmin();
+  }
+  function idx(nome){return D.colonne.indexOf(nome);}
+  function conta(righe,col){var o={};righe.forEach(function(r){var k=r[col]||'—';o[k]=(o[k]||0)+1;});return Object.keys(o).map(function(k){return[k,o[k]];}).sort(function(a,b){return b[1]-a[1];});}
+  function barre(lista,tot,nomina){
+    if(!lista.length)return '<p class="empty">Nessun dato.</p>';
+    var max=lista[0][1];
+    return lista.map(function(x){var pct=tot?Math.round(x[1]/tot*1000)/10:0;
+      return '<div class="bar"><span title="'+esc(nomina(x[0]))+'">'+esc(nomina(x[0]))+'</span><i style="width:'+(x[1]/max*100)+'%"></i><em>'+fmt(x[1])+' · '+String(pct).replace('.',',')+'%</em></div>';}).join('');
+  }
+  function grafico(attive){
+    var cD=idx('Data e ora'),perGiorno={};
+    attive.forEach(function(r){var g=String(r[cD]).slice(0,10);perGiorno[g]=(perGiorno[g]||0)+1;});
+    var giorni=Object.keys(perGiorno).sort();
+    if(!giorni.length)return '<p class="empty">Nessuna prenotazione ancora.</p>';
+    var inizio=new Date(giorni[0]+'T12:00:00'),fine=new Date(),serie=[];
+    for(var d=new Date(inizio);d<=fine;d.setDate(d.getDate()+1)){var k=d.toISOString().slice(0,10);serie.push([k,perGiorno[k]||0]);}
+    serie=serie.slice(-90);
+    var W=760,H=220,pad=30,max=Math.max.apply(null,serie.map(function(s){return s[1];}))||1;
+    var bw=(W-pad-10)/serie.length,cum=0,tot=serie.reduce(function(a,s){return a+s[1];},0),pts=[];
+    var bars=serie.map(function(s,i){var h=(H-pad-10)*s[1]/max,x=pad+i*bw;cum+=s[1];pts.push((x+bw/2).toFixed(1)+','+(H-pad-(H-pad-10)*cum/tot).toFixed(1));
+      return '<rect x="'+(x+1).toFixed(1)+'" y="'+(H-pad-h).toFixed(1)+'" width="'+Math.max(1,bw-2).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="#ed5819"><title>'+s[0]+': '+s[1]+'</title></rect>';}).join('');
+    var etichette=[0,Math.floor(serie.length/2),serie.length-1].filter(function(v,i,a){return a.indexOf(v)===i;}).map(function(i){var s=serie[i][0];return '<text x="'+(pad+i*bw+bw/2).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle">'+s.slice(8,10)+'/'+s.slice(5,7)+'</text>';}).join('');
+    return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Prenotazioni al giorno">'+
+      '<line x1="'+pad+'" x2="'+W+'" y1="'+(H-pad)+'" y2="'+(H-pad)+'" stroke="#4c3125"/>'+
+      '<text x="2" y="16">'+max+'</text><text x="2" y="'+(H-pad)+'">0</text>'+bars+
+      '<polyline fill="none" stroke="#f4e4cf" stroke-width="1.5" stroke-dasharray="4 3" points="'+pts.join(' ')+'"/>'+etichette+'</svg>'+
+      '<p class="meta">Barre: prenotazioni al giorno (ultimi '+serie.length+' giorni, ora italiana). Linea tratteggiata: andamento cumulato.</p>';
+  }
+  function csv(righe,colonne,nomeFile){
+    var sicuro=function(v){v=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"';};
+    var testo='﻿'+[colonne].concat(righe).map(function(r){return r.map(sicuro).join(';');}).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([testo],{type:'text/csv;charset=utf-8'}));
+    a.download=nomeFile;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  }
+  function oggi(){return new Date().toISOString().slice(0,10);}
+
+  function disegna(){
+    var cS=idx('Stato'),cM=idx('Mailing list'),cP=idx('Paese'),cL=idx('Lingua preferita'),cF=idx('Formato'),cLS=idx('Lingua del sito');
+    var tutte=D.righe,attive=tutte.filter(function(r){return r[cS]==='attiva';});
+    var lista=attive.filter(function(r){return r[cM]==='sì';});
+    var nT=attive.length;
+    document.getElementById('meta').textContent='Aggiornato il '+D.aggiornato+' · E-mail di conferma ancora inviabili oggi: '+fmt(D.quotaEmail);
+    var formati=conta(attive,cF);
+    var h='';
+    h+='<div class="grid kpis">'+
+      '<div class="card kpi main"><span>Prenotazioni effettive</span><b>'+fmt(nT)+'</b><small>Totale reale delle prenotazioni attive</small></div>'+
+      '<div class="card kpi"><span>Numero progressivo raggiunto</span><b>'+fmt(D.ultimoNumero)+'</b><small>Ultimo identificativo assegnato (si parte da '+fmt(D.numeroIniziale+1)+')</small></div>'+
+      '<div class="card kpi"><span>Mailing list</span><b>'+fmt(lista.length)+'</b><small>Iscritti con consenso</small></div>'+
+      '<div class="card kpi"><span>E-book / Cartaceo</span><b>'+fmt((formati.filter(function(f){return f[0]==='ebook';})[0]||[0,0])[1])+' / '+fmt((formati.filter(function(f){return f[0]==='cartaceo';})[0]||[0,0])[1])+'</b><small>Preferenze di formato</small></div>'+
+      '<div class="card kpi"><span>Annullate</span><b>'+fmt(tutte.length-nT)+'</b><small>Il loro numero non viene riassegnato</small></div>'+
+      '</div>';
+    h+='<p class="note"><strong>Due numeri diversi.</strong> Il <em>numero progressivo</em> è un identificativo che parte da '+fmt(D.numeroIniziale+1)+' e non indica quante copie sono state prenotate. Il <em>totale reale</em> è il conteggio delle prenotazioni attive.</p>';
+    h+='<div class="card" style="margin-bottom:12px"><h2>Andamento giornaliero</h2>'+grafico(attive)+'</div>';
+    h+='<div class="grid two">'+
+      '<div class="card"><h2>Paesi</h2>'+barre(conta(attive,cP),nT,nomePaese)+'</div>'+
+      '<div class="card"><h2>Lingua preferita</h2>'+barre(conta(attive,cL),nT,function(k){return NOMI_LINGUE[k]||k;})+
+        '<h2 style="margin-top:18px">Lingua del sito usata</h2>'+barre(conta(attive,cLS),nT,function(k){return NOMI_LINGUE[k]||k;})+'</div>'+
+      '<div class="card"><h2>Cartaceo o e-book</h2>'+barre(formati,nT,function(k){return k==='ebook'?'E-book':k==='cartaceo'?'Cartaceo':k;})+'</div>'+
+      '</div>';
+    h+='<div class="tabs" role="tablist"><button role="tab" data-vista="richieste" aria-selected="'+(vista==='richieste')+'">Elenco richieste ('+fmt(tutte.length)+')</button>'+
+      '<button role="tab" data-vista="lista" aria-selected="'+(vista==='lista')+'">Mailing list ('+fmt(lista.length)+')</button></div>';
+    h+='<div class="tools"><input type="search" id="cerca" placeholder="Cerca nome, e-mail, paese, numero…" value="'+esc(filtro)+'">'+
+      '<button class="primary" data-csv="tutte">CSV prenotazioni</button><button class="primary" data-csv="lista">CSV mailing list</button>'+
+      '<button data-csv="stat">CSV statistiche</button><button id="aggiorna">Aggiorna</button></div>';
+    var sorgente=vista==='lista'?lista:tutte;
+    var f=filtro.toLowerCase();
+    var vis=sorgente.filter(function(r){return !f||r.join(' ').toLowerCase().indexOf(f)>=0||nomePaese(r[cP]).toLowerCase().indexOf(f)>=0;}).slice().reverse();
+    var colVis=vista==='lista'?['Numero','Data e ora','Nome e cognome','E-mail','Paese','Lingua preferita']:
+      ['Numero','Data e ora','Nome e cognome','E-mail','Paese','Lingua preferita','Formato','Mailing list','Stato','E-mail di conferma'];
+    h+='<div class="table"><table><thead><tr>'+colVis.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+(vista==='richieste'?'<th></th>':'')+'</tr></thead><tbody>'+
+      (vis.length?vis.slice(0,1000).map(function(r){
+        return '<tr class="'+esc(r[cS])+'">'+colVis.map(function(c){var v=r[idx(c)];
+          if(c==='Numero')v=fmt(v);else if(c==='Paese')v=nomePaese(v)+' ('+v+')';else if(c==='Lingua preferita')v=NOMI_LINGUE[v]||v;else if(c==='Formato')v=v==='ebook'?'E-book':'Cartaceo';
+          return '<td>'+esc(v)+'</td>';}).join('')+
+          (vista==='richieste'?'<td><button data-stato="'+(r[cS]==='attiva'?'annullata':'attiva')+'" data-num="'+esc(r[0])+'">'+(r[cS]==='attiva'?'Annulla':'Riattiva')+'</button></td>':'')+'</tr>';
+      }).join(''):'<tr><td class="empty" colspan="'+(colVis.length+1)+'">Nessuna riga.</td></tr>')+
+      '</tbody></table></div>'+(vis.length>1000?'<p class="meta">Mostrate le 1.000 più recenti: usa la ricerca o il CSV per le altre.</p>':'');
+    app.innerHTML=h;
+    var cerca=document.getElementById('cerca');
+    cerca.addEventListener('input',function(){filtro=cerca.value;var pos=cerca.selectionStart;disegna();var c=document.getElementById('cerca');c.focus();c.setSelectionRange(pos,pos);});
+  }
+
+  app.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b||!D)return;
+    if(b.dataset.vista){vista=b.dataset.vista;disegna();return;}
+    if(b.id==='aggiorna'){carica();return;}
+    if(b.dataset.stato){
+      var msg=b.dataset.stato==='annullata'?'Annullare la prenotazione n. '+fmt(b.dataset.num)+'? Il numero non verrà riassegnato.':'Riattivare la prenotazione n. '+fmt(b.dataset.num)+'?';
+      if(!confirm(msg))return;b.disabled=true;
+      google.script.run.withSuccessHandler(carica).withFailureHandler(function(err){alert(err.message||err);b.disabled=false;}).cambiaStato(Number(b.dataset.num),b.dataset.stato);return;}
+    if(b.dataset.csv){
+      var cS=idx('Stato'),cM=idx('Mailing list');
+      if(b.dataset.csv==='tutte')csv(D.righe,D.colonne,'prenotazioni-'+oggi()+'.csv');
+      else if(b.dataset.csv==='lista'){var cols=['Nome e cognome','E-mail','Paese','Lingua preferita','Data e ora'];
+        csv(D.righe.filter(function(r){return r[cS]==='attiva'&&r[cM]==='sì';}).map(function(r){return cols.map(function(c){return r[idx(c)];});}),cols,'mailing-list-'+oggi()+'.csv');}
+      else{var att=D.righe.filter(function(r){return r[cS]==='attiva';}),out=[['Prenotazioni effettive','',att.length],['Numero progressivo raggiunto','',D.ultimoNumero]];
+        [['Paese','Paese'],['Lingua preferita','Lingua preferita'],['Formato','Formato'],['Lingua del sito','Lingua del sito']].forEach(function(p){conta(att,idx(p[1])).forEach(function(x){out.push([p[0],x[0],x[1]]);});});
+        var cD=idx('Data e ora'),g={};att.forEach(function(r){var k=String(r[cD]).slice(0,10);g[k]=(g[k]||0)+1;});Object.keys(g).sort().forEach(function(k){out.push(['Giorno',k,g[k]]);});
+        csv(out,['Voce','Valore','Prenotazioni'],'statistiche-'+oggi()+'.csv');}
+    }
+  });
+  carica();
+})();
+</script>
+</body>
+</html>

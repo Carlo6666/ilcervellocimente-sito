@@ -426,3 +426,27 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 **Pubblicazione:** gh-pages `89e5f93` (precedente `bd2b095`, recuperabile); deploy 45590780991 riuscito. Verifica pubblica 45591101551: index online = gh-pages; i 5 file v3 e le 4 Puntate 0 online identici (SHA-256) con richieste parziali; riproduzione reale sul sito pubblico 10/10 (Chrome Android, iPhone/WebKit).
 
 **Non fatto / da verificare:** prova sul telefono vero di Carlo e sulla sua rete. La **Puntata 0 doppiata** (circa 1,3 Mbit/s) non è stata toccata perché approvata: con rete molto scarsa potrebbe fermarsi anch'essa; ricodificarla allo stesso modo richiede l'approvazione di Carlo.
+
+
+### 25/11/2026 — Prenotazione del libro (Claude) — anteprima, NON pubblicata
+
+**Fonte:** richiesta di Carlo del 25/11/2026, ore 20:04 («Aggiornamento sito – Il cervello (ci) mente»: prenotazione gratuita con numerazione da 50.001, modulo, e-mail di conferma, area riservata, 5 lingue). Servizio scelto da Carlo alle 20:10: **Google Fogli + Apps Script** (gratuito). Zero crediti HeyGen, nessun servizio a pagamento.
+**Ramo:** `prenotazione-libro` (da `sito-v3-1` a249b1b). `gh-pages` e `main` non toccati.
+
+**Cosa cambia sul sito**
+- `index.html`: **solo aggiunte**, un blocco in fondo dopo «07 / Seguici» e prima del piè di pagina: «08 / Il libro · Prenotazione», titolo «Prenota oggi. Leggi domani.», testo «Entra a far parte dei primi lettori…», pulsante «PRENOTA LA TUA COPIA» → `prenota.html?lang=<lingua>`. Nessuna riga esistente modificata (diff: 3 righe aggiunte). Stile e testi del blocco in file nuovi: `css/prenota.css`, `js/prenota-invito.js`.
+- `prenota.html` (nuova): modulo con nome e cognome, e-mail, paese (nomi nella lingua della pagina), lingua preferita, formato cartaceo/e-book, consenso facoltativo alla mailing list, presa visione dell'informativa (obbligatoria). Gratuita e senza impegno, nessun pagamento. Dopo l'invio mostra il numero («N. 50.001») e la frase che è un identificativo, non il totale delle copie. Informativa privacy specifica della prenotazione in 5 lingue (da far rileggere a un professionista). File: `js/prenota.js`, `js/prenota-config.js` (indirizzo del servizio, vuoto finché non attivato: il modulo avvisa che le prenotazioni apriranno a breve).
+- 5 lingue (IT, EN, FR, ES, DE) per blocco, pagina, messaggi d'errore, informativa ed e-mail; stessa scelta di lingua del sito (`?lang=`, `nora-language`).
+
+**Servizio prenotazioni** (`backend/prenotazioni/`: `Codice.gs`, `Admin.html`, `appsscript.json`, guida `README-ATTIVAZIONE.md`)
+- Numerazione: valore iniziale 50.000, prima prenotazione 50.001, +1 a ogni prenotazione registrata; blocco LockService contro i doppioni; se il contatore si perde riparte dall'ultimo numero del Foglio; numeri annullati mai riassegnati.
+- Numero progressivo e totale reale separati (totale = righe con stato «attiva»).
+- E-mail di conferma automatica nella lingua del sito, con il numero; se la quota Gmail (100/giorno) è esaurita la prenotazione è salvata e la conferma parte con l'attivatore orario.
+- Antispam e protezione dei dati: campo nascosto, tempo minimo 2,5 s, massimo 60 prenotazioni in 10 minuti, una sola prenotazione per e-mail (rinvio del numero al massimo 1 volta all'ora), validazione lato servizio, testi che iniziano con `=` mai trasformati in formule (Foglio e CSV).
+- Area riservata (stesso progetto, pubblicazione «Solo io» + controllo del proprietario nel codice): prenotazioni effettive, numero progressivo raggiunto, elenco con ricerca e Annulla/Riattiva, mailing list, statistiche per paese/lingua/formato, andamento giornaliero, CSV (prenotazioni, mailing list, statistiche).
+
+**Collaudo**
+- Logica del servizio (`test/collaudo-backend.mjs`, Codice.gs vero in ambiente Apps Script simulato): 16/16 prove (50.001-50.002-50.003, 500 prenotazioni senza doppioni, doppioni per e-mail, antispam, quota esaurita, area riservata negata ad anonimi e ad altri account).
+- Browser: vedi l'annotazione dei risultati qui sotto.
+
+**Da fare per pubblicare (serve Carlo):** attivare Apps Script con l'account del progetto (guida `backend/prenotazioni/README-ATTIVAZIONE.md`), mandare l'URL `/exec`, approvare l'anteprima. **Da decidere:** l'informativa generale del sito dice ancora «Non ci sono account, moduli o newsletter»; con la prenotazione online non è più vero. Proposta: aggiornare quella frase nelle 5 lingue (unica modifica a un testo esistente), solo con l'ok di Carlo.

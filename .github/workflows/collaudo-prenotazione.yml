@@ -1,0 +1,40 @@
+name: Collaudo prenotazione libro
+on:
+  push:
+    branches: [prenotazione-libro]
+    paths: ['.github/workflows/collaudo-prenotazione.yml', 'index.html', 'prenota.html', 'css/prenota.css', 'js/prenota*.js', 'backend/prenotazioni/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  collaudo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        motore: [chromium, webkit, firefox]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps ${{ matrix.motore }}
+      - name: Logica del servizio (Codice.gs)
+        run: node backend/prenotazioni/test/collaudo-backend.mjs
+      - name: Collaudo nel browser
+        run: |
+          git show origin/sito-v3-1:index.html > /tmp/originale.html
+          ORIGINALE=/tmp/originale.html node backend/prenotazioni/test/server-anteprima.mjs 8123 > /tmp/server.log 2>&1 &
+          sleep 2
+          node backend/prenotazioni/test/collaudo-browser.mjs ${{ matrix.motore }} collaudo-prenotazione
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: collaudo-prenotazione-${{ matrix.motore }}
+          path: collaudo-prenotazione
+          retention-days: 30
