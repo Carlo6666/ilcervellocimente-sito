@@ -56,7 +56,7 @@ async function playingUnmuted(page) {
 
 async function clickPlay(page, sel) {
   const b = page.locator(sel);
-  await b.scrollIntoViewIfNeeded();
+  await b.evaluate(e => e.scrollIntoView({block: 'center'}));
   await sleep(300);
   await b.click();
 }
@@ -86,9 +86,8 @@ for (const cfg of configs) {
       const centre = await page.locator('.hero-video-wrap').evaluate(w => { const a = w.getBoundingClientRect(); const b = w.querySelector('.big-play').getBoundingClientRect();
         return {dx: Math.round((b.left + b.width / 2) - (a.left + a.width / 2)), dy: Math.round((b.top + b.height / 2) - (a.top + a.height / 2))}; });
       check('play presentazione al centro del video', Math.abs(centre.dx) <= 2 && Math.abs(centre.dy) <= 2, centre);
-      await page.locator('.hero-video-wrap > .big-play').scrollIntoViewIfNeeded();
-      const onTop = await page.locator('.hero-video-wrap > .big-play').evaluate(b => { const r = b.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (e === b || b.contains(e)); });
-      check('play presentazione cliccabile (non coperto)', onTop);
+      const onTop = await page.locator('.hero-video-wrap > .big-play').evaluate(b => { b.scrollIntoView({block: 'center'}); const r = b.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return {ok: !!e && (e === b || b.contains(e)), sopra: e ? (e.id || e.className || e.tagName) : null}; });
+      check('play presentazione cliccabile (non coperto)', onTop.ok, onTop);
       await page.locator('.hero-visual').screenshot({path: `${OUT}/schermate/${cfg.name}-${lang}-presentazione.png`});
 
       // 2. Presentazione: sorgente nella lingua giusta, riproduzione nella pagina
@@ -124,7 +123,7 @@ for (const cfg of configs) {
       await page.locator('#language-select').scrollIntoViewIfNeeded();
       await Promise.all([page.waitForEvent('load'), page.locator('#language-select').selectOption(other)]);
       await sleep(800);
-      check('cambio lingua durante riproduzione: pagina nella nuova lingua', await page.evaluate(() => document.documentElement.lang) === other && new URL(location.href).searchParams.get('lang') === other, other);
+      check('cambio lingua durante riproduzione: pagina nella nuova lingua', await page.evaluate(() => document.documentElement.lang) === other && new URL(page.url()).searchParams.get('lang') === other, {lingua: other, url: page.url()});
       check('cambio lingua durante riproduzione: nessun audio residuo', (await playingUnmuted(page)).length === 0, await playingUnmuted(page));
       // 5. DOPO il cambio: entrambi i video nella nuova lingua
       await clickPlay(page, '.hero-video-wrap > .big-play');
