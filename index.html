@@ -220,8 +220,10 @@ body{background:#120e0c;color:var(--cream)}
 .hero-visual .sticker-bottom{left:4%;bottom:7%;pointer-events:none}
 .hero-visual .vertical-label{display:none}
 .hero-video-play{bottom:19%;right:12%;width:56px;height:56px}
+/* 25/11/2026: pulsante Play della presentazione identico a quello della Puntata 0 (.big-play), al centro del video. */
+.hero-video-wrap>.hero-big-play{z-index:3}
 .hero-visual.is-playing .hero-sticker,.hero-visual.is-playing .vertical-label{visibility:hidden}
-.hero-video-wrap.is-playing>.nora-loop,.hero-video-wrap.is-playing>.hero-video-play,.featured-media.is-playing>img,.featured-media.is-playing>.featured-number,.featured-media.is-playing>.big-play,.episode-thumb.is-playing>img,.episode-thumb.is-playing>.episode-badge,.episode-thumb.is-playing>.episode-giant{visibility:hidden}
+.hero-video-wrap.is-playing>.nora-loop,.hero-video-wrap.is-playing>.hero-video-play,.hero-video-wrap.is-playing>.big-play,.featured-media.is-playing>img,.featured-media.is-playing>.featured-number,.featured-media.is-playing>.big-play,.episode-thumb.is-playing>img,.episode-thumb.is-playing>.episode-badge,.episode-thumb.is-playing>.episode-giant{visibility:hidden}
 .hero-video-wrap.is-playing::after{display:none}
 .featured-media,.episode-thumb{position:relative}
 .featured-episode{border:0;border-radius:0;background:transparent}
@@ -295,7 +297,7 @@ body{background:#120e0c;color:var(--cream)}
           <div class="hero-image-frame">
             <div class="hero-video-wrap">
               <video id="nora-loop" class="nora-loop" src="assets/nora-silent-loop.mp4" poster="assets/nora-ritratto.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Breve animazione silenziosa dell'avatar Nora"></video>
-              <button type="button" class="hero-video-play" data-video="project-intro" data-title="Nora — Presentazione del progetto" aria-label="Guarda la presentazione del progetto"><span aria-hidden="true">▶</span></button>
+              <button type="button" class="big-play hero-big-play" data-video="project-intro" data-title="Nora — Presentazione del progetto" aria-label="Guarda la presentazione del progetto"><span aria-hidden="true">▶</span></button>
             </div>
           </div>
           <div class="hero-sticker sticker-top"><span>LA VOCE<br>DELLE<br>STORIE</span><span class="sticker-smile" aria-hidden="true">✳</span></div>
@@ -523,19 +525,20 @@ window.NORA_NEW_EP={"en":[["NEXT EPISODE","We need to talk","A tiny message, a h
     if(isIntro) {
       const labelsIntro={
         it:['Nora — Presentazione del progetto','Presentazione originale in italiano.','Apri la presentazione ↗','Filmato momentaneamente non disponibile.'],
-        en:['Nora — Project introduction','Original introduction in Italian.','Open introduction ↗','Video temporarily unavailable.'],
-        fr:['Nora — Présentation du projet','Présentation originale en italien.','Ouvrir la présentation ↗','Vidéo momentanément indisponible.'],
-        es:['Nora — Presentación del proyecto','Presentación original en italiano.','Abrir la presentación ↗','Vídeo temporalmente no disponible.'],
-        de:['Nora — Projektvorstellung','Originalvorstellung auf Italienisch.','Vorstellung öffnen ↗','Video vorübergehend nicht verfügbar.']
+        en:['Nora — Project introduction','English dubbed introduction.','Open introduction ↗','Video temporarily unavailable.'],
+        fr:['Nora — Présentation du projet','Présentation doublée en français.','Ouvrir la présentation ↗','Vidéo momentanément indisponible.'],
+        es:['Nora — Presentación del proyecto','Presentación doblada al español.','Abrir la presentación ↗','Vídeo temporalmente no disponible.'],
+        de:['Nora — Projektvorstellung','Deutsch synchronisierte Vorstellung.','Vorstellung öffnen ↗','Video vorübergehend nicht verfügbar.']
       };
       const t=labelsIntro[lang]||labelsIntro.it;
       $('#video-modal-title').textContent=t[0];note.textContent=t[1];direct.textContent=t[2];
       const player=document.createElement('video');
-      const local='assets/video/nora-presentazione-it.mp4';
+      const introLang=['it','en','fr','es','de'].includes(lang)?lang:'it';
+      const local='assets/video/nora-presentazione-'+introLang+'.mp4';
       const sources=[local];let n=0;
       player.controls=true;player.autoplay=true;player.playsInline=true;player.preload='auto';player.setAttribute('aria-label',t[0]);
       function source(){player.src=sources[n];direct.href=sources[n];}
-      player.addEventListener('error',()=>{if(!player.isConnected)return;if(++n<sources.length){source();player.load();const p=player.play();if(p&&p.catch)p.catch(()=>{});}else{note.textContent=t[3];direct.href='https://app.heygen.com/videos/bcffdc21b35239be6bc497c5774ea018';}});
+      player.addEventListener('error',()=>{if(!player.isConnected)return;if(++n<sources.length){source();player.load();const p=player.play();if(p&&p.catch)p.catch(()=>{});}else{note.textContent=t[3];direct.href=local;}});
       source();embed.replaceChildren(player);const p=player.play();if(p&&p.catch)p.catch(()=>{});
     } else if(dubbed) {
       const caption=dubbedCaptions[lang];
