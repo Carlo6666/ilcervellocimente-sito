@@ -63,11 +63,36 @@ function setup() {
 }
 
 function foglio_() {
-  var id = PropertiesService.getScriptProperties().getProperty('ID_FOGLIO');
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('ID_FOGLIO');
   var ss = id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) throw new Error('Foglio non trovato: esegui setup() dal Foglio Google.');
   var sh = ss.getSheetByName(CONFIG.NOME_FOGLIO);
-  if (!sh) throw new Error('Foglio "' + CONFIG.NOME_FOGLIO + '" non trovato: esegui setup().');
+  if (!sh || sh.getLastRow() === 0) {
+    // Prima esecuzione senza setup() (attivazione automatica): prepara il foglio.
+    // Avviene alla prima apertura dell'area riservata; dentro prenota_ il blocco è già preso.
+    {
+      sh = ss.getSheetByName(CONFIG.NOME_FOGLIO) || ss.insertSheet(CONFIG.NOME_FOGLIO);
+      if (sh.getLastRow() === 0) {
+        sh.appendRow(COLONNE);
+        sh.setFrozenRows(1);
+        sh.getRange(1, 1, 1, COLONNE.length).setFontWeight('bold');
+        sh.getRange('A:A').setNumberFormat('0');
+        sh.getRange('B:B').setNumberFormat('dd/MM/yyyy HH:mm:ss');
+      }
+      if (!id) props.setProperty('ID_FOGLIO', ss.getId());
+      if (!props.getProperty('ULTIMO_NUMERO')) props.setProperty('ULTIMO_NUMERO', String(CONFIG.NUMERO_INIZIALE));
+    }
+  }
   return sh;
+}
+
+/** Crea l'attivatore orario delle e-mail in attesa, se manca (chiamata dall'area riservata). */
+function assicuraAttivatore_() {
+  try {
+    var esiste = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'inviaEmailInAttesa'; });
+    if (!esiste) ScriptApp.newTrigger('inviaEmailInAttesa').timeBased().everyHours(1).create();
+  } catch (err) { console.error(err); }
 }
 
 /* ------------------------------------------------------------------ */
@@ -388,6 +413,8 @@ function doGet() {
       '<p style="font-family:Arial,sans-serif;padding:24px">Accesso riservato. / Restricted area.</p>')
       .setTitle('Il cervello (ci) mente');
   }
+  foglio_();
+  assicuraAttivatore_();
   return HtmlService.createTemplateFromFile('Admin').evaluate()
     .setTitle('Prenotazioni — area riservata')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
