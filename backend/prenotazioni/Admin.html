@@ -21,7 +21,6 @@ h2{font:800 20px/1.2 'Arial Narrow',Arial,sans-serif;margin:0 0 12px;letter-spac
 .kpi small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
 .kpi.main{background:var(--orange);border-color:var(--orange)}.kpi.main span,.kpi.main small{color:#fff}
 .note{border-left:4px solid var(--orange);padding:10px 14px;background:#24180f;border-radius:6px;color:#e2bea3;margin:0 0 18px}
-.progress{height:10px;background:#3a261c;border-radius:5px;overflow:hidden;margin-top:8px}.progress i{display:block;height:100%;background:#fff}
 .bar{display:grid;grid-template-columns:minmax(90px,34%) 1fr 86px;gap:8px;align-items:center;margin:5px 0;font-size:13px}
 .bar i{display:block;height:10px;background:var(--orange);border-radius:5px;min-width:2px}
 .bar em{font-style:normal;text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
@@ -98,17 +97,14 @@ td button{min-height:32px;padding:6px 8px;font-size:11px}
   function disegna(){
     var cS=idx('Stato'),cL=idx('Lingua del sito');
     var tutte=D.righe,attive=tutte.filter(function(r){return r[cS]==='attiva';});
-    var aperte=D.totale<D.soglia, pct=Math.min(100,D.totale/D.soglia*100);
     document.getElementById('meta').textContent='Aggiornato il '+D.aggiornato+' · E-mail di conferma ancora inviabili oggi: '+fmt(D.quotaEmail);
     var h='';
     h+='<div class="grid kpis">'+
-      '<div class="card kpi main"><span>Copie prenotate</span><b>'+fmt(D.totale)+'</b><small>su una soglia di '+fmt(D.soglia)+' · '+(aperte?'prenotazioni APERTE':'prenotazioni CHIUSE')+'</small><div class="progress"><i style="width:'+pct+'%"></i></div></div>'+
-      '<div class="card kpi"><span>Copie ancora disponibili</span><b>'+fmt(Math.max(0,D.soglia-D.totale))+'</b><small>Prima della chiusura automatica</small></div>'+
+      '<div class="card kpi main"><span>Copie prenotate</span><b>'+fmt(D.totale)+'</b><small>Prenotazioni attive · nessun limite</small></div>'+
       '<div class="card kpi"><span>Ultimo riferimento</span><b>'+fmt(D.ultimoNumero)+'</b><small>Progressivo (il primo è '+fmt(D.numeroIniziale+1)+')</small></div>'+
       '<div class="card kpi"><span>Annullate</span><b>'+fmt(tutte.length-attive.length)+'</b><small>Il loro riferimento non viene riassegnato</small></div>'+
       '</div>';
-    h+='<p class="note"><strong>Due numeri diversi.</strong> Il <em>riferimento</em> è un progressivo che parte da '+fmt(D.numeroIniziale+1)+' e non indica quante copie sono state prenotate. Le <em>copie prenotate</em> sono il conteggio delle prenotazioni attive: al raggiungimento della soglia il sito mostra «Prenotazioni chiuse» e il servizio rifiuta i nuovi invii.</p>';
-    h+='<div class="card" style="margin-bottom:12px"><h2>Soglia di chiusura</h2><div class="tools"><input type="number" id="soglia" min="1" step="1" value="'+D.soglia+'" aria-label="Soglia copie"><button class="primary" id="salva-soglia">Salva soglia</button></div><p class="meta" style="margin:0">Valore predefinito 50.000 copie effettivamente prenotate.</p></div>';
+    h+='<p class="note"><strong>Due numeri diversi.</strong> Il <em>riferimento</em> è un progressivo che parte da '+fmt(D.numeroIniziale+1)+' e non indica quante copie sono state prenotate. Le <em>copie prenotate</em> sono il conteggio delle prenotazioni attive. Non c’è nessun limite: le prenotazioni restano sempre aperte.</p>';
     h+='<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:12px"><div class="card"><h2>Andamento giornaliero</h2>'+grafico(attive)+'</div>'+
       '<div class="card"><h2>Lingua del sito usata</h2>'+barre(conta(attive,cL),attive.length,function(k){return NOMI_LINGUE[k]||k;})+'</div></div>';
     h+='<div class="tools"><input type="search" id="cerca" placeholder="Cerca e-mail o riferimento…" value="'+esc(filtro)+'">'+
@@ -133,10 +129,6 @@ td button{min-height:32px;padding:6px 8px;font-size:11px}
     var b=e.target.closest('button');if(!b||!D)return;
     if(b.id==='aggiorna'){carica();return;}
     if(b.id==='altre'){quante+=50;disegna();return;}
-    if(b.id==='salva-soglia'){var n=Number(document.getElementById('soglia').value);
-      if(!(n>0)){alert('Soglia non valida');return;}
-      if(!confirm('Impostare la soglia a '+fmt(n)+' copie?'))return;b.disabled=true;
-      google.script.run.withSuccessHandler(carica).withFailureHandler(function(err){alert(err.message||err);b.disabled=false;}).impostaSoglia(n);return;}
     if(b.dataset.stato){
       var msg=b.dataset.stato==='annullata'?'Annullare la prenotazione n. '+fmt(b.dataset.num)+'? Il riferimento non verrà riassegnato.':'Riattivare la prenotazione n. '+fmt(b.dataset.num)+'?';
       if(!confirm(msg))return;b.disabled=true;

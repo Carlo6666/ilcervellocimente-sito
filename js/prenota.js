@@ -1,15 +1,14 @@
 /* IL CERVELLO (CI) MENTE — «Prenota il libro» in fondo alla pagina principale (26/11/2026)
    Pulsante → modulo nella stessa pagina (solo e-mail) → conferma con il riferimento, mostrata solo dopo il salvataggio.
    5 lingue. Protezioni: pulsante bloccato durante l'invio, stesso ID richiesta nei tentativi ripetuti
-   (il servizio restituisce lo stesso riferimento invece di crearne un altro), chiusura al raggiungimento della soglia. */
+   (il servizio restituisce lo stesso riferimento invece di crearne un altro). Nessun limite: le prenotazioni restano sempre aperte. */
 (function () {
   'use strict';
   var T = {
     it: {
       kicker: '08 / IL LIBRO · PRENOTAZIONE', title: 'Prenota oggi.<em>Leggi domani.</em>',
       text: 'Entra a far parte dei primi lettori. Prenota la tua copia e ricevila non appena sarà pubblicata.',
-      button: 'PRENOTA IL LIBRO', closed: 'PRENOTAZIONI CHIUSE', note: 'GRATUITA E SENZA IMPEGNO · NESSUN PAGAMENTO',
-      closedText: 'Abbiamo raggiunto il numero massimo di copie prenotabili. Grazie a tutti!',
+      button: 'PRENOTA IL LIBRO', note: 'GRATUITA E SENZA IMPEGNO · NESSUN PAGAMENTO',
       email: 'Il tuo indirizzo e-mail *', placeholder: 'nome@esempio.it',
       privacyLine: 'Inviando la prenotazione dichiari di aver letto l’<a href="#informativa-prenotazione">informativa privacy</a>.',
       submit: 'CONFERMA LA PRENOTAZIONE', sending: 'SALVATAGGIO IN CORSO…', retry: 'RIPROVA',
@@ -17,7 +16,6 @@
       errServer: 'Non siamo riusciti a salvare la prenotazione. Nessun dato è andato perso: premi «Riprova».',
       errBusy: 'In questo momento arrivano molte prenotazioni. Attendi qualche secondo e premi «Riprova».',
       errCheck: 'Non siamo riusciti a verificare l’invio. Attendi qualche secondo e premi «Riprova».',
-      errClosed: 'Le prenotazioni sono appena state chiuse: abbiamo raggiunto il numero massimo di copie.',
       notOpen: 'Le prenotazioni apriranno a breve: il modulo non è ancora attivo.',
       doneKicker: 'PRENOTAZIONE CONFERMATA', doneTitle: 'Grazie! La tua copia è prenotata.', doneLabel: 'Il tuo riferimento',
       doneNote: 'Conserva questo riferimento. Non indica quante copie sono state prenotate.',
@@ -35,8 +33,7 @@
     en: {
       kicker: '08 / THE BOOK · PRE-ORDER', title: 'Pre-order today.<em>Read tomorrow.</em>',
       text: 'Be one of the first readers. Pre-order your copy and get it as soon as it is published.',
-      button: 'PRE-ORDER THE BOOK', closed: 'PRE-ORDERS CLOSED', note: 'FREE AND WITH NO OBLIGATION · NO PAYMENT',
-      closedText: 'We have reached the maximum number of copies available for pre-order. Thank you all!',
+      button: 'PRE-ORDER THE BOOK', note: 'FREE AND WITH NO OBLIGATION · NO PAYMENT',
       email: 'Your e-mail address *', placeholder: 'name@example.com',
       privacyLine: 'By sending the pre-order you confirm you have read the <a href="#informativa-prenotazione">privacy notice</a>.',
       submit: 'CONFIRM PRE-ORDER', sending: 'SAVING…', retry: 'TRY AGAIN',
@@ -44,7 +41,6 @@
       errServer: 'We could not save your pre-order. Nothing has been lost: press “Try again”.',
       errBusy: 'Lots of pre-orders are arriving right now. Wait a few seconds and press “Try again”.',
       errCheck: 'We could not verify the submission. Wait a few seconds and press “Try again”.',
-      errClosed: 'Pre-orders have just closed: we have reached the maximum number of copies.',
       notOpen: 'Pre-orders will open soon: the form is not active yet.',
       doneKicker: 'PRE-ORDER CONFIRMED', doneTitle: 'Thank you! Your copy is reserved.', doneLabel: 'Your reference',
       doneNote: 'Please keep this reference. It does not show how many copies have been pre-ordered.',
@@ -62,8 +58,7 @@
     fr: {
       kicker: '08 / LE LIVRE · RÉSERVATION', title: 'Réservez aujourd’hui.<em>Lisez demain.</em>',
       text: 'Rejoignez les premiers lecteurs. Réservez votre exemplaire et recevez-le dès sa parution.',
-      button: 'RÉSERVER LE LIVRE', closed: 'RÉSERVATIONS CLOSES', note: 'GRATUIT ET SANS ENGAGEMENT · AUCUN PAIEMENT',
-      closedText: 'Nous avons atteint le nombre maximum d’exemplaires réservables. Merci à tous !',
+      button: 'RÉSERVER LE LIVRE', note: 'GRATUIT ET SANS ENGAGEMENT · AUCUN PAIEMENT',
       email: 'Votre adresse e-mail *', placeholder: 'nom@exemple.fr',
       privacyLine: 'En envoyant la réservation, vous confirmez avoir lu la <a href="#informativa-prenotazione">politique de confidentialité</a>.',
       submit: 'CONFIRMER LA RÉSERVATION', sending: 'ENREGISTREMENT…', retry: 'RÉESSAYER',
@@ -71,7 +66,6 @@
       errServer: 'Nous n’avons pas pu enregistrer votre réservation. Rien n’est perdu : appuyez sur « Réessayer ».',
       errBusy: 'Beaucoup de réservations arrivent en ce moment. Patientez quelques secondes et appuyez sur « Réessayer ».',
       errCheck: 'Nous n’avons pas pu vérifier l’envoi. Patientez quelques secondes et appuyez sur « Réessayer ».',
-      errClosed: 'Les réservations viennent d’être closes : nous avons atteint le nombre maximum d’exemplaires.',
       notOpen: 'Les réservations ouvriront bientôt : le formulaire n’est pas encore actif.',
       doneKicker: 'RÉSERVATION CONFIRMÉE', doneTitle: 'Merci ! Votre exemplaire est réservé.', doneLabel: 'Votre référence',
       doneNote: 'Conservez cette référence. Elle n’indique pas le nombre d’exemplaires réservés.',
@@ -89,8 +83,7 @@
     es: {
       kicker: '08 / EL LIBRO · RESERVA', title: 'Resérvalo hoy.<em>Léelo mañana.</em>',
       text: 'Únete a los primeros lectores. Reserva tu ejemplar y recíbelo en cuanto se publique.',
-      button: 'RESERVAR EL LIBRO', closed: 'RESERVAS CERRADAS', note: 'GRATIS Y SIN COMPROMISO · SIN PAGO',
-      closedText: 'Hemos alcanzado el número máximo de ejemplares que se pueden reservar. ¡Gracias a todos!',
+      button: 'RESERVAR EL LIBRO', note: 'GRATIS Y SIN COMPROMISO · SIN PAGO',
       email: 'Tu dirección de correo electrónico *', placeholder: 'nombre@ejemplo.es',
       privacyLine: 'Al enviar la reserva confirmas que has leído la <a href="#informativa-prenotazione">información sobre privacidad</a>.',
       submit: 'CONFIRMAR LA RESERVA', sending: 'GUARDANDO…', retry: 'REINTENTAR',
@@ -98,7 +91,6 @@
       errServer: 'No hemos podido guardar tu reserva. No se ha perdido nada: pulsa «Reintentar».',
       errBusy: 'Ahora mismo llegan muchas reservas. Espera unos segundos y pulsa «Reintentar».',
       errCheck: 'No hemos podido verificar el envío. Espera unos segundos y pulsa «Reintentar».',
-      errClosed: 'Las reservas se acaban de cerrar: hemos alcanzado el número máximo de ejemplares.',
       notOpen: 'Las reservas se abrirán pronto: el formulario todavía no está activo.',
       doneKicker: 'RESERVA CONFIRMADA', doneTitle: '¡Gracias! Tu ejemplar está reservado.', doneLabel: 'Tu referencia',
       doneNote: 'Guarda esta referencia. No indica cuántos ejemplares se han reservado.',
@@ -116,8 +108,7 @@
     de: {
       kicker: '08 / DAS BUCH · VORBESTELLUNG', title: 'Heute vorbestellen.<em>Morgen lesen.</em>',
       text: 'Gehöre zu den ersten Leserinnen und Lesern. Bestelle dein Exemplar vor und erhalte es, sobald es erscheint.',
-      button: 'BUCH VORBESTELLEN', closed: 'VORBESTELLUNGEN GESCHLOSSEN', note: 'KOSTENLOS UND UNVERBINDLICH · KEINE ZAHLUNG',
-      closedText: 'Die Höchstzahl an vorbestellbaren Exemplaren ist erreicht. Vielen Dank an alle!',
+      button: 'BUCH VORBESTELLEN', note: 'KOSTENLOS UND UNVERBINDLICH · KEINE ZAHLUNG',
       email: 'Deine E-Mail-Adresse *', placeholder: 'name@beispiel.de',
       privacyLine: 'Mit dem Absenden bestätigst du, die <a href="#informativa-prenotazione">Datenschutzhinweise</a> gelesen zu haben.',
       submit: 'VORBESTELLUNG BESTÄTIGEN', sending: 'WIRD GESPEICHERT…', retry: 'ERNEUT VERSUCHEN',
@@ -125,7 +116,6 @@
       errServer: 'Deine Vorbestellung konnte nicht gespeichert werden. Es ist nichts verloren: Tippe auf „Erneut versuchen“.',
       errBusy: 'Gerade kommen sehr viele Vorbestellungen an. Warte ein paar Sekunden und tippe auf „Erneut versuchen“.',
       errCheck: 'Das Absenden konnte nicht überprüft werden. Warte ein paar Sekunden und tippe auf „Erneut versuchen“.',
-      errClosed: 'Die Vorbestellungen wurden soeben geschlossen: Die Höchstzahl an Exemplaren ist erreicht.',
       notOpen: 'Die Vorbestellung öffnet in Kürze: Das Formular ist noch nicht aktiv.',
       doneKicker: 'VORBESTELLUNG BESTÄTIGT', doneTitle: 'Danke! Dein Exemplar ist reserviert.', doneLabel: 'Deine Referenz',
       doneNote: 'Bewahre diese Referenz auf. Sie zeigt nicht, wie viele Exemplare vorbestellt wurden.',
@@ -155,7 +145,7 @@
   $('#pr-email').setAttribute('placeholder', t.placeholder);
 
   var apri = $('#prenota-apri'), modulo = $('#prenota-modulo'), form = $('#pr-form'), campo = $('#pr-email');
-  var stato = $('#pr-status'), bottone = $('#pr-submit'), errEmail = $('#pr-err-email'), chiuse = $('#prenota-chiuse');
+  var stato = $('#pr-status'), bottone = $('#pr-submit'), errEmail = $('#pr-err-email');
   var api = String(window.PRENOTA_API || '').trim();
   var trasporto = window.PRENOTA_TRASPORTO || null; // solo anteprima: servizio simulato nel browser
   var attivo = !!(api || trasporto);
@@ -170,17 +160,6 @@
     return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'en' ? ',' : lang === 'fr' ? ' ' : '.');
   }
   function messaggio(testo, tipo) { stato.textContent = testo; stato.className = 'pr-status' + (tipo ? ' is-' + tipo : ''); }
-
-  function chiudi(motivo) {
-    apri.hidden = true;
-    chiuse.hidden = false;
-    $('#prenota-chiuse-testo').hidden = false;
-    if (!finito) {
-      modulo.hidden = true;
-      apri.setAttribute('aria-expanded', 'false');
-      if (motivo) { $('#prenota-chiuse-testo').textContent = t.errClosed; }
-    }
-  }
 
   function apriModulo(focus) {
     if (apri.hidden) return;
@@ -214,10 +193,6 @@
       .then(function (r) { clearTimeout(timer); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); },
         function (e) { clearTimeout(timer); throw e; });
   }
-  function leggiStato() {
-    if (trasporto) return trasporto.stato();
-    return fetch(api + (api.indexOf('?') < 0 ? '?' : '&') + 'azione=stato', { redirect: 'follow' }).then(function (r) { return r.json(); });
-  }
 
   function attesa(si) {
     inviando = si;
@@ -243,7 +218,6 @@
     form.hidden = true;
     done.hidden = false;
     done.focus();
-    if (r.aperte === false) { apri.hidden = true; chiuse.hidden = false; }
   }
 
   form.addEventListener('submit', function (e) {
@@ -264,7 +238,6 @@
       if (r && r.ok && (r.numero || r.duplicato)) { attesa(false); successo(r, email); return; }
       attesa(false);
       var err = r && r.errore;
-      if (err === 'chiuse') { chiudi(true); return; }
       if (err === 'campi') { errEmail.hidden = false; campo.setAttribute('aria-invalid', 'true'); messaggio(t.errEmail, 'error'); return; }
       messaggio(err === 'limite' || err === 'occupato' ? t.errBusy : err === 'verifica' ? t.errCheck : t.errServer, 'error');
     }).catch(function () {
@@ -273,9 +246,5 @@
     });
   });
 
-  // Stato iniziale: se la soglia è già raggiunta il pulsante diventa «Prenotazioni chiuse».
-  if (attivo) {
-    leggiStato().then(function (s) { if (s && s.ok && s.aperte === false) chiudi(false); }).catch(function () { /* il servizio blocca comunque gli invii */ });
-  }
   if (location.hash === '#prenota-modulo') apriModulo(false);
 })();

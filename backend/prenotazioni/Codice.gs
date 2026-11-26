@@ -5,15 +5,15 @@
  * le e-mail di conferma partono da Gmail dello stesso account.
  *
  * - doPost: riceve le prenotazioni dal modulo in fondo alla pagina principale (index.html).
- * - doGet ?azione=stato: dice al sito se le prenotazioni sono aperte (nessun dato personale).
+ * - doGet ?azione=stato: verifica tecnica che il servizio risponda (nessun dato personale).
  * - doGet senza parametri: area amministrativa, visibile solo al proprietario dello script.
  *
  * Due numeri separati:
  * - RIFERIMENTO: progressivo. Valore iniziale 50.325, la prima prenotazione riceve 50.326, poi +1.
  * - TOTALE delle copie effettivamente prenotate: parte da 0, +1 per ogni nuova prenotazione valida.
- *   Raggiunta la SOGLIA (50.000, configurabile) il servizio rifiuta i nuovi invii.
- * Tutto ciò che assegna numeri o controlla la soglia avviene sotto un unico blocco (LockService):
- * due richieste simultanee non possono ricevere lo stesso riferimento né superare la soglia.
+ * Nessun limite di chiusura: le prenotazioni restano sempre aperte.
+ * Tutto ciò che assegna numeri avviene sotto un unico blocco (LockService):
+ * due richieste simultanee non possono ricevere lo stesso riferimento.
  *
  * Contatori nelle proprietà dello script RIF_ULTIMO e COPIE_PRENOTATE (nomi nuovi: il contatore
  * ULTIMO_NUMERO della versione del 25/11, che partiva da 50.000, viene ignorato).
@@ -24,9 +24,6 @@
 var CONFIG = {
   // Valore iniziale del progressivo: la prima prenotazione salvata riceve NUMERO_INIZIALE + 1 = 50.326.
   NUMERO_INIZIALE: 50325,
-  // Copie effettivamente prenotate oltre le quali le prenotazioni si chiudono.
-  // Si può cambiare senza toccare il codice: proprietà dello script SOGLIA_COPIE, oppure dall'area riservata.
-  SOGLIA_COPIE: 50000,
   // Scheda nuova: la scheda «Prenotazioni» della versione del 25/11 (colonne diverse) non viene toccata.
   NOME_FOGLIO: 'Prenotazioni libro',
   VERSIONE_INFORMATIVA: 'prenotazione-2026-11-26',
@@ -61,7 +58,7 @@ function setup() {
   var esiste = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'inviaEmailInAttesa'; });
   if (!esiste) ScriptApp.newTrigger('inviaEmailInAttesa').timeBased().everyHours(1).create();
   Logger.log('Pronto. Ultimo riferimento: ' + props.getProperty('RIF_ULTIMO') +
-    ' · Copie prenotate: ' + props.getProperty('COPIE_PRENOTATE') + ' su ' + soglia_() +
+    ' · Copie prenotate: ' + props.getProperty('COPIE_PRENOTATE') +
     ' · E-mail ancora inviabili oggi: ' + MailApp.getRemainingDailyQuota());
 }
 
@@ -96,12 +93,6 @@ function assicuraAttivatore_() {
     var esiste = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'inviaEmailInAttesa'; });
     if (!esiste) ScriptApp.newTrigger('inviaEmailInAttesa').timeBased().everyHours(1).create();
   } catch (err) { console.error(err); }
-}
-
-/** Soglia attuale: proprietà SOGLIA_COPIE se impostata, altrimenti CONFIG.SOGLIA_COPIE. */
-function soglia_() {
-  var v = Number(PropertiesService.getScriptProperties().getProperty('SOGLIA_COPIE'));
-  return v > 0 ? Math.floor(v) : CONFIG.SOGLIA_COPIE;
 }
 
 function contaAttive_(sh) {
@@ -165,7 +156,7 @@ function prenota_(d) {
 
   var lock = LockService.getScriptLock();
   if (!lock.tryLock(25000)) return { ok: false, errore: 'occupato' };
-  var numero, riga, sh, totale, soglia, rinvio = 0;
+  var numero, riga, sh, totale, rinvio = 0;
   try {
     sh = foglio_();
     var props = PropertiesService.getScriptProperties();
@@ -181,8 +172,6 @@ function prenota_(d) {
       rinvio = esistente;
     } else {
       totale = totale_();
-      soglia = soglia_();
-      if (totale >= soglia) return { ok: false, errore: 'chiuse' };
 
       var cache = CacheService.getScriptCache();
       var recenti = Number(cache.get('recenti') || 0);
@@ -220,7 +209,7 @@ function prenota_(d) {
     return { ok: true, duplicato: true };
   }
   var statoEmail = inviaConferma_(sh, riga);
-  return { ok: true, numero: numero, email: statoEmail, aperte: totale + 1 < soglia };
+  return { ok: true, numero: numero, email: statoEmail };
 }
 
 function trovaEmail_(sh, email) {
@@ -392,8 +381,8 @@ function eAmministratore_() {
 
 function doGet(e) {
   if (e && e.parameter && e.parameter.azione === 'stato') {
-    // Solo aperto/chiuso: nessun conteggio e nessun dato personale.
-    try { foglio_(); return json_({ ok: true, aperte: totale_() < soglia_() }); }
+    // Verifica tecnica: nessun conteggio e nessun dato personale.
+    try { foglio_(); return json_({ ok: true }); }
     catch (err) { console.error(err); return json_({ ok: false, errore: 'server' }); }
   }
   if (!eAmministratore_()) {
@@ -421,7 +410,6 @@ function datiAdmin() {
     numeroIniziale: CONFIG.NUMERO_INIZIALE,
     ultimoNumero: Number(props.getProperty('RIF_ULTIMO') || CONFIG.NUMERO_INIZIALE),
     totale: totale_(),
-    soglia: soglia_(),
     quotaEmail: MailApp.getRemainingDailyQuota(),
     colonne: COLONNE,
     righe: righe.map(function (r) {
@@ -447,22 +435,12 @@ function cambiaStato(numero, stato) {
     if (!cella) return false;
     var cellaStato = sh.getRange(cella.getRow(), C['Stato']);
     if (cellaStato.getValue() === stato) return true;
-    if (stato === 'attiva' && totale_() >= soglia_()) throw new Error('Soglia raggiunta: non si può riattivare');
     cellaStato.setValue(stato);
     PropertiesService.getScriptProperties().setProperty('COPIE_PRENOTATE', String(contaAttive_(sh)));
     return true;
   } finally {
     try { lock.releaseLock(); } catch (x) {}
   }
-}
-
-/** Cambia la soglia di chiusura (copie effettivamente prenotate). */
-function impostaSoglia(n) {
-  if (!eAmministratore_()) throw new Error('Accesso riservato');
-  n = Math.floor(Number(n));
-  if (!(n > 0)) throw new Error('Soglia non valida');
-  PropertiesService.getScriptProperties().setProperty('SOGLIA_COPIE', String(n));
-  return n;
 }
 
 function include(nome) { return HtmlService.createHtmlOutputFromFile(nome).getContent(); }

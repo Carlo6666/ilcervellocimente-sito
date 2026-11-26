@@ -1,4 +1,4 @@
-// Collaudo della logica di Codice.gs: riferimento da 50.326, totale copie, soglia, doppioni, errori, area riservata.
+// Collaudo della logica di Codice.gs: riferimento da 50.326, totale copie, nessun limite, doppioni, errori, area riservata.
 // Codice.gs vero eseguito in un ambiente Apps Script simulato (ambiente-finto.mjs). Solo indirizzi di prova @example.com.
 // Uso: node backend/prenotazioni/test/collaudo-backend.mjs
 import assert from 'node:assert/strict';
@@ -15,21 +15,22 @@ amb.g.setup();
 const sh = amb.fogli['Prenotazioni libro'];
 const totale = () => Number(amb.props.COPIE_PRENOTATE);
 
-prova('setup: intestazioni, progressivo iniziale 50325, totale 0, soglia 50000, attivatore', () => {
+prova('setup: intestazioni, progressivo iniziale 50325, totale 0, nessuna soglia, attivatore', () => {
   assert.equal(sh.dati.length, 1);
   assert.equal(sh.dati[0][0], 'Riferimento');
   assert.equal(amb.props.RIF_ULTIMO, '50325');
   assert.equal(totale(), 0);
-  assert.equal(amb.g.soglia_(), 50000);
+  assert.equal(typeof amb.g.soglia_, 'undefined');
+  assert.equal(typeof amb.g.impostaSoglia, 'undefined');
   assert.equal(amb.triggers.length, 1);
   amb.g.setup();
   assert.equal(amb.triggers.length, 1, 'setup ripetuto non duplica');
-  assert.deepEqual(stato(amb), { ok: true, aperte: true });
+  assert.deepEqual(stato(amb), { ok: true });
 });
 
 prova('prima prenotazione: riferimento 50.326, totale 1; poi 50.327 e 50.328', () => {
   const r = post(amb, base({ email: 'mario@example.com' }));
-  assert.deepEqual(r, { ok: true, numero: 50326, email: 'inviata', aperte: true });
+  assert.deepEqual(r, { ok: true, numero: 50326, email: 'inviata' });
   assert.equal(totale(), 1);
   assert.equal(post(amb, base({ email: 'anna@example.com', linguaSito: 'en' })).numero, 50327);
   assert.equal(post(amb, base({ email: 'Luc@Example.fr', linguaSito: 'fr' })).numero, 50328);
@@ -105,55 +106,37 @@ prova('validazione e antispam: e-mail non valida, campo nascosto, invio troppo r
   assert.equal(sh.dati.length, n);
 });
 
-prova('soglia: chiusura all\'ultima copia, due richieste per l\'ultima copia → una sola accettata', () => {
-  const a = creaAmbiente(); a.g.setup();
-  a.props.SOGLIA_COPIE = '3';
-  assert.equal(post(a, base()).numero, 50326);
-  assert.equal(post(a, base()).numero, 50327);
-  // Due richieste per l'ultima copia: la seconda arriva mentre la prima tiene il blocco, poi riprova.
-  let seconda;
-  a.stato.durante = () => { seconda = post(a, base({ email: 'ultima-b@example.com' })); };
-  const dA = base({ email: 'ultima-a@example.com' });
-  const prima = post(a, dA);
-  assert.deepEqual(prima, { ok: true, numero: 50328, email: 'inviata', aperte: false });
-  assert.equal(seconda.errore, 'occupato');
-  assert.deepEqual(post(a, base({ email: 'ultima-b@example.com' })), { ok: false, errore: 'chiuse' });
-  assert.equal(Number(a.props.COPIE_PRENOTATE), 3);
-  assert.equal(a.fogli['Prenotazioni libro'].dati.length, 4);
-  assert.deepEqual(stato(a), { ok: true, aperte: false });
-  // Chi aveva già prenotato e ripete l'invio riceve ancora il suo riferimento.
-  assert.deepEqual(post(a, dA), { ok: true, numero: 50328, ripetuta: true });
-});
-
-prova('soglia predefinita 50.000: la 50.000ª prenotazione è accettata, la 50.001ª respinta', () => {
+prova('nessun limite: oltre 50.000 copie le prenotazioni restano aperte e i riferimenti proseguono', () => {
   const a = creaAmbiente(); a.g.setup();
   a.g.CONFIG.MAX_IN_10_MINUTI = 1e9;
-  a.g.CONFIG.MINUTI_TRA_RINVII = 0;
   a.stato.quota = 1e9;
-  // Per velocità: 49.999 prenotazioni già presenti (totale e progressivo coerenti), poi le ultime vere.
+  // Per velocità: 49.999 prenotazioni già presenti (totale e progressivo coerenti), poi le successive vere.
   a.props.COPIE_PRENOTATE = '49999';
   a.props.RIF_ULTIMO = String(50325 + 49999);
-  const r = post(a, base());
-  assert.equal(r.numero, 50325 + 50000);
-  assert.equal(r.aperte, false);
-  assert.equal(post(a, base()).errore, 'chiuse');
-  assert.equal(a.props.COPIE_PRENOTATE, '50000');
+  for (let i = 1; i <= 5; i++) {
+    const r = post(a, base());
+    assert.deepEqual(r, { ok: true, numero: 50325 + 49999 + i, email: 'inviata' });
+  }
+  assert.equal(a.props.COPIE_PRENOTATE, '50004');
+  assert.deepEqual(stato(a), { ok: true });
+  // Una vecchia proprietà SOGLIA_COPIE rimasta nello script non ha più effetto.
+  a.props.SOGLIA_COPIE = '3';
+  assert.equal(post(a, base()).ok, true);
+  assert.equal(a.props.COPIE_PRENOTATE, '50005');
 });
 
-prova('area riservata: annulla libera una copia (riferimento non riassegnato), riattiva rispetta la soglia, soglia modificabile', () => {
+prova('area riservata: annulla libera una copia (riferimento non riassegnato), riattiva sempre possibile, nessuna soglia nei dati', () => {
   const a = creaAmbiente({ utenteAttivo: 'ilcervellocimente@gmail.com' }); a.g.setup();
-  a.props.SOGLIA_COPIE = '2';
   post(a, base()); post(a, base());
-  assert.equal(post(a, base()).errore, 'chiuse');
   assert.equal(a.g.cambiaStato(50326, 'annullata'), true);
   assert.equal(a.props.COPIE_PRENOTATE, '1');
   const r = post(a, base());
   assert.equal(r.numero, 50328, 'il 50.326 annullato non viene riassegnato');
-  assert.throws(() => a.g.cambiaStato(50326, 'attiva'), /Soglia/);
-  assert.equal(a.g.impostaSoglia(5), 5);
-  assert.equal(a.g.soglia_(), 5);
+  assert.equal(a.g.cambiaStato(50326, 'attiva'), true);
+  assert.equal(a.props.COPIE_PRENOTATE, '3');
   const d = a.g.datiAdmin();
-  assert.equal(d.totale, 2); assert.equal(d.soglia, 5); assert.equal(d.ultimoNumero, 50328); assert.equal(d.numeroIniziale, 50325);
+  assert.equal(d.totale, 3); assert.equal(d.ultimoNumero, 50328); assert.equal(d.numeroIniziale, 50325);
+  assert.equal('soglia' in d, false);
 });
 
 prova('area riservata negata ad anonimi e ad altri account', () => {
@@ -161,7 +144,6 @@ prova('area riservata negata ad anonimi e ad altri account', () => {
     const a = creaAmbiente({ utenteAttivo: u }); a.g.setup();
     assert.match(a.g.doGet({ parameter: {} }).html, /Accesso riservato/);
     assert.throws(() => a.g.datiAdmin(), /Accesso riservato/);
-    assert.throws(() => a.g.impostaSoglia(10), /Accesso riservato/);
     assert.throws(() => a.g.cambiaStato(50326, 'annullata'), /Accesso riservato/);
   }
 });

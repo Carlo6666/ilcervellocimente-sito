@@ -479,3 +479,19 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 **Servizio Google già attivato** (commit `27618a7` del 26/11, ore 11:46 circa, altra sessione): l'indirizzo `/exec` è in `js/prenota-config.js`, ma su Google gira ancora il **Codice.gs del 25/11** (numeri da 50.001, campi vecchi). Il nuovo codice usa una scheda nuova («Prenotazioni libro») e contatori con nomi nuovi (`RIF_ULTIMO`, `COPIE_PRENOTATE`), quindi la vecchia scheda e il vecchio contatore non vengono toccati né riusati. `verifica-servizio-prenotazioni.yml` aggiornato: invio con e-mail non valida, così non crea prenotazioni con il codice nuovo.
 
 **Da fare per pubblicare (serve Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script (clasp push + nuova versione di entrambe le pubblicazioni, URL invariati), approvare l'anteprima, poi pubblicazione su `gh-pages`.
+
+
+### 26/11/2026 — Prenotazioni: tolto il limite dei 50.000 (Claude) — anteprima, NON pubblicata
+
+**Fonte:** istruzione di Carlo del 26/11/2026: «Le prenotazioni partono a 50.326 e non esiste nessun limite di chiusura delle prenotazioni. Togli quel limite dei 50.000 che non ha nessun senso.»
+**Ramo:** `prenotazione-libro`. `gh-pages` e `main` non toccati. Il codice su Google non è ancora stato aggiornato.
+
+**Cosa è cambiato**
+- `Codice.gs`: tolti `CONFIG.SOGLIA_COPIE`, `soglia_()`, `impostaSoglia()`, il rifiuto «chiuse» e il campo `aperte` nella risposta; «Riattiva» nell'area riservata è sempre possibile. `?azione=stato` resta solo come verifica tecnica (`{ok:true}`). Una vecchia proprietà `SOGLIA_COPIE` eventualmente rimasta non ha più effetto. Invariati: primo riferimento 50.326, totale copie da 0, blocco LockService, nessun doppione.
+- `Admin.html`: tolti la scheda «Soglia di chiusura», «Copie ancora disponibili» e la barra di avanzamento; restano copie prenotate, ultimo riferimento e annullate.
+- Sito: tolti il pulsante «Prenotazioni chiuse» e il suo testo (`index.html`, `js/prenota.js` in 5 lingue, `css/prenota.css`) e il controllo dello stato all'apertura della pagina.
+- Collaudi e `README-ATTIVAZIONE.md` aggiornati.
+
+**Collaudo (locale, servizio simulato con il Codice.gs vero, solo @example.com):** `collaudo-backend.mjs` 13/13 (anche: oltre 50.000 copie le prenotazioni proseguono). `collaudo-browser.mjs` Chromium 52/52 prove + 8/8 regressioni (nuova prova: con 60.000 copie già prenotate il modulo resta aperto, il primo riferimento è 50.326 e due invii simultanei ricevono riferimenti diversi).
+
+**Da fare (serve l'ok di Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script; il servizio Google risponde ancora «Accesso negato» finché il progetto non viene autorizzato dall'editor (`setup` → Consenti).

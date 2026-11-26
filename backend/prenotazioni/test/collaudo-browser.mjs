@@ -20,11 +20,11 @@ const dispositivi = {
 }[motore];
 
 const attesi = {
-  it: { button: 'PRENOTA IL LIBRO', closed: 'PRENOTAZIONI CHIUSE', title: 'Prenota oggi.', ref: 'N. 50.326', ref2: 'N. 50.327', done: 'Grazie! La tua copia è prenotata.', err: 'Non siamo riusciti a salvare', retry: 'RIPROVA', dup: 'Hai già prenotato una copia.', email: 'Inserisci un indirizzo e-mail valido.', privacy: 'Informativa privacy sulla prenotazione', notOpen: 'Le prenotazioni apriranno a breve' },
-  en: { button: 'PRE-ORDER THE BOOK', closed: 'PRE-ORDERS CLOSED', title: 'Pre-order today.', ref: 'No. 50,326', ref2: 'No. 50,327', done: 'Thank you! Your copy is reserved.', err: 'We could not save', retry: 'TRY AGAIN', dup: 'You have already pre-ordered a copy.', email: 'Please enter a valid e-mail address.', privacy: 'Privacy notice for pre-orders', notOpen: 'Pre-orders will open soon' },
-  fr: { button: 'RÉSERVER LE LIVRE', closed: 'RÉSERVATIONS CLOSES', title: 'Réservez aujourd’hui.', ref: 'N° 50 326', ref2: 'N° 50 327', done: 'Merci ! Votre exemplaire est réservé.', err: 'Nous n’avons pas pu enregistrer', retry: 'RÉESSAYER', dup: 'Vous avez déjà réservé un exemplaire.', email: 'Indiquez une adresse e-mail valide.', privacy: 'Politique de confidentialité de la réservation', notOpen: 'Les réservations ouvriront bientôt' },
-  es: { button: 'RESERVAR EL LIBRO', closed: 'RESERVAS CERRADAS', title: 'Resérvalo hoy.', ref: 'N.º 50.326', ref2: 'N.º 50.327', done: '¡Gracias! Tu ejemplar está reservado.', err: 'No hemos podido guardar', retry: 'REINTENTAR', dup: 'Ya has reservado un ejemplar.', email: 'Introduce una dirección de correo válida.', privacy: 'Información sobre privacidad de la reserva', notOpen: 'Las reservas se abrirán pronto' },
-  de: { button: 'BUCH VORBESTELLEN', closed: 'VORBESTELLUNGEN GESCHLOSSEN', title: 'Heute vorbestellen.', ref: 'Nr. 50.326', ref2: 'Nr. 50.327', done: 'Danke! Dein Exemplar ist reserviert.', err: 'Deine Vorbestellung konnte nicht gespeichert', retry: 'ERNEUT VERSUCHEN', dup: 'Du hast bereits ein Exemplar vorbestellt.', email: 'Bitte gib eine gültige E-Mail-Adresse ein.', privacy: 'Datenschutzhinweise zur Vorbestellung', notOpen: 'Die Vorbestellung öffnet in Kürze' }
+  it: { button: 'PRENOTA IL LIBRO', title: 'Prenota oggi.', ref: 'N. 50.326', ref2: 'N. 50.327', done: 'Grazie! La tua copia è prenotata.', err: 'Non siamo riusciti a salvare', retry: 'RIPROVA', dup: 'Hai già prenotato una copia.', email: 'Inserisci un indirizzo e-mail valido.', privacy: 'Informativa privacy sulla prenotazione', notOpen: 'Le prenotazioni apriranno a breve' },
+  en: { button: 'PRE-ORDER THE BOOK', title: 'Pre-order today.', ref: 'No. 50,326', ref2: 'No. 50,327', done: 'Thank you! Your copy is reserved.', err: 'We could not save', retry: 'TRY AGAIN', dup: 'You have already pre-ordered a copy.', email: 'Please enter a valid e-mail address.', privacy: 'Privacy notice for pre-orders', notOpen: 'Pre-orders will open soon' },
+  fr: { button: 'RÉSERVER LE LIVRE', title: 'Réservez aujourd’hui.', ref: 'N° 50 326', ref2: 'N° 50 327', done: 'Merci ! Votre exemplaire est réservé.', err: 'Nous n’avons pas pu enregistrer', retry: 'RÉESSAYER', dup: 'Vous avez déjà réservé un exemplaire.', email: 'Indiquez une adresse e-mail valide.', privacy: 'Politique de confidentialité de la réservation', notOpen: 'Les réservations ouvriront bientôt' },
+  es: { button: 'RESERVAR EL LIBRO', title: 'Resérvalo hoy.', ref: 'N.º 50.326', ref2: 'N.º 50.327', done: '¡Gracias! Tu ejemplar está reservado.', err: 'No hemos podido guardar', retry: 'REINTENTAR', dup: 'Ya has reservado un ejemplar.', email: 'Introduce una dirección de correo válida.', privacy: 'Información sobre privacidad de la reserva', notOpen: 'Las reservas se abrirán pronto' },
+  de: { button: 'BUCH VORBESTELLEN', title: 'Heute vorbestellen.', ref: 'Nr. 50.326', ref2: 'Nr. 50.327', done: 'Danke! Dein Exemplar ist reserviert.', err: 'Deine Vorbestellung konnte nicht gespeichert', retry: 'ERNEUT VERSUCHEN', dup: 'Du hast bereits ein Exemplar vorbestellt.', email: 'Bitte gib eine gültige E-Mail-Adresse ein.', privacy: 'Datenschutzhinweise zur Vorbestellung', notOpen: 'Die Vorbestellung öffnet in Kürze' }
 };
 
 const browser = await pw[motore].launch();
@@ -87,7 +87,7 @@ async function percorso(page, a, lang, opts) {
   assert.equal(await etichetta(page, '#prenota-apri'), a.button);
   assert.ok((await testo(page.locator('#prenota-title'))).toLowerCase().startsWith(a.title.toLowerCase()));
   assert.equal(await page.locator('#prenota-modulo').isVisible(), false, 'modulo chiuso prima del clic');
-  assert.equal(await page.locator('#prenota-chiuse').isVisible(), false);
+  assert.equal(await page.locator('#prenota-chiuse').count(), 0, 'nessun pulsante «Prenotazioni chiuse»');
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true, 'nessuno scorrimento orizzontale');
   await page.locator('#prenota').scrollIntoViewIfNeeded();
   await page.locator('#prenota').screenshot({ path: path.join(uscita, `1-sezione-${opts.__nome}-${lang}.png`) });
@@ -192,45 +192,35 @@ async function stessaEmail(page, a, lang) {
   assert.equal(reg.totale, '1');
 }
 
-/* 5. Chiusura al limite: soglia 2; due invii simultanei per l'ultima copia → uno solo accettato; pulsante «Prenotazioni chiuse». */
-async function chiusura(page, a, lang, opts) {
-  await controllo({ azzera: true, soglia: 2 });
-  const pagine = [page];
+/* 5. Nessun limite: oltre 50.000 copie già prenotate il modulo resta aperto; due invii simultanei ricevono riferimenti diversi. */
+async function senzaLimite(page, a, lang, opts) {
+  await controllo({ azzera: true, totale: 60000 });
   const ctx2 = await browser.newContext({ ...senzaNome(opts), reducedMotion: 'reduce' });
   await ctx2.addInitScript(() => { try { localStorage.setItem('icc_metricool_consent_v1', 'no'); } catch (e) {} });
   const p2 = await ctx2.newPage(); await p2.route('**/*', (r) => r.request().url().startsWith(BASE) ? r.continue() : r.abort());
   const ctx3 = await browser.newContext({ ...senzaNome(opts), reducedMotion: 'reduce' });
   await ctx3.addInitScript(() => { try { localStorage.setItem('icc_metricool_consent_v1', 'no'); } catch (e) {} });
   const p3 = await ctx3.newPage(); await p3.route('**/*', (r) => r.request().url().startsWith(BASE) ? r.continue() : r.abort());
-  pagine.push(p2, p3);
+  const pagine = [page, p2, p3];
   try {
-    for (const [i, p] of pagine.entries()) { await apriHome(p, lang); await apriModulo(p); await p.fill('#pr-email', `soglia-${i}-${lang}@example.com`); }
+    for (const [i, p] of pagine.entries()) { await apriHome(p, lang); await apriModulo(p); await p.fill('#pr-email', `senza-limite-${i}-${lang}@example.com`); }
     await page.waitForTimeout(1600);
     await page.locator('#pr-submit').click();
     await page.locator('#pr-done').waitFor({ state: 'visible', timeout: 10000 });
-    assert.equal(await testo(page.locator('#pr-done-number')), a.ref);
-    // Ultima copia: due invii nello stesso istante.
+    assert.equal(await testo(page.locator('#pr-done-number')), a.ref, 'il primo riferimento resta 50.326');
     await Promise.all([p2.locator('#pr-submit').click(), p3.locator('#pr-submit').click()]);
-    await Promise.all([p2, p3].map((p) => p.waitForFunction(() => !document.querySelector('#pr-done').hidden || !document.querySelector('#prenota-chiuse').hidden, null, { timeout: 10000 })));
-    const esiti = [];
-    for (const p of [p2, p3]) esiti.push(await p.locator('#pr-done').isVisible() ? await testo(p.locator('#pr-done-number')) : 'chiuse');
-    assert.deepEqual(esiti.slice().sort(), [a.ref2, 'chiuse'].sort(), 'una sola delle due richieste ottiene l’ultima copia');
-    const perdente = esiti[0] === 'chiuse' ? p2 : p3;
-    assert.equal(await etichetta(perdente, '#prenota-chiuse'), a.closed);
-    assert.equal(await perdente.locator('#prenota-apri').isVisible(), false);
+    await Promise.all([p2, p3].map((p) => p.locator('#pr-done').waitFor({ state: 'visible', timeout: 10000 })));
+    const numeri = [await testo(p2.locator('#pr-done-number')), await testo(p3.locator('#pr-done-number'))];
+    assert.ok(numeri.includes(a.ref2), 'uno dei due riceve 50.327');
+    assert.equal(new Set([a.ref, ...numeri]).size, 3, 'tre riferimenti diversi');
     const reg = await registro();
-    assert.equal(reg.totale, '2', 'la soglia non è superata');
-    assert.equal(reg.righe.length, 3);
-    // Nuova visita: il pulsante è già sostituito da «Prenotazioni chiuse».
+    assert.equal(reg.totale, '60003', 'nessun limite di copie');
+    assert.equal(reg.righe.length, 4);
+    // Nuova visita: il pulsante «Prenota il libro» resta disponibile.
     await apriHome(p2, lang);
-    await p2.waitForFunction(() => !document.querySelector('#prenota-chiuse').hidden);
-    assert.equal(await etichetta(p2, '#prenota-chiuse'), a.closed);
-    assert.equal(await p2.locator('#prenota-chiuse').isDisabled(), true);
-    assert.equal(await p2.locator('#prenota-apri').isVisible(), false);
-    await p2.locator('#prenota').screenshot({ path: path.join(uscita, `4-chiuse-${opts.__nome}-${lang}.png`) });
-    // Anche un invio diretto al servizio, saltando la pagina, è respinto.
-    const diretto = await (await fetch(BASE + '/api', { method: 'POST', body: JSON.stringify({ email: 'diretto@example.com', linguaSito: lang, sito: '', tempo: 9000, richiesta: 'diretto-123456' }) })).json();
-    assert.deepEqual(diretto, { ok: false, errore: 'chiuse' });
+    assert.equal(await etichetta(p2, '#prenota-apri'), a.button);
+    assert.equal(await p2.locator('#prenota-apri').isVisible(), true);
+    await p2.locator('#prenota').screenshot({ path: path.join(uscita, `4-senza-limite-${opts.__nome}-${lang}.png`) });
   } finally { await ctx2.close(); await ctx3.close(); }
 }
 
@@ -248,12 +238,12 @@ for (const [nome, opts] of dispositivi) {
   opts.__nome = nome;
   for (const lang of Object.keys(attesi)) await scenario(nome, opts, lang, percorso);
 }
-// Errori, doppioni e soglia: smartphone e desktop di ogni motore, 5 lingue (errore e chiusura) / IT+DE (altri).
+// Errori, doppioni e assenza di limite: smartphone e desktop di ogni motore, 5 lingue (errore e nessun limite) / IT+DE (altri).
 const scelti = dispositivi.filter(([n]) => /smartphone-android|iphone|desktop/.test(n));
 for (const [nome, opts] of scelti) {
   for (const lang of Object.keys(attesi)) {
     await scenario(nome, opts, lang, erroreSalvataggio);
-    await scenario(nome, opts, lang, chiusura);
+    await scenario(nome, opts, lang, senzaLimite);
   }
   for (const lang of ['it', 'de']) {
     await scenario(nome, opts, lang, rispostaPersa);

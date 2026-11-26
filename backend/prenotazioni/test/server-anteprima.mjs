@@ -2,7 +2,7 @@
 // Uso: node backend/prenotazioni/test/server-anteprima.mjs [porta]
 //  - sito:            http://localhost:PORTA/            (il modulo usa il servizio simulato su /api)
 //  - area riservata:  http://localhost:PORTA/admin       (dati di prova, @example.com)
-//  - controlli di collaudo: POST /__controllo {azzera, soglia, guasti, ritardoMs, totale}
+//  - controlli di collaudo: POST /__controllo {azzera, guasti, ritardoMs, totale}
 //  - registro:        GET /api-registro                  (righe del Foglio simulato ed e-mail «inviate»)
 import http from 'node:http';
 import fs from 'node:fs';
@@ -41,7 +41,7 @@ const tipi = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 function shimAdmin() {
   return `<script>window.google={script:{run:(function(){function R(ok,ko){this.ok=ok;this.ko=ko;}
   R.prototype.withSuccessHandler=function(f){return new R(f,this.ko);};R.prototype.withFailureHandler=function(f){return new R(this.ok,f);};
-  ['datiAdmin','cambiaStato','impostaSoglia'].forEach(function(n){R.prototype[n]=function(){var s=this;fetch('/admin-rpc?f='+n,{method:'POST',body:JSON.stringify([].slice.call(arguments))}).then(function(r){return r.json();}).then(function(j){if(j.errore){s.ko&&s.ko({message:j.errore});}else{s.ok&&s.ok(j.risultato);}});};});
+  ['datiAdmin','cambiaStato'].forEach(function(n){R.prototype[n]=function(){var s=this;fetch('/admin-rpc?f='+n,{method:'POST',body:JSON.stringify([].slice.call(arguments))}).then(function(r){return r.json();}).then(function(j){if(j.errore){s.ko&&s.ko({message:j.errore});}else{s.ok&&s.ok(j.risultato);}});};});
   return new R();})()}};</script>`;
 }
 
@@ -59,7 +59,6 @@ http.createServer(async (req, res) => {
   if (u.pathname === '/__controllo' && req.method === 'POST') {
     const c = JSON.parse((await corpo(req)) || '{}');
     if (c.azzera) amb = nuovo();
-    if (c.soglia) amb.props.SOGLIA_COPIE = String(c.soglia);
     if (c.totale != null) { amb.props.COPIE_PRENOTATE = String(c.totale); }
     if (c.guasti != null) amb.stato.salvataggiFalliti = c.guasti;
     if (c.ritardoMs != null) ritardoMs = c.ritardoMs;
