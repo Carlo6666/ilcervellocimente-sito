@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="it">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--bg:#120e0c;--panel:#1c130f;--line:#4c3125;--cream:#f4e4cf;--mute:#c9a98c;--orange:#ed5819;--soft:#f5aa70}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:14px/1.5 'DM Sans',Arial,Helvetica,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font:800 clamp(26px,4vw,38px)/1.05 'Arial Narrow',Arial,sans-serif;margin:4px 0 4px}
+h2{font:800 20px/1.2 'Arial Narrow',Arial,sans-serif;margin:0 0 12px;letter-spacing:.01em}
+.kicker{font:700 11px/1.4 'Courier New',monospace;letter-spacing:.14em;color:var(--soft);margin:0}
+.meta{color:var(--mute);font-size:12px;margin:0 0 18px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi b{display:block;font:800 34px/1.1 'Arial Narrow',Arial,sans-serif;color:#fff}
+.kpi span{font:700 11px/1.3 'Courier New',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.kpi small{display:block;color:var(--mute);font-size:12px;margin-top:4px}
+.kpi.main{background:var(--orange);border-color:var(--orange)}.kpi.main span,.kpi.main small{color:#fff}
+.note{border-left:4px solid var(--orange);padding:10px 14px;background:#24180f;border-radius:6px;color:#e2bea3;margin:0 0 18px}
+.bar{display:grid;grid-template-columns:minmax(90px,34%) 1fr 86px;gap:8px;align-items:center;margin:5px 0;font-size:13px}
+.bar i{display:block;height:10px;background:var(--orange);border-radius:5px;min-width:2px}
+.bar em{font-style:normal;text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
+svg text{fill:var(--mute);font:10px Arial,sans-serif}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+button{font:700 12px/1 'Courier New',monospace;letter-spacing:.05em;padding:10px 12px;border-radius:8px;border:1px solid #a77b58;background:transparent;color:var(--cream);cursor:pointer;min-height:40px}
+button.primary{background:var(--orange);border-color:var(--orange);color:#fff}
+input{min-height:40px;padding:8px 10px;border-radius:8px;border:1px solid #7d4325;background:#261912;color:var(--cream);font:inherit}
+input[type=search]{flex:1 1 220px}
+input[type=number]{width:130px}
+.table{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+th,td{padding:8px 10px;border-bottom:1px solid #3a261c;text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:#24180f;font:700 11px/1.3 'Courier New',monospace;letter-spacing:.05em;color:var(--soft);text-transform:uppercase}
+tr.annullata td{opacity:.5;text-decoration:line-through}
+tr.annullata td:last-child{text-decoration:none;opacity:1}
+td button{min-height:32px;padding:6px 8px;font-size:11px}
+.empty{color:var(--mute);padding:14px}
+.err{background:#5a1d12;border:1px solid #c0472a;padding:12px;border-radius:8px}
+@media(max-width:600px){.kpi b{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">IL CERVELLO (CI) MENTE · AREA RISERVATA</p>
+  <h1>Prenotazioni del libro</h1>
+  <p class="meta" id="meta">Caricamento…</p>
+  <div id="app"></div>
+</div>
+<script>
+(function(){
+  var NOMI_LINGUE={it:'Italiano',en:'English',fr:'Français',es:'Español',de:'Deutsch'};
+  function fmt(n){return Number(n).toLocaleString('it-IT');}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var D=null, filtro='', quante=50;
+  var app=document.getElementById('app');
+
+  function carica(){
+    google.script.run.withSuccessHandler(function(d){D=d;disegna();}).withFailureHandler(function(e){
+      app.innerHTML='<p class="err">Errore nel caricamento: '+esc(e&&e.message||e)+'</p>';
+    }).datiAdmin();
+  }
+  function idx(nome){return D.colonne.indexOf(nome);}
+  function conta(righe,col){var o={};righe.forEach(function(r){var k=r[col]||'—';o[k]=(o[k]||0)+1;});return Object.keys(o).map(function(k){return[k,o[k]];}).sort(function(a,b){return b[1]-a[1];});}
+  function barre(lista,tot,nomina){
+    if(!lista.length)return '<p class="empty">Nessun dato.</p>';
+    var max=lista[0][1];
+    return lista.map(function(x){var pct=tot?Math.round(x[1]/tot*1000)/10:0;
+      return '<div class="bar"><span>'+esc(nomina(x[0]))+'</span><i style="width:'+(x[1]/max*100)+'%"></i><em>'+fmt(x[1])+' · '+String(pct).replace('.',',')+'%</em></div>';}).join('');
+  }
+  function grafico(attive){
+    var cD=idx('Data e ora'),perGiorno={};
+    attive.forEach(function(r){var g=String(r[cD]).slice(0,10);perGiorno[g]=(perGiorno[g]||0)+1;});
+    var giorni=Object.keys(perGiorno).sort();
+    if(!giorni.length)return '<p class="empty">Nessuna prenotazione ancora.</p>';
+    var inizio=new Date(giorni[0]+'T12:00:00'),fine=new Date(),serie=[];
+    for(var d=new Date(inizio);d<=fine;d.setDate(d.getDate()+1)){var k=d.toISOString().slice(0,10);serie.push([k,perGiorno[k]||0]);}
+    serie=serie.slice(-90);
+    var W=760,H=200,pad=30,max=Math.max.apply(null,serie.map(function(s){return s[1];}))||1,bw=(W-pad-10)/serie.length;
+    var bars=serie.map(function(s,i){var h=(H-pad-10)*s[1]/max,x=pad+i*bw;
+      return '<rect x="'+(x+1).toFixed(1)+'" y="'+(H-pad-h).toFixed(1)+'" width="'+Math.max(1,bw-2).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="#ed5819"><title>'+s[0]+': '+s[1]+'</title></rect>';}).join('');
+    return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Prenotazioni al giorno">'+
+      '<line x1="'+pad+'" x2="'+W+'" y1="'+(H-pad)+'" y2="'+(H-pad)+'" stroke="#4c3125"/><text x="2" y="16">'+max+'</text><text x="2" y="'+(H-pad)+'">0</text>'+bars+'</svg>'+
+      '<p class="meta">Prenotazioni attive al giorno (ultimi '+serie.length+' giorni).</p>';
+  }
+  function csv(righe,colonne,nomeFile){
+    var sicuro=function(v){v=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"';};
+    var testo='﻿'+[colonne].concat(righe).map(function(r){return r.map(sicuro).join(';');}).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([testo],{type:'text/csv;charset=utf-8'}));
+    a.download=nomeFile;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
+  }
+  function oggi(){return new Date().toISOString().slice(0,10);}
+
+  function disegna(){
+    var cS=idx('Stato'),cL=idx('Lingua del sito');
+    var tutte=D.righe,attive=tutte.filter(function(r){return r[cS]==='attiva';});
+    document.getElementById('meta').textContent='Aggiornato il '+D.aggiornato+' · E-mail di conferma ancora inviabili oggi: '+fmt(D.quotaEmail);
+    var h='';
+    h+='<div class="grid kpis">'+
+      '<div class="card kpi main"><span>Copie prenotate</span><b>'+fmt(D.totale)+'</b><small>Prenotazioni attive · nessun limite</small></div>'+
+      '<div class="card kpi"><span>Ultimo riferimento</span><b>'+fmt(D.ultimoNumero)+'</b><small>Progressivo (il primo è '+fmt(D.numeroIniziale+1)+')</small></div>'+
+      '<div class="card kpi"><span>Annullate</span><b>'+fmt(tutte.length-attive.length)+'</b><small>Il loro riferimento non viene riassegnato</small></div>'+
+      '</div>';
+    h+='<p class="note"><strong>Due numeri diversi.</strong> Il <em>riferimento</em> è un progressivo che parte da '+fmt(D.numeroIniziale+1)+' e non indica quante copie sono state prenotate. Le <em>copie prenotate</em> sono il conteggio delle prenotazioni attive. Non c’è nessun limite: le prenotazioni restano sempre aperte.</p>';
+    h+='<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:12px"><div class="card"><h2>Andamento giornaliero</h2>'+grafico(attive)+'</div>'+
+      '<div class="card"><h2>Lingua del sito usata</h2>'+barre(conta(attive,cL),attive.length,function(k){return NOMI_LINGUE[k]||k;})+'</div></div>';
+    h+='<div class="tools"><input type="search" id="cerca" placeholder="Cerca e-mail o riferimento…" value="'+esc(filtro)+'">'+
+      '<button class="primary" data-csv="tutte">CSV prenotazioni</button><button id="aggiorna">Aggiorna</button></div>';
+    var f=filtro.toLowerCase();
+    var vis=tutte.filter(function(r){return !f||r.join(' ').toLowerCase().indexOf(f)>=0;}).slice().reverse();
+    var colVis=['Riferimento','Data e ora','E-mail','Lingua del sito','Stato','E-mail di conferma'];
+    h+='<div class="table"><table><thead><tr>'+colVis.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'<th></th></tr></thead><tbody>'+
+      (vis.length?vis.slice(0,quante).map(function(r){
+        return '<tr class="'+esc(r[cS])+'">'+colVis.map(function(c){var v=r[idx(c)];
+          if(c==='Riferimento')v=fmt(v);else if(c==='Lingua del sito')v=NOMI_LINGUE[v]||v;
+          return '<td>'+esc(v)+'</td>';}).join('')+
+          '<td><button data-stato="'+(r[cS]==='attiva'?'annullata':'attiva')+'" data-num="'+esc(r[0])+'">'+(r[cS]==='attiva'?'Annulla':'Riattiva')+'</button></td></tr>';
+      }).join(''):'<tr><td class="empty" colspan="'+(colVis.length+1)+'">Nessuna riga.</td></tr>')+
+      '</tbody></table></div>'+(vis.length>quante?'<p class="meta" style="margin-top:10px">Mostrate le '+fmt(quante)+' più recenti su '+fmt(vis.length)+'. <button id="altre">Mostra altre 50</button></p>':'');
+    app.innerHTML=h;
+    var cerca=document.getElementById('cerca');
+    cerca.addEventListener('input',function(){filtro=cerca.value;var pos=cerca.selectionStart;disegna();var c=document.getElementById('cerca');c.focus();c.setSelectionRange(pos,pos);});
+  }
+
+  app.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b||!D)return;
+    if(b.id==='aggiorna'){carica();return;}
+    if(b.id==='altre'){quante+=50;disegna();return;}
+    if(b.dataset.stato){
+      var msg=b.dataset.stato==='annullata'?'Annullare la prenotazione n. '+fmt(b.dataset.num)+'? Il riferimento non verrà riassegnato.':'Riattivare la prenotazione n. '+fmt(b.dataset.num)+'?';
+      if(!confirm(msg))return;b.disabled=true;
+      google.script.run.withSuccessHandler(carica).withFailureHandler(function(err){alert(err.message||err);b.disabled=false;}).cambiaStato(Number(b.dataset.num),b.dataset.stato);return;}
+    if(b.dataset.csv){csv(D.righe,D.colonne,'prenotazioni-'+oggi()+'.csv');}
+  });
+  carica();
+})();
+</script>
+</body>
+</html>

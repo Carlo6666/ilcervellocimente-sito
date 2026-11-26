@@ -426,3 +426,80 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 **Pubblicazione:** gh-pages `89e5f93` (precedente `bd2b095`, recuperabile); deploy 45590780991 riuscito. Verifica pubblica 45591101551: index online = gh-pages; i 5 file v3 e le 4 Puntate 0 online identici (SHA-256) con richieste parziali; riproduzione reale sul sito pubblico 10/10 (Chrome Android, iPhone/WebKit).
 
 **Non fatto / da verificare:** prova sul telefono vero di Carlo e sulla sua rete. La **Puntata 0 doppiata** (circa 1,3 Mbit/s) non è stata toccata perché approvata: con rete molto scarsa potrebbe fermarsi anch'essa; ricodificarla allo stesso modo richiede l'approvazione di Carlo.
+
+
+### 25/11/2026 — Prenotazione del libro (Claude) — anteprima, NON pubblicata
+
+**Fonte:** richiesta di Carlo del 25/11/2026, ore 20:04 («Aggiornamento sito – Il cervello (ci) mente»: prenotazione gratuita con numerazione da 50.001, modulo, e-mail di conferma, area riservata, 5 lingue). Servizio scelto da Carlo alle 20:10: **Google Fogli + Apps Script** (gratuito). Zero crediti HeyGen, nessun servizio a pagamento.
+**Ramo:** `prenotazione-libro` (da `sito-v3-1` a249b1b). `gh-pages` e `main` non toccati.
+
+**Cosa cambia sul sito**
+- `index.html`: **solo aggiunte**, un blocco in fondo dopo «07 / Seguici» e prima del piè di pagina: «08 / Il libro · Prenotazione», titolo «Prenota oggi. Leggi domani.», testo «Entra a far parte dei primi lettori…», pulsante «PRENOTA LA TUA COPIA» → `prenota.html?lang=<lingua>`. Nessuna riga esistente modificata (diff: 3 righe aggiunte). Stile e testi del blocco in file nuovi: `css/prenota.css`, `js/prenota-invito.js`.
+- `prenota.html` (nuova): modulo con nome e cognome, e-mail, paese (nomi nella lingua della pagina), lingua preferita, formato cartaceo/e-book, consenso facoltativo alla mailing list, presa visione dell'informativa (obbligatoria). Gratuita e senza impegno, nessun pagamento. Dopo l'invio mostra il numero («N. 50.001») e la frase che è un identificativo, non il totale delle copie. Informativa privacy specifica della prenotazione in 5 lingue (da far rileggere a un professionista). File: `js/prenota.js`, `js/prenota-config.js` (indirizzo del servizio, vuoto finché non attivato: il modulo avvisa che le prenotazioni apriranno a breve).
+- 5 lingue (IT, EN, FR, ES, DE) per blocco, pagina, messaggi d'errore, informativa ed e-mail; stessa scelta di lingua del sito (`?lang=`, `nora-language`).
+
+**Servizio prenotazioni** (`backend/prenotazioni/`: `Codice.gs`, `Admin.html`, `appsscript.json`, guida `README-ATTIVAZIONE.md`)
+- Numerazione: valore iniziale 50.000, prima prenotazione 50.001, +1 a ogni prenotazione registrata; blocco LockService contro i doppioni; se il contatore si perde riparte dall'ultimo numero del Foglio; numeri annullati mai riassegnati.
+- Numero progressivo e totale reale separati (totale = righe con stato «attiva»).
+- E-mail di conferma automatica nella lingua del sito, con il numero; se la quota Gmail (100/giorno) è esaurita la prenotazione è salvata e la conferma parte con l'attivatore orario.
+- Antispam e protezione dei dati: campo nascosto, tempo minimo 2,5 s, massimo 60 prenotazioni in 10 minuti, una sola prenotazione per e-mail (rinvio del numero al massimo 1 volta all'ora), validazione lato servizio, testi che iniziano con `=` mai trasformati in formule (Foglio e CSV).
+- Area riservata (stesso progetto, pubblicazione «Solo io» + controllo del proprietario nel codice): prenotazioni effettive, numero progressivo raggiunto, elenco con ricerca e Annulla/Riattiva, mailing list, statistiche per paese/lingua/formato, andamento giornaliero, CSV (prenotazioni, mailing list, statistiche).
+
+**Collaudo**
+- Logica del servizio (`test/collaudo-backend.mjs`, Codice.gs vero in ambiente Apps Script simulato): 16/16 prove (50.001-50.002-50.003, 500 prenotazioni senza doppioni, doppioni per e-mail, antispam, quota esaurita, area riservata negata ad anonimi e ad altri account).
+- Browser (`test/collaudo-browser.mjs`, sito servito in locale con Codice.gs vero dietro un servizio simulato; banner cookie chiuso con «Rifiuta» come un visitatore):
+  - Chromium, 25/11 sera: smartphone Android (Pixel 7), tablet 820 px, desktop 1440 px, smartphone stretto 320 px × 5 lingue = **20/20**: blocco ultimo prima del piè di pagina, testi e link nella lingua giusta, nessuno scorrimento orizzontale, errori del modulo visibili, prenotazione con numero > 50.000 e separatore della lingua, doppione respinto senza nuovo numero, riga salvata con i dati giusti, e-mail con il numero, 0 errori JavaScript.
+  - Regressioni home (Chromium, 4 dispositivi × IT/EN): posizione e altezza di tutte le sezioni esistenti identiche alla versione `sito-v3-1` (**8/8**); cambia solo il piè di pagina, spostato dell'altezza del nuovo blocco.
+  - GitHub Actions, run [45686100896](https://github.com/Carlo6666/ilcervellocimente-sito/actions/runs/45686100896) (commit d9d3b9a): **WebKit** iPhone 14, iPad, Safari desktop 15/15 e regressioni 6/6; **Firefox** desktop e tablet 10/10 e regressioni 4/4; **Chromium** 20/20 e regressioni 8/8; logica del servizio 16/16 su tutti. Totale 45/45 combinazioni. Immagini scaricabili come artefatti del run.
+  - Non verificato: telefoni veri, invio reale da Gmail e area riservata reale su Google (si verificano dopo l'attivazione di Carlo).
+- Area riservata vista con 240 prenotazioni di esempio (desktop 1280 px e smartphone 390 px): nessun errore, nessuno scorrimento orizzontale della pagina; CSV mailing list scaricato e corretto (separatore «;», UTF-8 con BOM per Excel).
+
+**Da fare per pubblicare (serve Carlo):** attivare Apps Script con l'account del progetto (guida `backend/prenotazioni/README-ATTIVAZIONE.md`), mandare l'URL `/exec`, approvare l'anteprima. **Da decidere:** l'informativa generale del sito dice ancora «Non ci sono account, moduli o newsletter»; con la prenotazione online non è più vero. Proposta: aggiornare quella frase nelle 5 lingue (unica modifica a un testo esistente), solo con l'ok di Carlo.
+
+**Aggiornamento 25/11/2026, ore 20:50 circa (Claude).** Fonte: scelta di Carlo delle 20:48 («Sì, aggiorna solo quella frase»). In `js/sito-v3-1.js`, informativa generale, sostituita solo la frase «Non ci sono account, moduli o newsletter» (5 lingue) con: niente account, l'unico modulo è la prenotazione del libro con la sua informativa dedicata (link a `prenota.html#informativa`), mailing list facoltativa. Nient'altro cambiato. Verifica Chromium: testo e link giusti in 5 lingue, 0 errori JavaScript.
+
+
+### 26/11/2026 — «Prenota il libro»: modulo nella home, riferimento da 50.326, soglia 50.000 (Claude) — anteprima, NON pubblicata
+
+**Fonte:** richiesta di Carlo del 26/11/2026, ore 11:31 circa (ora italiana): riprendere l'attività sul ramo esistente; pulsante «Prenota il libro» in fondo alla home che apre il modulo nella pagina; solo e-mail obbligatoria + link all'informativa + conferma; progressivo iniziale 50.325 (primo riferimento 50.326); totale copie da 0; soglia configurabile 50.000 con chiusura anche lato server; nessun doppione; conferma solo dopo il salvataggio; 5 lingue.
+**Ramo:** `prenotazione-libro` (lavoro del 25/11 riusato). `gh-pages` e `main` non toccati.
+
+**Riusato dal 25/11:** servizio Google Fogli + Apps Script (blocco LockService, antispam, e-mail di conferma in 5 lingue, attivatore orario, area riservata), stile del blocco in fondo alla home, ambiente Apps Script simulato e server di anteprima per il collaudo.
+
+**Cambiato rispetto al 25/11**
+- Niente più pagina separata: `prenota.html` e `js/prenota-invito.js` tolti (mai pubblicati; restano nella cronologia, commit `c4aeade`). Il pulsante «PRENOTA IL LIBRO» apre il modulo nella home (`js/prenota.js` riscritto, `css/prenota.css`).
+- Modulo con la sola e-mail (prima: nome, paese, lingua, formato, mailing list): minimizzazione dei dati. Informativa dedicata riscritta di conseguenza, nella stessa sezione (`#informativa-prenotazione`), 5 lingue. Frase dell'informativa generale (`js/sito-v3-1.js`) aggiornata solo per puntare alla nuova posizione.
+- `Codice.gs`: riferimento da 50.326 (prima 50.001); totale copie `TOTALE_PRENOTATE` da 0; soglia `SOGLIA_COPIE` 50.000 (proprietà dello script o area riservata); controllo soglia, assegnazione e salvataggio sotto lo stesso blocco; contatori aggiornati solo dopo il salvataggio; ID richiesta per i tentativi ripetuti (stesso riferimento, nessuna riga nuova); `doGet?azione=stato` (solo aperto/chiuso); annulla/riattiva ricalcola il totale. `Admin.html` adeguata (copie prenotate, soglia, disponibili, ultimo riferimento).
+
+**Collaudo (in locale, servizio simulato con il Codice.gs vero, solo indirizzi @example.com)**
+- `collaudo-backend.mjs`: 14/14 (servizio già attivato con la versione del 25/11: vecchia scheda e vecchio contatore ignorati; 50.326-50.327-50.328, doppio invio, stessa e-mail, errore di salvataggio senza numeri persi, richiesta simultanea durante il salvataggio, soglia 3 e soglia 50.000 reale con ultima copia, area riservata, quota Gmail).
+- `collaudo-browser.mjs` Chromium: 52/52 prove + 8/8 regressioni (vedi risultati nel messaggio a Carlo e negli artefatti del workflow).
+- Limite: il blocco simultaneo è verificato con il LockService simulato e con due browser che inviano nello stesso istante al server di anteprima; il LockService vero di Google si verifica dopo l'attivazione.
+
+**Servizio Google già attivato** (commit `27618a7` del 26/11, ore 11:46 circa, altra sessione): l'indirizzo `/exec` è in `js/prenota-config.js`, ma su Google gira ancora il **Codice.gs del 25/11** (numeri da 50.001, campi vecchi). Il nuovo codice usa una scheda nuova («Prenotazioni libro») e contatori con nomi nuovi (`RIF_ULTIMO`, `COPIE_PRENOTATE`), quindi la vecchia scheda e il vecchio contatore non vengono toccati né riusati. `verifica-servizio-prenotazioni.yml` aggiornato: invio con e-mail non valida, così non crea prenotazioni con il codice nuovo.
+
+**Da fare per pubblicare (serve Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script (clasp push + nuova versione di entrambe le pubblicazioni, URL invariati), approvare l'anteprima, poi pubblicazione su `gh-pages`.
+
+
+### 26/11/2026 — Prenotazioni: tolto il limite dei 50.000 (Claude) — anteprima, NON pubblicata
+
+**Fonte:** istruzione di Carlo del 26/11/2026: «Le prenotazioni partono a 50.326 e non esiste nessun limite di chiusura delle prenotazioni. Togli quel limite dei 50.000 che non ha nessun senso.»
+**Ramo:** `prenotazione-libro`. `gh-pages` e `main` non toccati. Il codice su Google non è ancora stato aggiornato.
+
+**Cosa è cambiato**
+- `Codice.gs`: tolti `CONFIG.SOGLIA_COPIE`, `soglia_()`, `impostaSoglia()`, il rifiuto «chiuse» e il campo `aperte` nella risposta; «Riattiva» nell'area riservata è sempre possibile. `?azione=stato` resta solo come verifica tecnica (`{ok:true}`). Una vecchia proprietà `SOGLIA_COPIE` eventualmente rimasta non ha più effetto. Invariati: primo riferimento 50.326, totale copie da 0, blocco LockService, nessun doppione.
+- `Admin.html`: tolti la scheda «Soglia di chiusura», «Copie ancora disponibili» e la barra di avanzamento; restano copie prenotate, ultimo riferimento e annullate.
+- Sito: tolti il pulsante «Prenotazioni chiuse» e il suo testo (`index.html`, `js/prenota.js` in 5 lingue, `css/prenota.css`) e il controllo dello stato all'apertura della pagina.
+- Collaudi e `README-ATTIVAZIONE.md` aggiornati.
+
+**Collaudo (locale, servizio simulato con il Codice.gs vero, solo @example.com):** `collaudo-backend.mjs` 13/13 (anche: oltre 50.000 copie le prenotazioni proseguono). `collaudo-browser.mjs` Chromium 52/52 prove + 8/8 regressioni (nuova prova: con 60.000 copie già prenotate il modulo resta aperto, il primo riferimento è 50.326 e due invii simultanei ricevono riferimenti diversi).
+
+**Da fare (serve l'ok di Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script; il servizio Google risponde ancora «Accesso negato» finché il progetto non viene autorizzato dall'editor (`setup` → Consenti).
+
+
+### 26/11/2026, ore 12:20 circa — Prenotazioni online (Claude) — PUBBLICATO
+
+**Fonte:** richiesta di Carlo delle 12:04 («carica su Google il servizio, aggiornalo e aggiorna anche il sito. Rendi tutto online e operativo»).
+- Google: caricato il `Codice.gs`/`Admin.html` senza limite (pubblicazione «Sito (pubblico)» versione 5, «Area riservata (solo io)» versione 6, indirizzi invariati). Carlo ha autorizzato il progetto dall'editor (`setup` → Consenti) alle 12:17. Verifica dal vivo (`verifica-servizio-prenotazioni.yml`): invio con e-mail non valida → `{"ok":false,"errore":"campi"}`, area riservata chiusa agli anonimi, intestazione CORS presente. Nessuna prenotazione creata.
+- Sito: pubblicati su `gh-pages` (commit `43b220d`) solo `index.html`, `js/sito-v3-1.js`, `js/prenota.js`, `js/prenota-config.js`, `css/prenota.css`; `index.html` e `js/sito-v3-1.js` di `gh-pages` erano identici a `sito-v3-1`, quindi l'unica differenza è il blocco «Prenota il libro» e la frase dell'informativa approvata.
+- Verifica del sito pubblico: `verifica-prenotazione-online.yml` (5 lingue, smartphone e desktop, senza creare prenotazioni).

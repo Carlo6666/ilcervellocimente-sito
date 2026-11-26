@@ -1,0 +1,58 @@
+/* IL CERVELLO (CI) MENTE — prenotazione del libro (25/11/2026)
+   Stessi colori e caratteri della v3.1. Blocco «Prenota il libro» in fondo a index.html, con il modulo nella pagina (26/11/2026). */
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/barlow-condensed-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:900;font-display:swap;src:url(../fonts/barlow-condensed-latin-900-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/dm-sans-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/dm-sans-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/dm-sans-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Space Mono';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/space-mono-latin-700-normal.woff2) format('woff2')}
+
+/* ---------- Blocco in fondo alla pagina principale ---------- */
+.book-preorder{position:relative;overflow:hidden;background:radial-gradient(ellipse at 15% 20%,#4a2412 0,#1a100c 58%,#110c0a 100%);color:#f4e4cf;border-top:1px solid #4c3125;padding:clamp(56px,8vw,104px) 0}
+.book-preorder::after{content:'';position:absolute;inset:0 0 0 55%;background:url('../assets/brain-v3.jpg') 70% center/cover no-repeat;opacity:.16;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%);pointer-events:none}
+.book-preorder .shell{position:relative;z-index:1}
+.book-preorder-inner{max-width:780px}
+.book-preorder-kicker{font:700 11px/1.4 'Space Mono',monospace;letter-spacing:.14em;color:#f5aa70;margin:0 0 18px}
+.book-preorder-title{font:900 clamp(46px,7.4vw,104px)/.9 'Barlow Condensed',Impact,'Arial Narrow',sans-serif;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 22px;color:#f7e1c8}
+.book-preorder-title em{display:block;color:#ed5819;font-style:normal}
+.book-preorder-text{font:400 clamp(16px,2vw,20px)/1.55 'DM Sans',Arial,sans-serif;color:#e8c9ad;max-width:600px;margin:0 0 30px}
+.book-preorder-btn{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:58px;padding:16px 28px;border-radius:8px;background:#ed5819;color:#fff;border:2px solid #ed5819;font:800 18px/1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.06em;text-decoration:none;box-shadow:0 7px 25px rgba(220,72,16,.3);transition:transform .2s,background .2s}
+.book-preorder-btn:hover{background:#ff6a26;transform:translateY(-2px)}
+.book-preorder-btn:focus-visible{outline:3px solid #f5aa70;outline-offset:3px}
+.book-preorder-note{font:700 11px/1.5 'Space Mono',monospace;letter-spacing:.06em;color:#c9a98c;margin:16px 0 0}
+@media(max-width:700px){.book-preorder::after{inset:45% -20% 0 20%;opacity:.12;-webkit-mask-image:linear-gradient(180deg,transparent,#000 50%);mask-image:linear-gradient(180deg,transparent,#000 50%)}.book-preorder-btn{width:100%;font-size:17px}}
+@media(prefers-reduced-motion:reduce){.book-preorder-btn{transition:none}.book-preorder-btn:hover{transform:none}}
+
+/* ---------- Modulo nella pagina (26/11/2026) ---------- */
+.book-preorder [hidden]{display:none!important}
+.book-preorder button.book-preorder-btn{cursor:pointer}
+.book-preorder-btn:disabled{opacity:.8}
+.pr-inline{margin:26px 0 0;max-width:560px;background:#1c130f;border:1px solid #5d3b27;border-radius:16px;padding:clamp(18px,3vw,28px);box-shadow:0 18px 50px rgba(0,0,0,.35);scroll-margin-top:96px}
+.pr-label{display:block;font:700 12px/1.4 'Space Mono',monospace;letter-spacing:.06em;color:#f5aa70;margin:0 0 8px}
+.pr-input{display:block;width:100%;box-sizing:border-box;min-height:52px;padding:12px 14px;border-radius:10px;border:1px solid #7d4325;background:#261912;color:#f7e1c8;font:400 17px/1.3 'DM Sans',Arial,sans-serif}
+.pr-input::placeholder{color:#9c7b62}
+.pr-input:focus{outline:3px solid #f5aa70;outline-offset:1px;border-color:#f5aa70}
+.pr-input[aria-invalid=true]{border-color:#ff7a59}
+.pr-error{color:#ffb39e;font:600 14px/1.4 'DM Sans',Arial,sans-serif;margin:8px 0 0}
+.pr-hp{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden}
+.pr-privacy-line{font:400 14px/1.5 'DM Sans',Arial,sans-serif;color:#e2bea3;margin:14px 0 18px}
+.pr-privacy-line a,.pr-privacy a{color:#f5aa70}
+.pr-submit{width:100%}
+.pr-status{font:600 15px/1.5 'DM Sans',Arial,sans-serif;margin:14px 0 0;min-height:0}
+.pr-status:empty{display:none}
+.pr-status.is-error{color:#ffd2c4;background:#5a1d12;border:1px solid #c0472a;border-radius:8px;padding:10px 12px}
+.pr-status.is-info{color:#e8c9ad;border-left:4px solid #ed5819;background:#24180f;border-radius:6px;padding:10px 12px}
+.pr-done:focus{outline:none}
+.pr-done .book-preorder-kicker{margin-bottom:8px}
+.pr-done-title{font:900 clamp(28px,4vw,40px)/1 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;color:#f7e1c8;margin:0 0 16px}
+.pr-done-label{font:700 11px/1.3 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin:0}
+#pr-done-ref{background:#ed5819;border-radius:12px;padding:14px 18px;margin:0 0 10px}
+.pr-done-number{font:900 clamp(40px,8vw,56px)/1.05 'Barlow Condensed',Impact,sans-serif;color:#fff;margin:2px 0 4px;letter-spacing:.01em}
+.pr-done-note{font:400 13px/1.45 'DM Sans',Arial,sans-serif;color:#fff;margin:0;opacity:.92}
+.pr-done-mail{font:400 15px/1.5 'DM Sans',Arial,sans-serif;color:#e8c9ad;margin:12px 0 0}
+.pr-done-mail:empty{display:none}
+.pr-privacy{margin:22px 0 0;max-width:640px;font:400 14px/1.55 'DM Sans',Arial,sans-serif;color:#e2bea3;scroll-margin-top:96px}
+.pr-privacy summary{cursor:pointer;font:700 12px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:#c9a98c}
+.pr-privacy-body{margin-top:10px;border-left:2px solid #5d3b27;padding-left:14px}
+.pr-privacy-body p{margin:0 0 10px}

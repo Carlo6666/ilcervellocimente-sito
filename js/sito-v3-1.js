@@ -206,7 +206,7 @@
     it: {
       bannerTitle: 'Statistiche, solo se vuoi', bannerText: 'Con il tuo consenso usiamo Metricool per contare le visite in forma aggregata e capire quali contenuti interessano. Se rifiuti, il sito funziona allo stesso modo. Puoi cambiare idea quando vuoi da «Preferenze privacy», in fondo alla pagina.', more: 'Informativa privacy', yes: 'Accetta statistiche', no: 'Rifiuta', footer: 'PREFERENZE PRIVACY ↗',
       title: 'Informativa privacy', status: { yes: 'Statistiche: attive', no: 'Statistiche: disattivate', none: 'Statistiche: nessuna scelta' },
-      body: '<p>Questo sito presenta il progetto «Il cervello (ci) mente» di Carlo Riva. Non ci sono account, moduli o newsletter.</p>' +
+      body: '<p>Questo sito presenta il progetto «Il cervello (ci) mente» di Carlo Riva. Non ci sono account. L’unico modulo è quello per prenotare il libro («Prenota il libro», in fondo alla pagina principale), con la sua <a href="#informativa-prenotazione">informativa dedicata</a>.</p>' +
         '<h3>Titolare e contatti</h3><p>Carlo Riva — <a href="mailto:ilcervellocimente@gmail.com">ilcervellocimente@gmail.com</a>.</p>' +
         '<h3>Che cosa succede quando visiti il sito</h3><ul>' +
         '<li><strong>Hosting:</strong> il sito è pubblicato con GitHub Pages (GitHub Inc.), che può registrare dati tecnici come l’indirizzo IP per sicurezza e funzionamento.</li>' +
@@ -220,7 +220,7 @@
     en: {
       bannerTitle: 'Statistics, only if you want', bannerText: 'With your consent we use Metricool to count visits in aggregate and see which content people like. If you decline, the site works exactly the same. You can change your mind at any time from “Privacy preferences” at the bottom of the page.', more: 'Privacy notice', yes: 'Accept statistics', no: 'Decline', footer: 'PRIVACY PREFERENCES ↗',
       title: 'Privacy notice', status: { yes: 'Statistics: on', no: 'Statistics: off', none: 'Statistics: no choice yet' },
-      body: '<p>This website presents Carlo Riva’s project «Il cervello (ci) mente». There are no accounts, forms or newsletters.</p>' +
+      body: '<p>This website presents Carlo Riva’s project «Il cervello (ci) mente». There are no accounts. The only form is the book pre-order (“Pre-order the book”, at the bottom of the home page), with its own <a href="#informativa-prenotazione">privacy notice</a>.</p>' +
         '<h3>Controller and contact</h3><p>Carlo Riva — <a href="mailto:ilcervellocimente@gmail.com">ilcervellocimente@gmail.com</a>.</p>' +
         '<h3>What happens when you visit</h3><ul>' +
         '<li><strong>Hosting:</strong> the site is published with GitHub Pages (GitHub Inc.), which may log technical data such as your IP address for security and operation.</li>' +
@@ -234,7 +234,7 @@
     fr: {
       bannerTitle: 'Statistiques, seulement si tu veux', bannerText: 'Avec ton accord, nous utilisons Metricool pour compter les visites de façon globale et savoir quels contenus intéressent. Si tu refuses, le site fonctionne de la même manière. Tu peux changer d’avis à tout moment via « Préférences de confidentialité », en bas de page.', more: 'Politique de confidentialité', yes: 'Accepter les statistiques', no: 'Refuser', footer: 'PRÉFÉRENCES DE CONFIDENTIALITÉ ↗',
       title: 'Confidentialité', status: { yes: 'Statistiques : activées', no: 'Statistiques : désactivées', none: 'Statistiques : aucun choix' },
-      body: '<p>Ce site présente le projet « Il cervello (ci) mente » de Carlo Riva. Il n’y a ni compte, ni formulaire, ni newsletter.</p>' +
+      body: '<p>Ce site présente le projet « Il cervello (ci) mente » de Carlo Riva. Il n’y a pas de compte. Le seul formulaire est celui de la réservation du livre (« Réserver le livre », en bas de la page d’accueil), avec sa <a href="#informativa-prenotazione">politique de confidentialité</a>.</p>' +
         '<h3>Responsable et contact</h3><p>Carlo Riva — <a href="mailto:ilcervellocimente@gmail.com">ilcervellocimente@gmail.com</a>.</p>' +
         '<h3>Ce qui se passe pendant ta visite</h3><ul>' +
         '<li><strong>Hébergement :</strong> le site est publié avec GitHub Pages (GitHub Inc.), qui peut enregistrer des données techniques comme l’adresse IP pour la sécurité et le fonctionnement.</li>' +
@@ -248,7 +248,7 @@
     es: {
       bannerTitle: 'Estadísticas, solo si quieres', bannerText: 'Con tu consentimiento usamos Metricool para contar las visitas de forma agregada y saber qué contenidos interesan. Si lo rechazas, el sitio funciona igual. Puedes cambiar de opinión cuando quieras en «Preferencias de privacidad», al final de la página.', more: 'Política de privacidad', yes: 'Aceptar estadísticas', no: 'Rechazar', footer: 'PREFERENCIAS DE PRIVACIDAD ↗',
       title: 'Privacidad', status: { yes: 'Estadísticas: activadas', no: 'Estadísticas: desactivadas', none: 'Estadísticas: sin elegir' },
-      body: '<p>Este sitio presenta el proyecto «Il cervello (ci) mente» de Carlo Riva. No hay cuentas, formularios ni boletines.</p>' +
+      body: '<p>Este sitio presenta el proyecto «Il cervello (ci) mente» de Carlo Riva. No hay cuentas. El único formulario es el de la reserva del libro («Reservar el libro», al final de la página principal), con su propia <a href="#informativa-prenotazione">información sobre privacidad</a>.</p>' +
         '<h3>Responsable y contacto</h3><p>Carlo Riva — <a href="mailto:ilcervellocimente@gmail.com">ilcervellocimente@gmail.com</a>.</p>' +
         '<h3>Qué ocurre cuando visitas el sitio</h3><ul>' +
         '<li><strong>Alojamiento:</strong> el sitio se publica con GitHub Pages (GitHub Inc.), que puede registrar datos técnicos como la dirección IP por seguridad y funcionamiento.</li>' +
@@ -262,7 +262,7 @@
     de: {
       bannerTitle: 'Statistik nur, wenn du willst', bannerText: 'Mit deiner Einwilligung nutzen wir Metricool, um Besuche zusammengefasst zu zählen und zu sehen, welche Inhalte gefallen. Wenn du ablehnst, funktioniert die Website genauso. Du kannst deine Wahl jederzeit unter „Datenschutz-Einstellungen“ unten auf der Seite ändern.', more: 'Datenschutzerklärung', yes: 'Statistik erlauben', no: 'Ablehnen', footer: 'DATENSCHUTZ-EINSTELLUNGEN ↗',
       title: 'Datenschutz', status: { yes: 'Statistik: aktiv', no: 'Statistik: aus', none: 'Statistik: noch keine Wahl' },
-      body: '<p>Diese Website stellt Carlo Rivas Projekt „Il cervello (ci) mente“ vor. Es gibt keine Konten, Formulare oder Newsletter.</p>' +
+      body: '<p>Diese Website stellt Carlo Rivas Projekt „Il cervello (ci) mente“ vor. Es gibt keine Konten. Das einzige Formular ist die Buch-Vorbestellung („Buch vorbestellen“, unten auf der Startseite) mit eigenen <a href="#informativa-prenotazione">Datenschutzhinweisen</a>.</p>' +
         '<h3>Verantwortlicher und Kontakt</h3><p>Carlo Riva — <a href="mailto:ilcervellocimente@gmail.com">ilcervellocimente@gmail.com</a>.</p>' +
         '<h3>Was bei deinem Besuch passiert</h3><ul>' +
         '<li><strong>Hosting:</strong> Die Website wird über GitHub Pages (GitHub Inc.) veröffentlicht; dabei können technische Daten wie die IP-Adresse für Sicherheit und Betrieb protokolliert werden.</li>' +
