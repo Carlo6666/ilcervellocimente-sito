@@ -1,0 +1,60 @@
+name: Verifica prenotazione sul sito pubblico (senza creare prenotazioni)
+on:
+  workflow_dispatch:
+  push:
+    branches: [prenotazione-libro]
+    paths: ['.github/workflows/verifica-prenotazione-online.yml']
+permissions:
+  contents: read
+jobs:
+  online:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: File pubblici uguali a gh-pages
+        run: |
+          set -e
+          B=https://www.ilcervellocimente.com
+          for f in index.html js/prenota.js js/prenota-config.js css/prenota.css js/sito-v3-1.js; do
+            for i in $(seq 1 30); do curl -fsS "$B/$f?n=$(date +%s)" -o /tmp/x && cmp -s /tmp/x "$f" && break; sleep 10; done
+            cmp /tmp/x "$f" && echo "online = gh-pages: $f"
+          done
+      - run: npm install --no-save playwright && npx playwright install --with-deps chromium
+      - name: Modulo nella home (5 lingue, smartphone e desktop) e servizio raggiungibile dal sito
+        run: |
+          cat > /tmp/v.cjs <<'JS'
+          const { chromium, devices } = require(process.cwd() + '/node_modules/playwright');
+          (async () => {
+            const b = await chromium.launch(); let ko = 0;
+            for (const [nome, o] of [['smartphone', devices['Pixel 7']], ['desktop', { viewport: { width: 1440, height: 900 } }]]) {
+              for (const lang of ['it', 'en', 'fr', 'es', 'de']) {
+                const ctx = await b.newContext(o); const p = await ctx.newPage(); const err = [];
+                p.on('pageerror', (e) => err.push(e.message));
+                await p.goto('https://www.ilcervellocimente.com/?lang=' + lang + '&n=' + Date.now(), { waitUntil: 'load' });
+                await p.evaluate(() => { const c = document.querySelector('[data-consent-reject], .cookie-reject'); if (c) c.click(); });
+                await p.locator('#prenota-apri').scrollIntoViewIfNeeded();
+                const btn = (await p.locator('#prenota-apri').innerText()).trim();
+                await p.locator('#prenota-apri').click({ force: true });
+                await p.locator('#pr-email').waitFor({ state: 'visible', timeout: 10000 });
+                const chiuse = await p.locator('#prenota-chiuse').count();
+                // Invio diretto con e-mail non valida dall'origine del sito: verifica CORS e servizio, nessuna prenotazione creata.
+                const r = await p.evaluate(async () => { const x = await fetch(window.PRENOTA_API, { method: 'POST', body: JSON.stringify({ email: 'verifica-non-valida', linguaSito: 'it', tempo: 9000 }) }); return x.json(); });
+                const ok = r.errore === 'campi' && chiuse === 0 && err.length === 0;
+                if (!ok) ko++;
+                console.log(nome, lang, ok ? 'OK' : 'KO', JSON.stringify({ pulsante: btn, servizio: r, pulsanteChiuse: chiuse, erroriJs: err }));
+                await p.screenshot({ path: `/tmp/schermate-${nome}-${lang}.png` });
+                await ctx.close();
+              }
+            }
+            await b.close(); process.exit(ko ? 1 : 0);
+          })();
+          JS
+          node /tmp/v.cjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verifica-prenotazione-online
+          path: /tmp/schermate-*.png

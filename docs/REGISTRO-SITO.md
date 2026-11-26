@@ -495,3 +495,11 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 **Collaudo (locale, servizio simulato con il Codice.gs vero, solo @example.com):** `collaudo-backend.mjs` 13/13 (anche: oltre 50.000 copie le prenotazioni proseguono). `collaudo-browser.mjs` Chromium 52/52 prove + 8/8 regressioni (nuova prova: con 60.000 copie già prenotate il modulo resta aperto, il primo riferimento è 50.326 e due invii simultanei ricevono riferimenti diversi).
 
 **Da fare (serve l'ok di Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script; il servizio Google risponde ancora «Accesso negato» finché il progetto non viene autorizzato dall'editor (`setup` → Consenti).
+
+
+### 26/11/2026, ore 12:20 circa — Prenotazioni online (Claude) — PUBBLICATO
+
+**Fonte:** richiesta di Carlo delle 12:04 («carica su Google il servizio, aggiornalo e aggiorna anche il sito. Rendi tutto online e operativo»).
+- Google: caricato il `Codice.gs`/`Admin.html` senza limite (pubblicazione «Sito (pubblico)» versione 5, «Area riservata (solo io)» versione 6, indirizzi invariati). Carlo ha autorizzato il progetto dall'editor (`setup` → Consenti) alle 12:17. Verifica dal vivo (`verifica-servizio-prenotazioni.yml`): invio con e-mail non valida → `{"ok":false,"errore":"campi"}`, area riservata chiusa agli anonimi, intestazione CORS presente. Nessuna prenotazione creata.
+- Sito: pubblicati su `gh-pages` (commit `43b220d`) solo `index.html`, `js/sito-v3-1.js`, `js/prenota.js`, `js/prenota-config.js`, `css/prenota.css`; `index.html` e `js/sito-v3-1.js` di `gh-pages` erano identici a `sito-v3-1`, quindi l'unica differenza è il blocco «Prenota il libro» e la frase dell'informativa approvata.
+- Verifica del sito pubblico: `verifica-prenotazione-online.yml` (5 lingue, smartphone e desktop, senza creare prenotazioni).
