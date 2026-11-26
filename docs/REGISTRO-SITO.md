@@ -503,3 +503,13 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 - Google: caricato il `Codice.gs`/`Admin.html` senza limite (pubblicazione «Sito (pubblico)» versione 5, «Area riservata (solo io)» versione 6, indirizzi invariati). Carlo ha autorizzato il progetto dall'editor (`setup` → Consenti) alle 12:17. Verifica dal vivo (`verifica-servizio-prenotazioni.yml`): invio con e-mail non valida → `{"ok":false,"errore":"campi"}`, area riservata chiusa agli anonimi, intestazione CORS presente. Nessuna prenotazione creata.
 - Sito: pubblicati su `gh-pages` (commit `43b220d`) solo `index.html`, `js/sito-v3-1.js`, `js/prenota.js`, `js/prenota-config.js`, `css/prenota.css`; `index.html` e `js/sito-v3-1.js` di `gh-pages` erano identici a `sito-v3-1`, quindi l'unica differenza è il blocco «Prenota il libro» e la frase dell'informativa approvata.
 - Verifica del sito pubblico: `verifica-prenotazione-online.yml` (5 lingue, smartphone e desktop, senza creare prenotazioni).
+
+
+### 26/11/2026, ore 12:50 circa — Conferma finita nello spam: correzioni gratuite (Claude) — PUBBLICATO
+
+**Fonte:** Carlo, 12:34: la conferma di prova è finita nello spam, «bisogna fare qualcosa».
+- Causa probabile: account Gmail appena creato che invia e-mail automatiche a chi non gli ha mai scritto (poca reputazione), più un'e-mail molto grafica (sfondo scuro pieno, slogan, «gratuita… nessun pagamento»).
+- `Codice.gs`: e-mail di conferma semplice e personale (sfondo bianco, testo normale, niente slogan né parole «gratis/pagamento», mittente «Carlo Riva · Il cervello (ci) mente»), 5 lingue. Caricata su Google: «Sito (pubblico)» versione 7, «Area riservata» versione 8. Verifica dal vivo superata. Accesso temporaneo (clasp) revocato e cancellato subito dopo.
+- Sito (`gh-pages` `5cdee47`, solo `js/prenota.js`): nella conferma, avviso di guardare nella cartella Spam e segnalare «Non è spam» (5 lingue). Verifica dal vivo superata.
+- Carlo ha segnalato «Non è spam» sull'e-mail di prova.
+- Soluzione definitiva proposta a Carlo (da decidere): invio da un indirizzo @ilcervellocimente.com certificato (SPF/DKIM) tramite un servizio gratuito, richiede accesso al DNS del dominio.
