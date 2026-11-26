@@ -27,7 +27,7 @@ var CONFIG = {
   // Scheda nuova: la scheda «Prenotazioni» della versione del 25/11 (colonne diverse) non viene toccata.
   NOME_FOGLIO: 'Prenotazioni libro',
   VERSIONE_INFORMATIVA: 'prenotazione-2026-11-26',
-  NOME_MITTENTE: 'Il cervello (ci) mente',
+  NOME_MITTENTE: 'Carlo Riva · Il cervello (ci) mente',
   EMAIL_RISPOSTA: 'ilcervellocimente@gmail.com',
   SITO: 'https://www.ilcervellocimente.com',
   // Antispam: massimo di prenotazioni accettate in 10 minuti da tutto il sito.
@@ -240,7 +240,7 @@ var TESTI_EMAIL = {
     grazie: 'grazie! La tua copia di «Il cervello (ci) mente» è prenotata.',
     numero: 'Il tuo riferimento di prenotazione',
     spiega: 'È il codice della tua prenotazione: conservalo. Non indica quante copie sono state prenotate.',
-    gratis: 'La prenotazione è gratuita e senza impegno: nessun pagamento. Ti scriveremo non appena il libro sarà pubblicato.',
+    gratis: 'Non devi fare nient’altro: ti scriveremo non appena il libro sarà pubblicato.',
     annulla: 'Vuoi annullare la prenotazione? Rispondi a questa e-mail.',
     firma: 'Carlo Riva e Nora'
   },
@@ -252,7 +252,7 @@ var TESTI_EMAIL = {
     grazie: 'thank you! Your copy of «Il cervello (ci) mente» is reserved.',
     numero: 'Your pre-order reference',
     spiega: 'This is your pre-order code: please keep it. It does not show how many copies have been pre-ordered.',
-    gratis: 'Pre-ordering is free and with no obligation: no payment. We will write to you as soon as the book is published.',
+    gratis: 'There is nothing else you need to do: we will write to you as soon as the book is published.',
     annulla: 'Want to cancel your pre-order? Just reply to this e-mail.',
     firma: 'Carlo Riva and Nora'
   },
@@ -264,7 +264,7 @@ var TESTI_EMAIL = {
     grazie: 'merci ! Votre exemplaire de « Il cervello (ci) mente » est réservé.',
     numero: 'Votre référence de réservation',
     spiega: 'C’est le code de votre réservation : conservez-le. Il n’indique pas le nombre d’exemplaires réservés.',
-    gratis: 'La réservation est gratuite et sans engagement : aucun paiement. Nous vous écrirons dès la parution du livre.',
+    gratis: 'Vous n’avez rien d’autre à faire : nous vous écrirons dès la parution du livre.',
     annulla: 'Pour annuler votre réservation, répondez simplement à cet e-mail.',
     firma: 'Carlo Riva et Nora'
   },
@@ -276,7 +276,7 @@ var TESTI_EMAIL = {
     grazie: '¡gracias! Tu ejemplar de «Il cervello (ci) mente» está reservado.',
     numero: 'Tu referencia de reserva',
     spiega: 'Es el código de tu reserva: consérvalo. No indica cuántos ejemplares se han reservado.',
-    gratis: 'La reserva es gratuita y sin compromiso: no hay que pagar nada. Te escribiremos en cuanto se publique el libro.',
+    gratis: 'No tienes que hacer nada más: te escribiremos en cuanto se publique el libro.',
     annulla: '¿Quieres cancelar la reserva? Responde a este correo.',
     firma: 'Carlo Riva y Nora'
   },
@@ -288,7 +288,7 @@ var TESTI_EMAIL = {
     grazie: 'vielen Dank! Dein Exemplar von „Il cervello (ci) mente“ ist reserviert.',
     numero: 'Deine Vorbestellnummer',
     spiega: 'Das ist der Code deiner Vorbestellung: Bitte bewahre ihn auf. Er zeigt nicht, wie viele Exemplare vorbestellt wurden.',
-    gratis: 'Die Vorbestellung ist kostenlos und unverbindlich: keine Zahlung. Wir schreiben dir, sobald das Buch erscheint.',
+    gratis: 'Du musst nichts weiter tun: Wir schreiben dir, sobald das Buch erscheint.',
     annulla: 'Du möchtest stornieren? Antworte einfach auf diese E-Mail.',
     firma: 'Carlo Riva und Nora'
   }
@@ -309,26 +309,21 @@ function senzaApice_(v) { v = String(v); return v.charAt(0) === "'" ? v.slice(1)
 function componiEmail_(p) {
   var t = TESTI_EMAIL[p.lingua] || TESTI_EMAIL.it;
   var n = formattaNumero_(p.numero, p.lingua);
+  // E-mail semplice e personale (niente slogan, sfondi pieni o blocchi grafici): meno probabilità di finire nello spam.
   var testo = [
-    t.titolo, '', t.ciao, t.grazie, '',
+    t.ciao, t.grazie, '',
     t.numero + ': ' + t.abbrev + ' ' + n, t.spiega, '',
     t.gratis, t.annulla, '', t.firma, CONFIG.SITO
   ].join('\n');
+  var par = '<p style="margin:0 0 14px">';
   var html =
-    '<div style="background:#120e0c;padding:24px 12px;font-family:Arial,Helvetica,sans-serif">' +
-    '<div style="max-width:560px;margin:0 auto;background:#1c130f;border:1px solid #5d3b27;border-radius:14px;padding:28px 24px;color:#f4e4cf">' +
-    '<p style="margin:0 0 6px;font:700 11px/1.4 Courier New,monospace;letter-spacing:.14em;color:#f5aa70">IL CERVELLO (CI) MENTE</p>' +
-    '<h1 style="margin:0 0 18px;font:800 28px/1.05 Arial Narrow,Arial,sans-serif;color:#f4dfcc">' + esc_(t.titolo) + '</h1>' +
-    '<p style="margin:0 0 6px;font-size:15px;line-height:1.6">' + esc_(t.ciao) + '</p>' +
-    '<p style="margin:0 0 20px;font-size:15px;line-height:1.6">' + esc_(t.grazie) + '</p>' +
-    '<div style="background:#ed5819;color:#fff;border-radius:10px;padding:16px 18px;margin:0 0 10px">' +
-    '<div style="font:700 11px/1.3 Courier New,monospace;letter-spacing:.1em;text-transform:uppercase">' + esc_(t.numero) + '</div>' +
-    '<div style="font:800 40px/1.1 Arial Narrow,Arial,sans-serif;letter-spacing:.02em">' + esc_(t.abbrev + ' ' + n) + '</div></div>' +
-    '<p style="margin:0 0 22px;font-size:13px;line-height:1.55;color:#e2bea3">' + esc_(t.spiega) + '</p>' +
-    '<p style="margin:0 0 10px;font-size:14px;line-height:1.6">' + esc_(t.gratis) + '</p>' +
-    '<p style="margin:0 0 22px;font-size:13px;line-height:1.6;color:#e2bea3">' + esc_(t.annulla) + '</p>' +
-    '<p style="margin:0;font-size:14px">' + esc_(t.firma) + '<br><a href="' + CONFIG.SITO + '" style="color:#f5aa70">www.ilcervellocimente.com</a></p>' +
-    '</div></div>';
+    '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222;max-width:560px">' +
+    par + esc_(t.ciao) + '<br>' + esc_(t.grazie) + '</p>' +
+    par + esc_(t.numero) + ': <strong style="font-size:18px">' + esc_(t.abbrev + ' ' + n) + '</strong><br>' +
+    '<span style="color:#555;font-size:13px">' + esc_(t.spiega) + '</span></p>' +
+    par + esc_(t.gratis) + '<br>' + esc_(t.annulla) + '</p>' +
+    '<p style="margin:0">' + esc_(t.firma) + '<br><a href="' + CONFIG.SITO + '">www.ilcervellocimente.com</a></p>' +
+    '</div>';
   return { oggetto: t.oggetto.replace('{n}', n), testo: testo, html: html };
 }
 

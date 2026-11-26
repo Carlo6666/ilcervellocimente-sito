@@ -19,7 +19,7 @@
       notOpen: 'Le prenotazioni apriranno a breve: il modulo non è ancora attivo.',
       doneKicker: 'PRENOTAZIONE CONFERMATA', doneTitle: 'Grazie! La tua copia è prenotata.', doneLabel: 'Il tuo riferimento',
       doneNote: 'Conserva questo riferimento. Non indica quante copie sono state prenotate.',
-      mailSent: 'Ti abbiamo inviato un’e-mail di conferma a {email}.', mailLater: 'L’e-mail di conferma a {email} partirà entro poche ore.',
+      mailSent: 'Ti abbiamo inviato un’e-mail di conferma a {email}. Se non la trovi, guarda nella cartella Spam e segnala «Non è spam».', mailLater: 'L’e-mail di conferma a {email} partirà entro poche ore.',
       dupTitle: 'Hai già prenotato una copia.', dupText: 'Con l’indirizzo {email} esiste già una prenotazione: ti abbiamo rinviato per e-mail il tuo riferimento.',
       privacyTitle: 'Informativa privacy sulla prenotazione',
       privacyBody:
@@ -44,7 +44,7 @@
       notOpen: 'Pre-orders will open soon: the form is not active yet.',
       doneKicker: 'PRE-ORDER CONFIRMED', doneTitle: 'Thank you! Your copy is reserved.', doneLabel: 'Your reference',
       doneNote: 'Please keep this reference. It does not show how many copies have been pre-ordered.',
-      mailSent: 'We have sent a confirmation e-mail to {email}.', mailLater: 'The confirmation e-mail to {email} will be sent within a few hours.',
+      mailSent: 'We have sent a confirmation e-mail to {email}. If you can’t find it, check your Spam folder and mark it as «Not spam».', mailLater: 'The confirmation e-mail to {email} will be sent within a few hours.',
       dupTitle: 'You have already pre-ordered a copy.', dupText: 'There is already a pre-order for {email}: we have sent your reference to you again by e-mail.',
       privacyTitle: 'Privacy notice for pre-orders',
       privacyBody:
@@ -69,7 +69,7 @@
       notOpen: 'Les réservations ouvriront bientôt : le formulaire n’est pas encore actif.',
       doneKicker: 'RÉSERVATION CONFIRMÉE', doneTitle: 'Merci ! Votre exemplaire est réservé.', doneLabel: 'Votre référence',
       doneNote: 'Conservez cette référence. Elle n’indique pas le nombre d’exemplaires réservés.',
-      mailSent: 'Nous avons envoyé un e-mail de confirmation à {email}.', mailLater: 'L’e-mail de confirmation à {email} partira d’ici quelques heures.',
+      mailSent: 'Nous avons envoyé un e-mail de confirmation à {email}. Si vous ne le trouvez pas, regardez dans le dossier Spam et signalez-le comme « Non-spam ».', mailLater: 'L’e-mail de confirmation à {email} partira d’ici quelques heures.',
       dupTitle: 'Vous avez déjà réservé un exemplaire.', dupText: 'Une réservation existe déjà pour {email} : nous vous avons renvoyé votre référence par e-mail.',
       privacyTitle: 'Politique de confidentialité de la réservation',
       privacyBody:
@@ -94,7 +94,7 @@
       notOpen: 'Las reservas se abrirán pronto: el formulario todavía no está activo.',
       doneKicker: 'RESERVA CONFIRMADA', doneTitle: '¡Gracias! Tu ejemplar está reservado.', doneLabel: 'Tu referencia',
       doneNote: 'Guarda esta referencia. No indica cuántos ejemplares se han reservado.',
-      mailSent: 'Te hemos enviado un correo de confirmación a {email}.', mailLater: 'El correo de confirmación a {email} saldrá en unas horas.',
+      mailSent: 'Te hemos enviado un correo de confirmación a {email}. Si no lo encuentras, mira en la carpeta de Spam y márcalo como «No es spam».', mailLater: 'El correo de confirmación a {email} saldrá en unas horas.',
       dupTitle: 'Ya has reservado un ejemplar.', dupText: 'Ya existe una reserva para {email}: te hemos reenviado tu referencia por correo.',
       privacyTitle: 'Información sobre privacidad de la reserva',
       privacyBody:
@@ -119,7 +119,7 @@
       notOpen: 'Die Vorbestellung öffnet in Kürze: Das Formular ist noch nicht aktiv.',
       doneKicker: 'VORBESTELLUNG BESTÄTIGT', doneTitle: 'Danke! Dein Exemplar ist reserviert.', doneLabel: 'Deine Referenz',
       doneNote: 'Bewahre diese Referenz auf. Sie zeigt nicht, wie viele Exemplare vorbestellt wurden.',
-      mailSent: 'Wir haben dir eine Bestätigung an {email} geschickt.', mailLater: 'Die Bestätigung an {email} wird in den nächsten Stunden verschickt.',
+      mailSent: 'Wir haben dir eine Bestätigung an {email} geschickt. Falls du sie nicht findest, sieh im Spam-Ordner nach und markiere sie als „Kein Spam“.', mailLater: 'Die Bestätigung an {email} wird in den nächsten Stunden verschickt.',
       dupTitle: 'Du hast bereits ein Exemplar vorbestellt.', dupText: 'Für {email} gibt es bereits eine Vorbestellung: Wir haben dir deine Referenz noch einmal per E-Mail geschickt.',
       privacyTitle: 'Datenschutzhinweise zur Vorbestellung',
       privacyBody:
