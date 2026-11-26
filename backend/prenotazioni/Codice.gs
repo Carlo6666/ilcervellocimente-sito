@@ -28,6 +28,8 @@ var CONFIG = {
   NOME_FOGLIO: 'Prenotazioni libro',
   VERSIONE_INFORMATIVA: 'prenotazione-2026-11-26',
   NOME_MITTENTE: 'Carlo Riva · Il cervello (ci) mente',
+  // Indirizzo del dominio collegato a Gmail («Invia messaggi come», server di Register.it). La proprietà MITTENTE_DOMINIO lo sostituisce.
+  MITTENTE_DOMINIO: 'info@ilcervellocimente.com',
   EMAIL_RISPOSTA: 'ilcervellocimente@gmail.com',
   SITO: 'https://www.ilcervellocimente.com',
   // Antispam: massimo di prenotazioni accettate in 10 minuti da tutto il sito.
@@ -329,11 +331,11 @@ function componiEmail_(p) {
 }
 
 /**
- * Indirizzo del dominio da cui spedire le conferme (proprietà dello script MITTENTE_DOMINIO, es. info@ilcervellocimente.com).
+ * Indirizzo del dominio da cui spedire le conferme (proprietà MITTENTE_DOMINIO, altrimenti CONFIG.MITTENTE_DOMINIO).
  * Usato solo se è già configurato in Gmail come «Invia messaggi come»; altrimenti si spedisce dal Gmail del progetto.
  */
 function mittenteDominio_() {
-  var a = String(PropertiesService.getScriptProperties().getProperty('MITTENTE_DOMINIO') || '').trim().toLowerCase();
+  var a = String(PropertiesService.getScriptProperties().getProperty('MITTENTE_DOMINIO') || CONFIG.MITTENTE_DOMINIO || '').trim().toLowerCase();
   if (!a) return '';
   try {
     var alias = GmailApp.getAliases().map(function (x) { return String(x).toLowerCase(); });

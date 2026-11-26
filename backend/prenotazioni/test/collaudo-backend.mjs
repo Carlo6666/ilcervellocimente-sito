@@ -174,9 +174,10 @@ prova('servizio già attivato con la versione del 25/11: vecchia scheda e vecchi
 
 prova('mittente del dominio: usato solo se configurato come alias in Gmail, altrimenti Gmail del progetto', () => {
   const a = creaAmbiente(); a.g.setup();
+  assert.equal(a.g.CONFIG.MITTENTE_DOMINIO, 'info@ilcervellocimente.com');
   post(a, base());
-  assert.equal(a.inviate.at(-1).from, undefined, 'senza proprietà: Gmail del progetto');
-  a.props.MITTENTE_DOMINIO = 'info@ilcervellocimente.com';
+  assert.equal(a.inviate.at(-1).from, undefined, 'alias non ancora configurato in Gmail: nessun errore, Gmail del progetto');
+  a.stato.alias = ['altro@example.com'];
   post(a, base());
   assert.equal(a.inviate.at(-1).from, undefined, 'alias non ancora configurato in Gmail: nessun errore, Gmail del progetto');
   a.stato.alias = ['Info@ilcervellocimente.com'];
