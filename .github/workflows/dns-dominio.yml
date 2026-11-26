@@ -1,0 +1,19 @@
+name: Lettura DNS del dominio (sola lettura)
+on:
+  workflow_dispatch:
+  push:
+    branches: [prenotazione-libro]
+    paths: ['.github/workflows/dns-dominio.yml']
+permissions:
+  contents: read
+jobs:
+  dns:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          sudo apt-get -qq install -y whois >/dev/null 2>&1 || true
+          for t in NS MX TXT A; do echo "== $t"; dig +short ilcervellocimente.com $t; done
+          echo "== www"; dig +short www.ilcervellocimente.com CNAME
+          echo "== DMARC"; dig +short _dmarc.ilcervellocimente.com TXT
+          echo "== WHOIS"; whois ilcervellocimente.com | grep -iE "registrar:|registrar url|name server|Registrar$|Organization" | head -12
