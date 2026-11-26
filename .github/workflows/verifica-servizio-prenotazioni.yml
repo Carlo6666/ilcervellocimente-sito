@@ -15,12 +15,13 @@ jobs:
       - name: Servizio pubblico raggiungibile, area riservata chiusa agli anonimi
         run: |
           set -e
-          echo 'Avvio verifica 1'
+          echo 'Avvio verifica 2'
           API=$(grep -o "https://script.google.com/macros/s/[^']*" js/prenota-config.js)
           echo "Servizio: $API"
           # Invio volutamente non valido (e-mail errata): il servizio deve rispondere "campi" e NON assegnare riferimenti.
           R=$(curl -sSL -m 60 -H 'Content-Type: text/plain;charset=utf-8' --data '{"email":"verifica-non-valida","linguaSito":"it","tempo":9000}' "$API")
-          echo "POST: $R"
+          echo "POST (titolo/inizio): $(echo "$R" | grep -o "<title>[^<]*</title>" || echo "$R" | head -c 300)"
+          echo "$R" | sed "s/<[^>]*>/ /g" | grep -oE "(You need access|Authorization is required|Autorizzazione|Script function not found|Exception)[^.]{0,120}" | head -3 || true
           echo "$R" | grep -q '"errore":"campi"'
           G=$(curl -sSL -m 60 "$API")
           echo "GET anonimo: $(echo "$G" | head -c 300)"
