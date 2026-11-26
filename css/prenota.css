@@ -1,5 +1,5 @@
 /* IL CERVELLO (CI) MENTE — prenotazione del libro (25/11/2026)
-   Stessi colori e caratteri della v3.1. Usato da prenota.html e dal blocco in fondo a index.html. */
+   Stessi colori e caratteri della v3.1. Blocco «Prenota il libro» in fondo a index.html, con il modulo nella pagina (26/11/2026). */
 @font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800;font-display:swap;src:url(../fonts/barlow-condensed-latin-800-normal.woff2) format('woff2')}
 @font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:900;font-display:swap;src:url(../fonts/barlow-condensed-latin-900-normal.woff2) format('woff2')}
@@ -24,82 +24,38 @@
 @media(max-width:700px){.book-preorder::after{inset:45% -20% 0 20%;opacity:.12;-webkit-mask-image:linear-gradient(180deg,transparent,#000 50%);mask-image:linear-gradient(180deg,transparent,#000 50%)}.book-preorder-btn{width:100%;font-size:17px}}
 @media(prefers-reduced-motion:reduce){.book-preorder-btn{transition:none}.book-preorder-btn:hover{transform:none}}
 
-/* ---------- Pagina prenota.html ---------- */
-.prenota-page{margin:0;background:#120e0c;color:#f4e4cf;font:400 16px/1.55 'DM Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased}
-.prenota-page *,.prenota-page *::before,.prenota-page *::after{box-sizing:border-box}
-.prenota-page a{color:#f5aa70}
-.pr-shell{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
-.pr-skip{position:absolute;left:-9999px;top:8px;background:#ed5819;color:#fff;padding:10px 14px;z-index:20}
-.pr-skip:focus{left:8px}
-.pr-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-.pr-header{background:rgba(15,12,11,.95);border-bottom:1px solid #4c3125;position:sticky;top:0;z-index:10}
-.pr-header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:68px}
-.pr-wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:#f5dfca!important;min-width:0}
-.pr-wordmark-icon{display:grid;place-items:center;width:38px;height:38px;border:3px solid #f0dbc2;border-radius:2px;color:#ed5819;font:900 20px/1 'Barlow Condensed',sans-serif;transform:rotate(-4deg);flex:0 0 auto}
-.pr-wordmark-type{font:900 19px/1 'Barlow Condensed',sans-serif;letter-spacing:.01em;white-space:nowrap}
-.pr-wordmark-type em{color:#ed5819}
-.pr-wordmark-type small{display:block;font:700 8px/1.5 'Space Mono',monospace;letter-spacing:.26em;color:#c9a98c;margin-top:3px}
-.pr-header-actions{display:flex;align-items:center;gap:10px}
-.pr-lang{color:#f5dfcc;background:#261912;border:1px solid #7d4325;border-radius:8px;padding:8px 6px;font:700 13px 'Space Mono',monospace;min-height:40px}
-.pr-back{font:700 12px/1 'Space Mono',monospace;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
-.pr-hero{background:radial-gradient(ellipse at 20% 15%,#422311 0%,#1b120e 50%,#100c0b 100%);padding:clamp(36px,6vw,80px) 0 clamp(48px,7vw,96px)}
-.pr-hero-grid{display:grid;grid-template-columns:1fr minmax(0,560px);gap:clamp(28px,5vw,72px);align-items:start}
-.pr-kicker{font:700 11px/1.4 'Space Mono',monospace;letter-spacing:.14em;color:#f5aa70;margin:0 0 16px}
-.pr-title{font:900 clamp(52px,7.5vw,108px)/.88 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 22px;color:#f7e1c8}
-.pr-title em{color:#ed5819;font-style:normal}
-.pr-lead{font-size:clamp(17px,2vw,21px);line-height:1.5;color:#eed3ba;max-width:520px;margin:0 0 20px}
-.pr-points{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:8px}
-.pr-points li{position:relative;padding-left:26px;color:#e2bea3}
-.pr-points li::before{content:'✳';position:absolute;left:0;color:#ed5819}
-.pr-number-note{border-left:4px solid #ed5819;background:rgba(36,24,15,.85);padding:12px 14px;border-radius:6px;font-size:14px;color:#e8c9ad;max-width:520px;margin:0 0 26px}
-.pr-number-note strong{color:#fff}
-.pr-cover img{display:block;width:min(240px,60%);height:auto;border:5px solid #f0d8ba;box-shadow:0 20px 40px rgba(0,0,0,.6);transform:rotate(-4deg)}
-.pr-card{background:#1c130f;border:1px solid #5d3b27;border-radius:18px;padding:clamp(20px,3.5vw,36px);box-shadow:0 18px 50px rgba(0,0,0,.35);scroll-margin-top:84px}
-.pr-form-title{font:900 clamp(30px,3.4vw,40px)/1 'Barlow Condensed',sans-serif;letter-spacing:.02em;margin:0 0 6px;color:#f7e1c8}
-.pr-required{font-size:13px;color:#c9a98c;margin:0 0 18px}
-.pr-field{margin:0 0 16px;border:0;padding:0;min-width:0}
-.pr-field label,.pr-field legend{display:block;font:700 13px/1.3 'DM Sans',sans-serif;color:#f5dfcc;margin:0 0 6px;padding:0}
-.pr-field input[type=text],.pr-field input[type=email],.pr-field select{width:100%;min-height:48px;padding:11px 12px;border-radius:10px;border:1px solid #7d4325;background:#261912;color:#fff3e6;font:400 16px 'DM Sans',Arial,sans-serif;appearance:none;-webkit-appearance:none}
-.pr-field select{background-image:linear-gradient(45deg,transparent 50%,#f5aa70 50%),linear-gradient(135deg,#f5aa70 50%,transparent 50%);background-position:calc(100% - 18px) 21px,calc(100% - 12px) 21px;background-size:6px 6px;background-repeat:no-repeat;padding-right:34px}
-.pr-field input:focus,.pr-field select:focus,.pr-check input:focus-visible,.pr-choice input:focus-visible{outline:3px solid #f5aa70;outline-offset:2px}
-.pr-field [aria-invalid=true]{border-color:#ff7a59;box-shadow:0 0 0 1px #ff7a59}
-.pr-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.pr-formats{display:flex;flex-wrap:wrap;gap:10px}
-.pr-formats legend{width:100%}
-.pr-choice{flex:1 1 140px;display:flex!important;align-items:center;gap:10px;min-height:48px;padding:10px 14px;border:1px solid #7d4325;border-radius:10px;background:#261912;cursor:pointer;font:600 15px 'DM Sans',sans-serif!important;margin:0!important}
-.pr-choice:has(input:checked){border-color:#ed5819;background:#3a1d10;box-shadow:0 0 0 1px #ed5819}
-.pr-choice input,.pr-check input{width:20px;height:20px;accent-color:#ed5819;flex:0 0 auto;margin:0}
-.pr-check{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.5;color:#e8c9ad;margin:0 0 14px;cursor:pointer}
-.pr-check input{margin-top:1px}
-.pr-error{color:#ffae96;font-size:13px;margin:6px 0 0}
-.pr-check+.pr-error{margin:-8px 0 14px 32px}
-.pr-hp{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
-.pr-submit{display:inline-flex;align-items:center;justify-content:center;gap:14px;width:100%;min-height:58px;margin-top:8px;padding:16px 20px;border:2px solid #ed5819;border-radius:10px;background:#ed5819;color:#fff!important;font:800 19px/1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.06em;text-decoration:none;cursor:pointer;box-shadow:0 7px 25px rgba(220,72,16,.3);transition:background .2s,transform .2s}
-.pr-submit:hover{background:#ff6a26}
-.pr-submit:disabled{opacity:.7;cursor:progress}
-.pr-submit:focus-visible{outline:3px solid #f5aa70;outline-offset:3px}
-.pr-free{font:700 11px/1.5 'Space Mono',monospace;letter-spacing:.04em;color:#c9a98c;text-align:center;margin:12px 0 0}
-.pr-status{margin:12px 0 0;font-size:14px;min-height:1px}
-.pr-status.is-error{color:#ffae96;background:rgba(120,30,15,.35);border:1px solid #c0472a;border-radius:8px;padding:10px 12px}
-.pr-status.is-info{color:#f5dfcc;background:rgba(60,40,25,.6);border:1px solid #7d4325;border-radius:8px;padding:10px 12px}
-.pr-done{text-align:center;outline:none}
-.pr-done-title{font:900 clamp(30px,4vw,44px)/1 'Barlow Condensed',sans-serif;margin:0 0 20px;color:#f7e1c8}
-.pr-done-label{font:700 12px/1.3 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#f5aa70;margin:0 0 4px}
-.pr-done-number{font:900 clamp(52px,9vw,80px)/1 'Barlow Condensed',Impact,sans-serif;color:#fff;background:#ed5819;border-radius:12px;padding:14px 10px;margin:0 0 12px;letter-spacing:.02em}
-.pr-done-note{font-size:14px;color:#e2bea3;margin:0 0 14px}
-.pr-done-mail{font-size:15px;color:#f4e4cf;margin:0 0 20px}
-.pr-privacy{background:#140e0b;border-top:1px solid #3a261c;padding:28px 0 40px}
-.pr-privacy details{max-width:860px}
-.pr-privacy summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px}
-.pr-privacy summary::-webkit-details-marker{display:none}
-.pr-privacy summary::before{content:'+';display:grid;place-items:center;width:28px;height:28px;border:1px solid #a77b58;border-radius:50%;color:#f5aa70;flex:0 0 auto;font-weight:700}
-.pr-privacy details[open] summary::before{content:'–'}
-.pr-privacy h2{font:800 22px/1.2 'Barlow Condensed',sans-serif;margin:0;color:#f4dfcc}
-.pr-privacy-body{font-size:14px;line-height:1.65;color:#e2bea3;padding:10px 0 0 38px}
-.pr-privacy-body strong{color:#f5dfcc}
-.pr-footer{background:#0d0807;color:#c9a98c;font:700 11px/1.5 'Space Mono',monospace;letter-spacing:.05em;padding:22px 0}
-.pr-footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-@media(max-width:900px){.pr-hero-grid{grid-template-columns:1fr}.pr-cover{display:none}.pr-title{font-size:clamp(50px,12vw,86px)}}
-@media(max-width:520px){.pr-row{grid-template-columns:1fr;gap:0}.pr-back{display:none}.pr-wordmark-type{font-size:16px}.pr-privacy-body{padding-left:0}}
-@media(max-width:360px){.pr-wordmark-type small{display:none}}
-@media(prefers-reduced-motion:reduce){.pr-submit{transition:none}}
+/* ---------- Modulo nella pagina (26/11/2026) ---------- */
+.book-preorder [hidden]{display:none!important}
+.book-preorder button.book-preorder-btn{cursor:pointer}
+.book-preorder-btn.is-closed{background:#3a261c;border-color:#7d4325;color:#e2bea3;box-shadow:none;cursor:not-allowed}
+.book-preorder-btn.is-closed:hover{transform:none;background:#3a261c}
+.book-preorder-btn:disabled{opacity:.8}
+.book-preorder-closed-text{font:400 16px/1.5 'DM Sans',Arial,sans-serif;color:#e8c9ad;margin:14px 0 0;max-width:600px}
+.pr-inline{margin:26px 0 0;max-width:560px;background:#1c130f;border:1px solid #5d3b27;border-radius:16px;padding:clamp(18px,3vw,28px);box-shadow:0 18px 50px rgba(0,0,0,.35);scroll-margin-top:96px}
+.pr-label{display:block;font:700 12px/1.4 'Space Mono',monospace;letter-spacing:.06em;color:#f5aa70;margin:0 0 8px}
+.pr-input{display:block;width:100%;box-sizing:border-box;min-height:52px;padding:12px 14px;border-radius:10px;border:1px solid #7d4325;background:#261912;color:#f7e1c8;font:400 17px/1.3 'DM Sans',Arial,sans-serif}
+.pr-input::placeholder{color:#9c7b62}
+.pr-input:focus{outline:3px solid #f5aa70;outline-offset:1px;border-color:#f5aa70}
+.pr-input[aria-invalid=true]{border-color:#ff7a59}
+.pr-error{color:#ffb39e;font:600 14px/1.4 'DM Sans',Arial,sans-serif;margin:8px 0 0}
+.pr-hp{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden}
+.pr-privacy-line{font:400 14px/1.5 'DM Sans',Arial,sans-serif;color:#e2bea3;margin:14px 0 18px}
+.pr-privacy-line a,.pr-privacy a{color:#f5aa70}
+.pr-submit{width:100%}
+.pr-status{font:600 15px/1.5 'DM Sans',Arial,sans-serif;margin:14px 0 0;min-height:0}
+.pr-status:empty{display:none}
+.pr-status.is-error{color:#ffd2c4;background:#5a1d12;border:1px solid #c0472a;border-radius:8px;padding:10px 12px}
+.pr-status.is-info{color:#e8c9ad;border-left:4px solid #ed5819;background:#24180f;border-radius:6px;padding:10px 12px}
+.pr-done:focus{outline:none}
+.pr-done .book-preorder-kicker{margin-bottom:8px}
+.pr-done-title{font:900 clamp(28px,4vw,40px)/1 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;color:#f7e1c8;margin:0 0 16px}
+.pr-done-label{font:700 11px/1.3 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin:0}
+#pr-done-ref{background:#ed5819;border-radius:12px;padding:14px 18px;margin:0 0 10px}
+.pr-done-number{font:900 clamp(40px,8vw,56px)/1.05 'Barlow Condensed',Impact,sans-serif;color:#fff;margin:2px 0 4px;letter-spacing:.01em}
+.pr-done-note{font:400 13px/1.45 'DM Sans',Arial,sans-serif;color:#fff;margin:0;opacity:.92}
+.pr-done-mail{font:400 15px/1.5 'DM Sans',Arial,sans-serif;color:#e8c9ad;margin:12px 0 0}
+.pr-done-mail:empty{display:none}
+.pr-privacy{margin:22px 0 0;max-width:640px;font:400 14px/1.55 'DM Sans',Arial,sans-serif;color:#e2bea3;scroll-margin-top:96px}
+.pr-privacy summary{cursor:pointer;font:700 12px/1.4 'Space Mono',monospace;letter-spacing:.05em;color:#c9a98c}
+.pr-privacy-body{margin-top:10px;border-left:2px solid #5d3b27;padding-left:14px}
+.pr-privacy-body p{margin:0 0 10px}

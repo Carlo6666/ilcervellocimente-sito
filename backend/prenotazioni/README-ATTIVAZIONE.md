@@ -19,7 +19,7 @@ Nessun costo, nessuna carta di credito. Limite di Gmail: **100 e-mail di conferm
 1. In alto scegli la funzione **`setup`** e premi **Esegui**.
 2. Google chiede le autorizzazioni (Fogli, invio e-mail, attivatori): **Rivedi autorizzazioni → scegli l'account → Avanzate → Vai al progetto → Consenti**.
    È normale che compaia «Google non ha verificato questa app»: l'app è tua e la usi solo tu.
-3. Nel registro di esecuzione compare «Pronto. Ultimo numero assegnato: 50000». Nel Foglio c'è la scheda **Prenotazioni** con le intestazioni.
+3. Nel registro di esecuzione compare «Pronto. Ultimo riferimento: 50325 · Copie prenotate: 0 su 50000». Nel Foglio c'è la scheda **Prenotazioni** con le intestazioni.
 
 `setup` crea anche un attivatore orario che invia le conferme rimaste in attesa.
 
@@ -44,22 +44,24 @@ Per dare accesso a un'altra persona: Impostazioni progetto → Proprietà script
 
 ## 4. Cosa c'è nell'area riservata
 
-- **Prenotazioni effettive** (totale reale, solo le prenotazioni attive) e **numero progressivo raggiunto** (identificativo, parte da 50.001): sempre separati.
-- Elenco delle richieste con ricerca; pulsante **Annulla / Riattiva** (il numero di una prenotazione annullata non viene mai riassegnato).
-- Mailing list (solo chi ha dato il consenso).
-- Statistiche per paese, lingua preferita, lingua del sito, cartaceo/e-book; andamento giornaliero.
-- Esportazione **CSV** (prenotazioni, mailing list, statistiche), apribile con Excel o Numbers.
+- **Copie prenotate** (totale reale, parte da 0) con la **soglia** di chiusura (50.000, modificabile dall'area riservata) e le copie ancora disponibili.
+- **Ultimo riferimento** assegnato (progressivo: il primo è 50.326). I due numeri sono sempre separati.
+- Elenco delle prenotazioni con ricerca; pulsante **Annulla / Riattiva** (un riferimento annullato non viene mai riassegnato; annullare libera una copia).
+- Andamento giornaliero, lingua del sito usata, esportazione **CSV** (apribile con Excel o Numbers).
 
-Il Foglio Google resta la copia completa dei dati: non modificare a mano la colonna «Numero».
+Il Foglio Google resta la copia completa dei dati: non modificare a mano le colonne «Riferimento» e «Stato».
 
 ## 5. Come funziona
 
-- Numerazione: valore iniziale 50.000; la prima prenotazione riceve 50.001, poi +1 per ogni prenotazione registrata.
-  Un blocco (LockService) impedisce numeri doppi anche con invii simultanei; se il contatore andasse perso riparte dall'ultimo numero nel Foglio.
-- Stessa e-mail → nessun nuovo numero: la conferma con il numero già assegnato viene rinviata (al massimo una volta all'ora).
-- Antispam: campo nascosto per i programmi automatici, tempo minimo di compilazione, massimo 60 prenotazioni ogni 10 minuti, controllo dei campi.
-  Un testo che inizia con `=` non viene mai interpretato come formula.
-- E-mail di conferma nella lingua usata sul sito (IT, EN, FR, ES, DE), con il numero e la spiegazione che non è il totale delle copie.
+- Riferimento: valore iniziale 50.325, la prima prenotazione salvata riceve **50.326**, poi +1.
+- Totale copie: parte da 0, +1 per ogni nuova prenotazione valida. Raggiunta la soglia, il sito mostra «Prenotazioni chiuse» e il servizio rifiuta i nuovi invii.
+- Un blocco (LockService) rende uno alla volta assegnazione del riferimento, controllo della soglia e salvataggio: due richieste simultanee non ricevono lo stesso riferimento e non superano la soglia.
+- I contatori si aggiornano solo dopo il salvataggio riuscito della riga; se il salvataggio fallisce, il sito mostra un errore e il pulsante «Riprova».
+- Doppio clic o nuovo tentativo dopo un problema di rete: il modulo invia lo stesso codice di richiesta e il servizio restituisce lo stesso riferimento, senza creare una riga nuova.
+- Stessa e-mail da un'altra visita → nessun nuovo riferimento: la conferma viene rinviata (al massimo una volta all'ora).
+- Antispam: campo nascosto, tempo minimo di compilazione (1,5 s), massimo 300 prenotazioni ogni 10 minuti. Un testo che inizia con `=` non viene mai interpretato come formula.
+- E-mail di conferma nella lingua del sito (IT, EN, FR, ES, DE), con il riferimento.
+- `?azione=stato` (GET) dice al sito solo se le prenotazioni sono aperte: nessun dato personale.
 
 ## 6. Aggiornare il codice
 
@@ -70,4 +72,4 @@ per **entrambe** le pubblicazioni. Gli URL non cambiano.
 
 - `node backend/prenotazioni/test/collaudo-backend.mjs` — logica del servizio (numerazione, antispam, e-mail, area riservata).
 - `node backend/prenotazioni/test/server-anteprima.mjs` — sito con servizio simulato su http://localhost:8123 (area riservata di esempio: `/admin`).
-- `node backend/prenotazioni/test/collaudo-browser.mjs chromium|webkit|firefox` — collaudo nel browser (smartphone, tablet, desktop, 5 lingue).
+- `node backend/prenotazioni/test/collaudo-browser.mjs chromium|webkit|firefox` — collaudo nel browser (smartphone, tablet, desktop, 5 lingue, doppi invii, errori, soglia).

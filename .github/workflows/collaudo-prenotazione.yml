@@ -2,7 +2,7 @@ name: Collaudo prenotazione libro
 on:
   push:
     branches: [prenotazione-libro]
-    paths: ['.github/workflows/collaudo-prenotazione.yml', 'index.html', 'prenota.html', 'css/prenota.css', 'js/prenota*.js', 'backend/prenotazioni/**']
+    paths: ['.github/workflows/collaudo-prenotazione.yml', 'index.html', 'js/sito-v3-1.js', 'css/prenota.css', 'js/prenota*.js', 'backend/prenotazioni/**']
   workflow_dispatch:
 permissions:
   contents: read

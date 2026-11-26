@@ -18,8 +18,8 @@ jobs:
           echo 'Avvio verifica 1'
           API=$(grep -o "https://script.google.com/macros/s/[^']*" js/prenota-config.js)
           echo "Servizio: $API"
-          # Invio volutamente incompleto (manca la privacy): il servizio deve rispondere "campi" e NON assegnare numeri.
-          R=$(curl -sSL -m 60 -H 'Content-Type: text/plain;charset=utf-8' --data '{"nome":"Verifica automatica","email":"verifica@example.com","paese":"IT","linguaPreferita":"it","formato":"ebook","privacy":false,"linguaSito":"it","tempo":9000}' "$API")
+          # Invio volutamente non valido (e-mail errata): il servizio deve rispondere "campi" e NON assegnare riferimenti.
+          R=$(curl -sSL -m 60 -H 'Content-Type: text/plain;charset=utf-8' --data '{"email":"verifica-non-valida","linguaSito":"it","tempo":9000}' "$API")
           echo "POST: $R"
           echo "$R" | grep -q '"errore":"campi"'
           G=$(curl -sSL -m 60 "$API")

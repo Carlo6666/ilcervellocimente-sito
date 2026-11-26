@@ -457,3 +457,25 @@ Motori: Google Chrome desktop 1440 px; Chrome con emulazione Pixel 7 (Android); 
 **Da fare per pubblicare (serve Carlo):** attivare Apps Script con l'account del progetto (guida `backend/prenotazioni/README-ATTIVAZIONE.md`), mandare l'URL `/exec`, approvare l'anteprima. **Da decidere:** l'informativa generale del sito dice ancora «Non ci sono account, moduli o newsletter»; con la prenotazione online non è più vero. Proposta: aggiornare quella frase nelle 5 lingue (unica modifica a un testo esistente), solo con l'ok di Carlo.
 
 **Aggiornamento 25/11/2026, ore 20:50 circa (Claude).** Fonte: scelta di Carlo delle 20:48 («Sì, aggiorna solo quella frase»). In `js/sito-v3-1.js`, informativa generale, sostituita solo la frase «Non ci sono account, moduli o newsletter» (5 lingue) con: niente account, l'unico modulo è la prenotazione del libro con la sua informativa dedicata (link a `prenota.html#informativa`), mailing list facoltativa. Nient'altro cambiato. Verifica Chromium: testo e link giusti in 5 lingue, 0 errori JavaScript.
+
+
+### 26/11/2026 — «Prenota il libro»: modulo nella home, riferimento da 50.326, soglia 50.000 (Claude) — anteprima, NON pubblicata
+
+**Fonte:** richiesta di Carlo del 26/11/2026, ore 11:31 circa (ora italiana): riprendere l'attività sul ramo esistente; pulsante «Prenota il libro» in fondo alla home che apre il modulo nella pagina; solo e-mail obbligatoria + link all'informativa + conferma; progressivo iniziale 50.325 (primo riferimento 50.326); totale copie da 0; soglia configurabile 50.000 con chiusura anche lato server; nessun doppione; conferma solo dopo il salvataggio; 5 lingue.
+**Ramo:** `prenotazione-libro` (lavoro del 25/11 riusato). `gh-pages` e `main` non toccati.
+
+**Riusato dal 25/11:** servizio Google Fogli + Apps Script (blocco LockService, antispam, e-mail di conferma in 5 lingue, attivatore orario, area riservata), stile del blocco in fondo alla home, ambiente Apps Script simulato e server di anteprima per il collaudo.
+
+**Cambiato rispetto al 25/11**
+- Niente più pagina separata: `prenota.html` e `js/prenota-invito.js` tolti (mai pubblicati; restano nella cronologia, commit `c4aeade`). Il pulsante «PRENOTA IL LIBRO» apre il modulo nella home (`js/prenota.js` riscritto, `css/prenota.css`).
+- Modulo con la sola e-mail (prima: nome, paese, lingua, formato, mailing list): minimizzazione dei dati. Informativa dedicata riscritta di conseguenza, nella stessa sezione (`#informativa-prenotazione`), 5 lingue. Frase dell'informativa generale (`js/sito-v3-1.js`) aggiornata solo per puntare alla nuova posizione.
+- `Codice.gs`: riferimento da 50.326 (prima 50.001); totale copie `TOTALE_PRENOTATE` da 0; soglia `SOGLIA_COPIE` 50.000 (proprietà dello script o area riservata); controllo soglia, assegnazione e salvataggio sotto lo stesso blocco; contatori aggiornati solo dopo il salvataggio; ID richiesta per i tentativi ripetuti (stesso riferimento, nessuna riga nuova); `doGet?azione=stato` (solo aperto/chiuso); annulla/riattiva ricalcola il totale. `Admin.html` adeguata (copie prenotate, soglia, disponibili, ultimo riferimento).
+
+**Collaudo (in locale, servizio simulato con il Codice.gs vero, solo indirizzi @example.com)**
+- `collaudo-backend.mjs`: 14/14 (servizio già attivato con la versione del 25/11: vecchia scheda e vecchio contatore ignorati; 50.326-50.327-50.328, doppio invio, stessa e-mail, errore di salvataggio senza numeri persi, richiesta simultanea durante il salvataggio, soglia 3 e soglia 50.000 reale con ultima copia, area riservata, quota Gmail).
+- `collaudo-browser.mjs` Chromium: 52/52 prove + 8/8 regressioni (vedi risultati nel messaggio a Carlo e negli artefatti del workflow).
+- Limite: il blocco simultaneo è verificato con il LockService simulato e con due browser che inviano nello stesso istante al server di anteprima; il LockService vero di Google si verifica dopo l'attivazione.
+
+**Servizio Google già attivato** (commit `27618a7` del 26/11, ore 11:46 circa, altra sessione): l'indirizzo `/exec` è in `js/prenota-config.js`, ma su Google gira ancora il **Codice.gs del 25/11** (numeri da 50.001, campi vecchi). Il nuovo codice usa una scheda nuova («Prenotazioni libro») e contatori con nomi nuovi (`RIF_ULTIMO`, `COPIE_PRENOTATE`), quindi la vecchia scheda e il vecchio contatore non vengono toccati né riusati. `verifica-servizio-prenotazioni.yml` aggiornato: invio con e-mail non valida, così non crea prenotazioni con il codice nuovo.
+
+**Da fare per pubblicare (serve Carlo):** caricare il nuovo `Codice.gs`/`Admin.html` sul progetto Apps Script (clasp push + nuova versione di entrambe le pubblicazioni, URL invariati), approvare l'anteprima, poi pubblicazione su `gh-pages`.

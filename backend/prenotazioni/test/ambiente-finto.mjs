@@ -12,7 +12,9 @@ export function creaAmbiente({ utenteAttivo = '', proprietario = 'ilcervellocime
   const cache = {};
   const inviate = [];
   const triggers = [];
-  const stato = { quota, utenteAttivo, mailFallisce: false };
+  // salvataggiFalliti: quante scritture sul Foglio devono fallire (simula un errore di Google).
+  // durante: funzione chiamata a metà salvataggio, con il blocco preso (simula una richiesta simultanea).
+  const stato = { quota, utenteAttivo, mailFallisce: false, salvataggiFalliti: 0, durante: null };
 
   function creaFoglio(nome) {
     const dati = [];
@@ -20,7 +22,11 @@ export function creaAmbiente({ utenteAttivo = '', proprietario = 'ilcervellocime
       dati,
       getName: () => nome,
       getLastRow: () => dati.length,
-      appendRow: (r) => { dati.push(r.slice()); },
+      appendRow: (r) => {
+        if (stato.salvataggiFalliti > 0 && dati.length > 0) { stato.salvataggiFalliti--; throw new Error('Servizio Fogli non disponibile'); }
+        if (stato.durante && dati.length > 0) { const f = stato.durante; stato.durante = null; f(); }
+        dati.push(r.slice());
+      },
       setFrozenRows() {},
       getRange(a, b, c, d) {
         if (typeof a === 'string') return { setNumberFormat() { return this; }, setFontWeight() { return this; } };
@@ -83,6 +89,10 @@ export function creaAmbiente({ utenteAttivo = '', proprietario = 'ilcervellocime
   vm.createContext(g);
   vm.runInContext(fs.readFileSync(path.join(qui, '..', 'Codice.gs'), 'utf8'), g, { filename: 'Codice.gs' });
   return { g, fogli, props, cache, inviate, triggers, stato, svuotaCache: () => { for (const k in cache) delete cache[k]; } };
+}
+
+export function stato(amb) {
+  return JSON.parse(amb.g.doGet({ parameter: { azione: 'stato' } }).testo);
 }
 
 export function post(amb, dati) {

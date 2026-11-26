@@ -1,148 +1,193 @@
-// Collaudo della logica di Codice.gs (numerazione, antispam, e-mail, area riservata).
+// Collaudo della logica di Codice.gs: riferimento da 50.326, totale copie, soglia, doppioni, errori, area riservata.
+// Codice.gs vero eseguito in un ambiente Apps Script simulato (ambiente-finto.mjs). Solo indirizzi di prova @example.com.
 // Uso: node backend/prenotazioni/test/collaudo-backend.mjs
 import assert from 'node:assert/strict';
-import { creaAmbiente, post } from './ambiente-finto.mjs';
+import { creaAmbiente, post, stato } from './ambiente-finto.mjs';
 
 let passati = 0;
 function prova(nome, fn) { fn(); passati++; console.log('ok  ' + nome); }
 
-const base = (x = {}) => Object.assign({ nome: 'Mario Rossi', email: 'mario@example.com', paese: 'IT', linguaPreferita: 'it', formato: 'cartaceo', mailingList: true, privacy: true, linguaSito: 'it', sito: '', tempo: 9000 }, x);
+let seq = 0;
+const base = (x = {}) => Object.assign({ email: `prova${++seq}@example.com`, linguaSito: 'it', sito: '', tempo: 9000, richiesta: 'richiesta-prova-' + seq }, x);
 
 const amb = creaAmbiente();
 amb.g.setup();
-const sh = amb.fogli['Prenotazioni'];
+const sh = amb.fogli['Prenotazioni libro'];
+const totale = () => Number(amb.props.COPIE_PRENOTATE);
 
-prova('setup: intestazioni, contatore 50000, attivatore orario', () => {
+prova('setup: intestazioni, progressivo iniziale 50325, totale 0, soglia 50000, attivatore', () => {
   assert.equal(sh.dati.length, 1);
-  assert.equal(sh.dati[0][0], 'Numero');
-  assert.equal(amb.props.ULTIMO_NUMERO, '50000');
+  assert.equal(sh.dati[0][0], 'Riferimento');
+  assert.equal(amb.props.RIF_ULTIMO, '50325');
+  assert.equal(totale(), 0);
+  assert.equal(amb.g.soglia_(), 50000);
   assert.equal(amb.triggers.length, 1);
   amb.g.setup();
   assert.equal(amb.triggers.length, 1, 'setup ripetuto non duplica');
-  assert.equal(sh.dati.length, 1);
+  assert.deepEqual(stato(amb), { ok: true, aperte: true });
 });
 
-prova('prima, seconda e terza prenotazione: 50001, 50002, 50003', () => {
-  assert.deepEqual(post(amb, base()), { ok: true, numero: 50001, email: 'inviata' });
-  assert.equal(post(amb, base({ email: 'anna@example.com', linguaSito: 'en', paese: 'GB', formato: 'ebook', mailingList: false })).numero, 50002);
-  assert.equal(post(amb, base({ email: 'Luc@Example.fr', linguaSito: 'fr', paese: 'FR' })).numero, 50003);
-  assert.equal(amb.props.ULTIMO_NUMERO, '50003');
+prova('prima prenotazione: riferimento 50.326, totale 1; poi 50.327 e 50.328', () => {
+  const r = post(amb, base({ email: 'mario@example.com' }));
+  assert.deepEqual(r, { ok: true, numero: 50326, email: 'inviata', aperte: true });
+  assert.equal(totale(), 1);
+  assert.equal(post(amb, base({ email: 'anna@example.com', linguaSito: 'en' })).numero, 50327);
+  assert.equal(post(amb, base({ email: 'Luc@Example.fr', linguaSito: 'fr' })).numero, 50328);
+  assert.equal(totale(), 3);
+  assert.equal(amb.props.RIF_ULTIMO, '50328');
+  assert.equal(sh.dati[1][2], 'mario@example.com');
+  assert.equal(sh.dati[1][4], 'attiva');
 });
 
-prova('e-mail di conferma con numero nella lingua giusta', () => {
+prova('e-mail di conferma con il riferimento nella lingua del sito', () => {
   assert.equal(amb.inviate.length, 3);
-  assert.match(amb.inviate[0].subject, /Prenotazione n\. 50\.001/);
-  assert.match(amb.inviate[0].htmlBody, /N\. 50\.001/);
-  assert.match(amb.inviate[0].body, /parte da 50\.001/);
-  assert.match(amb.inviate[1].subject, /Pre-order no\. 50,002/);
-  assert.match(amb.inviate[1].htmlBody, /No\. 50,002/);
-  assert.match(amb.inviate[2].subject, /n° 50 003/);
+  assert.match(amb.inviate[0].subject, /Prenotazione n\. 50\.326/);
+  assert.match(amb.inviate[0].htmlBody, /N\. 50\.326/);
+  assert.match(amb.inviate[1].subject, /Pre-order no\. 50,327/);
+  assert.match(amb.inviate[2].subject, /n° 50 328/);
   assert.equal(amb.inviate[2].to, 'luc@example.fr');
-  assert.equal(amb.inviate[0].replyTo, 'ilcervellocimente@gmail.com');
-  assert.match(amb.inviate[0].body, /gratuita e senza impegno/);
 });
 
-prova('stessa e-mail (maiuscole diverse): nessun nuovo numero, un solo rinvio all\'ora', () => {
+prova('doppio clic / tentativo ripetuto con lo stesso ID richiesta: stesso riferimento, nessuna riga nuova', () => {
+  const d = base({ email: 'doppio@example.com' });
+  const a = post(amb, d);
+  const b = post(amb, d);
+  const c = post(amb, { ...d, email: 'DOPPIO@example.com' });
+  assert.equal(a.numero, 50329);
+  assert.deepEqual(b, { ok: true, numero: 50329, ripetuta: true });
+  assert.deepEqual(c, { ok: true, numero: 50329, ripetuta: true });
+  assert.equal(totale(), 4);
+  assert.equal(sh.dati.length, 5);
+  assert.equal(amb.inviate.length, 4, 'nessuna e-mail in più');
+});
+
+prova('stessa e-mail da un nuovo invio: nessun nuovo riferimento, rinvio e-mail al massimo una volta all\'ora', () => {
   const r = post(amb, base({ email: 'MARIO@example.com' }));
   assert.deepEqual(r, { ok: true, duplicato: true });
-  assert.equal(amb.inviate.length, 4);
-  post(amb, base());
-  assert.equal(amb.inviate.length, 4, 'secondo tentativo entro l\'ora: nessuna e-mail');
-  assert.equal(sh.dati.length, 4);
-  assert.equal(amb.props.ULTIMO_NUMERO, '50003');
+  assert.equal(amb.inviate.length, 5);
+  post(amb, base({ email: 'mario@example.com' }));
+  assert.equal(amb.inviate.length, 5);
+  assert.equal(totale(), 4);
+  assert.equal(amb.props.RIF_ULTIMO, '50329');
 });
 
-prova('antispam: campo nascosto e invio troppo rapido rifiutati senza numero', () => {
-  assert.equal(post(amb, base({ email: 'bot@example.com', sito: 'http://spam' })).errore, 'verifica');
-  assert.equal(post(amb, base({ email: 'bot2@example.com', tempo: 300 })).errore, 'verifica');
-  assert.equal(sh.dati.length, 4);
+prova('errore di salvataggio: nessun riferimento, contatori invariati; il nuovo tentativo riceve il riferimento successivo', () => {
+  amb.stato.salvataggiFalliti = 1;
+  const d = base({ email: 'guasto@example.com' });
+  assert.deepEqual(post(amb, d), { ok: false, errore: 'server' });
+  assert.equal(totale(), 4);
+  assert.equal(amb.props.RIF_ULTIMO, '50329');
+  assert.equal(sh.dati.length, 5);
+  const r = post(amb, d);
+  assert.equal(r.ok, true);
+  assert.equal(r.numero, 50330, 'nessun numero bruciato dal tentativo fallito');
+  assert.equal(totale(), 5);
 });
 
-prova('validazione dei campi', () => {
-  const r = post(amb, { nome: 'x', email: 'no', paese: 'Italia', linguaPreferita: 'pt', formato: 'audio', privacy: false, tempo: 9000 });
-  assert.equal(r.errore, 'campi');
-  assert.deepEqual(r.campi.sort(), ['email', 'formato', 'linguaPreferita', 'nome', 'paese', 'privacy'].sort());
-  assert.equal(post(amb, base({ email: 'link@example.com', nome: 'Visita https://spam.example' })).errore, 'campi');
-  assert.equal(post(amb, base({ email: 'np@example.com', privacy: 'true' })).errore, 'campi', 'la privacy deve essere true booleano');
+prova('richiesta simultanea mentre un salvataggio tiene il blocco: respinta come «occupato», nessun doppione', () => {
+  let interna;
+  amb.stato.durante = () => { interna = post(amb, base({ email: 'simultanea-b@example.com' })); };
+  const esterna = post(amb, base({ email: 'simultanea-a@example.com' }));
+  assert.equal(esterna.numero, 50331);
+  assert.deepEqual(interna, { ok: false, errore: 'occupato' });
+  const dopo = post(amb, base({ email: 'simultanea-b@example.com' }));
+  assert.equal(dopo.numero, 50332);
+  const numeri = sh.dati.slice(1).map((r) => r[0]);
+  assert.equal(new Set(numeri).size, numeri.length, 'riferimenti tutti diversi');
 });
 
-prova('testo che inizia con = non diventa formula', () => {
-  const r = post(amb, base({ email: 'f@example.com', nome: '=HYPERLINK("x")' }));
-  assert.equal(r.numero, 50004);
-  assert.equal(sh.dati[4][2], '\'=HYPERLINK("x")');
-  assert.equal(amb.inviate.at(-1).body.includes("Ciao =HYPERLINK"), true, 'nell\'e-mail il nome è senza apice');
+prova('validazione e antispam: e-mail non valida, campo nascosto, invio troppo rapido', () => {
+  const n = sh.dati.length;
+  assert.deepEqual(post(amb, base({ email: 'non-una-email' })), { ok: false, errore: 'campi', campi: ['email'] });
+  assert.deepEqual(post(amb, base({ email: '=cmd@example.com' })), { ok: false, errore: 'campi', campi: ['email'] });
+  assert.equal(post(amb, base({ sito: 'http://spam' })).errore, 'verifica');
+  assert.equal(post(amb, base({ tempo: 300 })).errore, 'verifica');
+  assert.equal(sh.dati.length, n);
 });
 
-prova('quota Gmail esaurita: prenotazione salvata, e-mail in attesa e inviata dopo', () => {
-  amb.stato.quota = 0;
-  const r = post(amb, base({ email: 'q@example.com' }));
-  assert.deepEqual(r, { ok: true, numero: 50005, email: 'in_attesa' });
-  assert.equal(sh.dati[5][11], 'in attesa');
-  amb.stato.quota = 10;
-  amb.g.inviaEmailInAttesa();
-  assert.match(sh.dati[5][11], /^inviata /);
-  assert.match(amb.inviate.at(-1).subject, /50\.005/);
+prova('soglia: chiusura all\'ultima copia, due richieste per l\'ultima copia → una sola accettata', () => {
+  const a = creaAmbiente(); a.g.setup();
+  a.props.SOGLIA_COPIE = '3';
+  assert.equal(post(a, base()).numero, 50326);
+  assert.equal(post(a, base()).numero, 50327);
+  // Due richieste per l'ultima copia: la seconda arriva mentre la prima tiene il blocco, poi riprova.
+  let seconda;
+  a.stato.durante = () => { seconda = post(a, base({ email: 'ultima-b@example.com' })); };
+  const dA = base({ email: 'ultima-a@example.com' });
+  const prima = post(a, dA);
+  assert.deepEqual(prima, { ok: true, numero: 50328, email: 'inviata', aperte: false });
+  assert.equal(seconda.errore, 'occupato');
+  assert.deepEqual(post(a, base({ email: 'ultima-b@example.com' })), { ok: false, errore: 'chiuse' });
+  assert.equal(Number(a.props.COPIE_PRENOTATE), 3);
+  assert.equal(a.fogli['Prenotazioni libro'].dati.length, 4);
+  assert.deepEqual(stato(a), { ok: true, aperte: false });
+  // Chi aveva già prenotato e ripete l'invio riceve ancora il suo riferimento.
+  assert.deepEqual(post(a, dA), { ok: true, numero: 50328, ripetuta: true });
 });
 
-prova('errore Gmail: la prenotazione resta valida', () => {
-  amb.stato.mailFallisce = true;
-  const r = post(amb, base({ email: 'err@example.com' }));
-  amb.stato.mailFallisce = false;
-  assert.equal(r.numero, 50006);
-  assert.equal(r.email, 'in_attesa');
+prova('soglia predefinita 50.000: la 50.000ª prenotazione è accettata, la 50.001ª respinta', () => {
+  const a = creaAmbiente(); a.g.setup();
+  a.g.CONFIG.MAX_IN_10_MINUTI = 1e9;
+  a.g.CONFIG.MINUTI_TRA_RINVII = 0;
+  a.stato.quota = 1e9;
+  // Per velocità: 49.999 prenotazioni già presenti (totale e progressivo coerenti), poi le ultime vere.
+  a.props.COPIE_PRENOTATE = '49999';
+  a.props.RIF_ULTIMO = String(50325 + 49999);
+  const r = post(a, base());
+  assert.equal(r.numero, 50325 + 50000);
+  assert.equal(r.aperte, false);
+  assert.equal(post(a, base()).errore, 'chiuse');
+  assert.equal(a.props.COPIE_PRENOTATE, '50000');
 });
 
-prova('area riservata: visitatore anonimo respinto', () => {
-  amb.stato.utenteAttivo = '';
-  assert.match(amb.g.doGet().html, /Accesso riservato/);
-  assert.throws(() => amb.g.datiAdmin(), /Accesso riservato/);
-  amb.stato.utenteAttivo = 'altro@gmail.com';
-  assert.match(amb.g.doGet().html, /Accesso riservato/);
-  assert.throws(() => amb.g.cambiaStato(50001, 'annullata'), /Accesso riservato/);
+prova('area riservata: annulla libera una copia (riferimento non riassegnato), riattiva rispetta la soglia, soglia modificabile', () => {
+  const a = creaAmbiente({ utenteAttivo: 'ilcervellocimente@gmail.com' }); a.g.setup();
+  a.props.SOGLIA_COPIE = '2';
+  post(a, base()); post(a, base());
+  assert.equal(post(a, base()).errore, 'chiuse');
+  assert.equal(a.g.cambiaStato(50326, 'annullata'), true);
+  assert.equal(a.props.COPIE_PRENOTATE, '1');
+  const r = post(a, base());
+  assert.equal(r.numero, 50328, 'il 50.326 annullato non viene riassegnato');
+  assert.throws(() => a.g.cambiaStato(50326, 'attiva'), /Soglia/);
+  assert.equal(a.g.impostaSoglia(5), 5);
+  assert.equal(a.g.soglia_(), 5);
+  const d = a.g.datiAdmin();
+  assert.equal(d.totale, 2); assert.equal(d.soglia, 5); assert.equal(d.ultimoNumero, 50328); assert.equal(d.numeroIniziale, 50325);
 });
 
-prova('area riservata: proprietario vede i dati; numero progressivo e totale separati', () => {
-  amb.stato.utenteAttivo = 'ilcervellocimente@gmail.com';
-  assert.match(amb.g.doGet().html, /Prenotazioni del libro/);
-  assert.equal(amb.g.cambiaStato(50002, 'annullata'), true);
-  const d = amb.g.datiAdmin();
-  assert.equal(d.ultimoNumero, 50006);
-  assert.equal(d.righe.length, 6);
-  assert.equal(d.righe.filter((r) => r[10] === 'attiva').length, 5);
-  assert.equal(d.righe[3][2], '=HYPERLINK("x")', 'il pannello mostra il testo originale');
+prova('area riservata negata ad anonimi e ad altri account', () => {
+  for (const u of ['', 'estraneo@example.com']) {
+    const a = creaAmbiente({ utenteAttivo: u }); a.g.setup();
+    assert.match(a.g.doGet({ parameter: {} }).html, /Accesso riservato/);
+    assert.throws(() => a.g.datiAdmin(), /Accesso riservato/);
+    assert.throws(() => a.g.impostaSoglia(10), /Accesso riservato/);
+    assert.throws(() => a.g.cambiaStato(50326, 'annullata'), /Accesso riservato/);
+  }
 });
 
-prova('dopo un annullamento il numero non viene riutilizzato', () => {
-  assert.equal(post(amb, base({ email: 'nuovo@example.com' })).numero, 50007);
+prova('quota Gmail esaurita: prenotazione salvata, conferma in attesa e inviata dall\'attivatore orario', () => {
+  const a = creaAmbiente({ quota: 0 }); a.g.setup();
+  const r = post(a, base());
+  assert.equal(r.numero, 50326); assert.equal(r.email, 'in_attesa');
+  a.stato.quota = 10; a.g.inviaEmailInAttesa();
+  assert.equal(a.inviate.length, 1);
+  assert.match(a.fogli['Prenotazioni libro'].dati[1][5], /^inviata/);
 });
 
-prova('contatore perso: riparte dall\'ultimo numero nel Foglio, mai duplicati', () => {
-  delete amb.props.ULTIMO_NUMERO;
-  assert.equal(post(amb, base({ email: 'dopo@example.com' })).numero, 50008);
-});
-
-prova('limite antispam: oltre 60 prenotazioni in 10 minuti', () => {
-  amb.cache.recenti = '60';
-  assert.equal(post(amb, base({ email: 'tanti@example.com' })).errore, 'limite');
-  amb.svuotaCache();
-});
-
-prova('numeri univoci e consecutivi su 500 prenotazioni', () => {
-  const a = creaAmbiente({ quota: 1000 });
-  a.g.setup();
-  const nums = [];
-  for (let i = 0; i < 500; i++) { if (i % 50 === 0) a.svuotaCache(); nums.push(post(a, base({ email: 'u' + i + '@example.com' })).numero); }
-  assert.equal(new Set(nums).size, 500);
-  assert.equal(nums[0], 50001);
-  assert.equal(nums[499], 50500);
-});
-
-prova('servizio occupato (blocco non ottenuto): nessun numero assegnato', () => {
+prova('servizio già attivato con la versione del 25/11: vecchia scheda e vecchio contatore 50.000 ignorati, primo riferimento 50.326', () => {
   const a = creaAmbiente();
-  a.g.setup();
-  a.g.LockService.getScriptLock = () => ({ tryLock: () => false, releaseLock() {} });
-  assert.equal(post(a, base()).errore, 'occupato');
-  assert.equal(a.fogli['Prenotazioni'].dati.length, 1);
+  const ss = a.g.SpreadsheetApp.getActiveSpreadsheet();
+  const vecchia = ss.insertSheet('Prenotazioni');
+  vecchia.appendRow(['Numero', 'Data e ora', 'Nome e cognome', 'E-mail']);
+  vecchia.appendRow([50001, new Date(), 'Prova', 'vecchia@example.com']);
+  a.props.ULTIMO_NUMERO = '50001';
+  a.props.ID_FOGLIO = 'FOGLIO-TEST';
+  const r = post(a, base({ email: 'nuova@example.com' }));
+  assert.equal(r.numero, 50326);
+  assert.equal(a.props.COPIE_PRENOTATE, '1');
+  assert.equal(vecchia.dati.length, 2, 'vecchia scheda non toccata');
+  assert.equal(a.props.ULTIMO_NUMERO, '50001');
 });
 
-console.log(`\n${passati} prove superate.`);
+console.log(`\n${passati}/${passati} prove superate`);
