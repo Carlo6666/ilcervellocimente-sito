@@ -1,6 +1,9 @@
 name: Verifica servizio prenotazioni (senza creare prenotazioni)
 on:
   workflow_dispatch:
+  push:
+    branches: [prenotazione-libro]
+    paths: ['.github/workflows/verifica-servizio-prenotazioni.yml', 'js/prenota-config.js']
 permissions:
   contents: read
 jobs:
@@ -12,6 +15,7 @@ jobs:
       - name: Servizio pubblico raggiungibile, area riservata chiusa agli anonimi
         run: |
           set -e
+          echo 'Avvio verifica 1'
           API=$(grep -o "https://script.google.com/macros/s/[^']*" js/prenota-config.js)
           echo "Servizio: $API"
           # Invio volutamente incompleto (manca la privacy): il servizio deve rispondere "campi" e NON assegnare numeri.
