@@ -172,4 +172,20 @@ prova('servizio già attivato con la versione del 25/11: vecchia scheda e vecchi
   assert.equal(a.props.ULTIMO_NUMERO, '50001');
 });
 
+prova('mittente del dominio: usato solo se configurato come alias in Gmail, altrimenti Gmail del progetto', () => {
+  const a = creaAmbiente(); a.g.setup();
+  post(a, base());
+  assert.equal(a.inviate.at(-1).from, undefined, 'senza proprietà: Gmail del progetto');
+  a.props.MITTENTE_DOMINIO = 'info@ilcervellocimente.com';
+  post(a, base());
+  assert.equal(a.inviate.at(-1).from, undefined, 'alias non ancora configurato in Gmail: nessun errore, Gmail del progetto');
+  a.stato.alias = ['Info@ilcervellocimente.com'];
+  const r = post(a, base());
+  assert.equal(r.email, 'inviata');
+  const m = a.inviate.at(-1);
+  assert.equal(m.from, 'info@ilcervellocimente.com');
+  assert.equal(m.replyTo, 'info@ilcervellocimente.com');
+  assert.match(m.subject, /Prenotazione n\. 50\.328/);
+});
+
 console.log(`\n${passati}/${passati} prove superate`);

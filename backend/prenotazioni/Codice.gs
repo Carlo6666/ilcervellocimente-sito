@@ -59,7 +59,8 @@ function setup() {
   if (!esiste) ScriptApp.newTrigger('inviaEmailInAttesa').timeBased().everyHours(1).create();
   Logger.log('Pronto. Ultimo riferimento: ' + props.getProperty('RIF_ULTIMO') +
     ' · Copie prenotate: ' + props.getProperty('COPIE_PRENOTATE') +
-    ' · E-mail ancora inviabili oggi: ' + MailApp.getRemainingDailyQuota());
+    ' · E-mail ancora inviabili oggi: ' + MailApp.getRemainingDailyQuota() +
+    ' · Mittente: ' + (mittenteDominio_() || Session.getEffectiveUser().getEmail()));
 }
 
 function preparaFoglio_(ss, props) {
@@ -327,6 +328,19 @@ function componiEmail_(p) {
   return { oggetto: t.oggetto.replace('{n}', n), testo: testo, html: html };
 }
 
+/**
+ * Indirizzo del dominio da cui spedire le conferme (proprietà dello script MITTENTE_DOMINIO, es. info@ilcervellocimente.com).
+ * Usato solo se è già configurato in Gmail come «Invia messaggi come»; altrimenti si spedisce dal Gmail del progetto.
+ */
+function mittenteDominio_() {
+  var a = String(PropertiesService.getScriptProperties().getProperty('MITTENTE_DOMINIO') || '').trim().toLowerCase();
+  if (!a) return '';
+  try {
+    var alias = GmailApp.getAliases().map(function (x) { return String(x).toLowerCase(); });
+    return alias.indexOf(a) >= 0 ? a : '';
+  } catch (err) { console.error(err); return ''; }
+}
+
 function inviaConferma_(sh, riga) {
   var v = sh.getRange(riga, 1, 1, COLONNE.length).getValues()[0];
   var cellaStato = sh.getRange(riga, C['E-mail di conferma']);
@@ -334,10 +348,14 @@ function inviaConferma_(sh, riga) {
   if (MailApp.getRemainingDailyQuota() < 1) { cellaStato.setValue('in attesa'); return 'in_attesa'; }
   var m = componiEmail_({ numero: v[C['Riferimento'] - 1], lingua: v[C['Lingua del sito'] - 1] || 'it' });
   try {
-    MailApp.sendEmail({
-      to: senzaApice_(v[C['E-mail'] - 1]), subject: m.oggetto, body: m.testo, htmlBody: m.html,
-      name: CONFIG.NOME_MITTENTE, replyTo: CONFIG.EMAIL_RISPOSTA
-    });
+    var dest = senzaApice_(v[C['E-mail'] - 1]);
+    var dominio = mittenteDominio_();
+    if (dominio) {
+      // Invio dall'indirizzo del dominio (alias «Invia messaggi come» di Gmail, server di Register.it): meno spam.
+      GmailApp.sendEmail(dest, m.oggetto, m.testo, { htmlBody: m.html, name: CONFIG.NOME_MITTENTE, from: dominio, replyTo: dominio });
+    } else {
+      MailApp.sendEmail({ to: dest, subject: m.oggetto, body: m.testo, htmlBody: m.html, name: CONFIG.NOME_MITTENTE, replyTo: CONFIG.EMAIL_RISPOSTA });
+    }
     cellaStato.setValue('inviata ' + Utilities.formatDate(new Date(), 'Europe/Rome', 'dd/MM/yyyy HH:mm'));
     return 'inviata';
   } catch (err) {

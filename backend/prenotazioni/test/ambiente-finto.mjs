@@ -75,6 +75,10 @@ export function creaAmbiente({ utenteAttivo = '', proprietario = 'ilcervellocime
       getRemainingDailyQuota: () => stato.quota,
       sendEmail: (m) => { if (stato.mailFallisce) throw new Error('errore Gmail'); stato.quota--; inviate.push(m); }
     },
+    GmailApp: {
+      getAliases: () => stato.alias || [],
+      sendEmail: (to, subject, body, o) => { if (stato.mailFallisce) throw new Error('errore Gmail'); stato.quota--; inviate.push({ to, subject, body, htmlBody: o.htmlBody, name: o.name, from: o.from, replyTo: o.replyTo }); }
+    },
     ContentService: { MimeType: { JSON: 'json' }, createTextOutput: (t) => ({ testo: t, setMimeType() { return this; } }) },
     Utilities: { formatDate: (d) => d.toISOString().replace('T', ' ').slice(0, 19) },
     Session: { getActiveUser: () => ({ getEmail: () => stato.utenteAttivo }), getEffectiveUser: () => ({ getEmail: () => proprietario }) },
