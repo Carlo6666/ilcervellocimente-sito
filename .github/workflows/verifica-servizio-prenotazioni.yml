@@ -1,0 +1,25 @@
+name: Verifica servizio prenotazioni (senza creare prenotazioni)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Servizio pubblico raggiungibile, area riservata chiusa agli anonimi
+        run: |
+          set -e
+          API=$(grep -o "https://script.google.com/macros/s/[^']*" js/prenota-config.js)
+          echo "Servizio: $API"
+          # Invio volutamente incompleto (manca la privacy): il servizio deve rispondere "campi" e NON assegnare numeri.
+          R=$(curl -sSL -m 60 -H 'Content-Type: text/plain;charset=utf-8' --data '{"nome":"Verifica automatica","email":"verifica@example.com","paese":"IT","linguaPreferita":"it","formato":"ebook","privacy":false,"linguaSito":"it","tempo":9000}' "$API")
+          echo "POST: $R"
+          echo "$R" | grep -q '"errore":"campi"'
+          G=$(curl -sSL -m 60 "$API")
+          echo "GET anonimo: $(echo "$G" | head -c 300)"
+          echo "$G" | grep -q 'Accesso riservato'
+          # Intestazione CORS presente per il sito.
+          curl -sSL -m 60 -D - -o /dev/null -H 'Origin: https://www.ilcervellocimente.com' --data '{}' "$API" | grep -i 'access-control-allow-origin'
